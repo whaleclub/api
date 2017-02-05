@@ -67,10 +67,10 @@ Code | Description
 402 | Failed request
 403 | Forbidden
 404 | Resource not found
-405 | You've been blocked from making API requests
 422 | Unprocessable entity – there was an issue parsing your request
+423 | You've been blocked from making API requests
 429 | Rate limit exceeded – too many requests
-500 | Internal Server Error – Whaleclub server error
+50x | Internal Server Error – Whaleclub server error
 
 # Rate limiting
 
@@ -318,7 +318,6 @@ curl "https://api.whaleclub.co/v1/balance"
 {
   "available_amount": 1000000000,
   "total_amount": 1200000000,
-  "type": "real",
   "unconfirmed_balance": 0,
   "deposit_address": "1JZZNHDNrXtdfGduRiSXANvBRZhgoa83zo",
   "active_amount": {
@@ -351,7 +350,6 @@ Attribute | Description
 ---------- | -------
 available_amount | **integer** Balance available to trade, in satoshis.
 total_amount | **integer** Total balance, in satoshis.
-type | **string** Can be `real` or `demo`.
 unconfirmed_amount | **integer** Deposit amount that has not yet confirmed, in satoshis.
 deposit_address | **string** Your deposit address.
 active_amount | **object** Balance used in active positions across markets, in satoshis.
@@ -363,7 +361,7 @@ last_updated | **integer** When your balance was last updated.
 
 ## New Position
 
-> Open a 100BTC EUR/USD long position at market price
+> Open a 100BTC EUR/USD long position at market price, with stop-loss and take-profit
 
 ```shell
 curl "https://api.whaleclub.co/v1/position/new" \
@@ -372,8 +370,8 @@ curl "https://api.whaleclub.co/v1/position/new" \
   -d 'direction=long' \
   -d 'size=10000000000' \
   -d 'market=EUR-USD' \
-  -d 'leverage=100'
-  -d 'stop_loss=1.07676'
+  -d 'leverage=100' \
+  -d 'stop_loss=1.07676' \
   -d 'take_profit=1.08316'
 ```
 ```json
@@ -384,20 +382,19 @@ curl "https://api.whaleclub.co/v1/position/new" \
   "entered_at": 1486327152,
   "state": "active",
   "slug": "vCDQah7Hv",
-  "type": "real",
+  "type": "market",
   "size": 10000000000,
   "margin_size": 100000000,
   "liquidation_price": 1.07013,
   "stop_loss": 1.07676,
   "take_profit": 1.08316,
-  "at_market": true,
   "leverage": 100,
   "market": "EUR-USD",
   "direction": "long"
 }
 ```
 
-> Submit a 50BTC Gold limit short position at 1250
+> Submit a 50BTC Gold sell stop position at 1050
 
 ```shell
 curl "https://api.whaleclub.co/v1/position/new" \
@@ -405,24 +402,53 @@ curl "https://api.whaleclub.co/v1/position/new" \
   -X POST \
   -d 'direction=short' \
   -d 'size=5000000000' \
-  -d 'entry_price=1250' \
+  -d 'entry_price=1050' \
   -d 'market=XAU-USD' \
   -d 'leverage=10'
 ```
 ```json
 {
   "id": "d7gAxDSeLtdYtZsEd",
-  "entry_price": 1250,
+  "entry_price": 1050,
   "created_at": 1486307187
   "state": "pending",
   "slug": "GaK75ndGm",
-  "type": "real",
+  "type": "stop",
   "size": 5000000000,
   "margin_size": 500000000,
-  "liquidation_price": 1350,
+  "liquidation_price": 1150,
   "leverage": 10,
   "market": "XAU-USD",
   "direction": "short"
+}
+```
+
+> Submit a 20BTC Netflix limit long position at 99
+
+```shell
+curl "https://api.whaleclub.co/v1/position/new" \
+  -H "Authorization: Bearer {API_TOKEN}" \
+  -X POST \
+  -d 'direction=long' \
+  -d 'size=2000000000' \
+  -d 'entry_price=99' \
+  -d 'market=NFLX' \
+  -d 'leverage=10'
+```
+```json
+{
+  "id": "22Eov6G9gXb7cC7n7",
+  "entry_price": 99,
+  "created_at": 1465795498
+  "state": "pending",
+  "slug": "47n2728b3",
+  "type": "limit",
+  "size": 2000000000,
+  "margin_size": 200000000,
+  "liquidation_price": 91.08,
+  "leverage": 10,
+  "market": "NFLX",
+  "direction": "long"
 }
 ```
 
@@ -430,31 +456,62 @@ Submit a new position.
 
 ### Request
 
-`POST https://api.whaleclub.co/v1/position/new`
+`POST https://api.whaleclub.co/v1/position/new` 
 
-Real or demo balance information will be returned based on whether you use your live or demo API token.
+This endpoint allows you to submit a new position.
 
-`:symbol(s)` is a list of one or more comma-separated market symbols. You can request turbo price for up to 5 markets at once.
+To submit a limit or stop order, set the `entry_price` parameter in your request.
 
-You can fetch available symbols using the `/markets` endpoint. 
+To submit a position that will execute immediately at market price, simply omit the `entry_price` parameter from your request.
+
+If the request is successful, the API will return a `201` (Created) status code. 
 
 Param | Description
 ---------- | -------
-symbol(s) | **string** Required. One or more comma-separated market symbols.
+direction | **string** Required. Can be `long` or `short`.
+size | **integer** Required. Your position's size, in satoshis. This is the total size including leverage, not the margin size.
+market | **string** Required.
+leverage | **integer** Required.
+entry_price | **number** Optional. Set this to submit a limit/stop order. If omitted, your position will execute at the best available market price.
+stop_loss | **number** Optional. Price at which your position will auto-close in case of loss.
+take_profit | **number** Optional. Price at which your position will auto-close in profit.
 
 ### Response
 
 Attribute | Description
 ---------- | -------
-available_amount | **integer** Balance available to trade, in satoshis.
-total_amount | **integer** Total balance, in satoshis.
-type | **string** Can be `real` or `demo`.
-unconfirmed_amount | **integer** Deposit amount that has not yet confirmed, in satoshis.
-deposit_address | **string** Your deposit address.
-active_amount | **object** Balance used in active positions across markets, in satoshis.
-pending_amount | **object** Balance used in pending positions across markets, in satoshis.
-active_amount_turbo | **object** Balance used in active turbo positions across markets, in satoshis.
-last_updated | **integer** When your balance was last updated.
+id | **string** Unique ID for your new position.
+entry_price | **number** Price at which your position was executed (if at market) or will execute (if limit or stop).
+created_at | **integer** When your position was created.
+entered_at | **integer** When your position was executed. Won't appear if you submit a limit or stop position.
+state | **string** Can be `pending` or `active`.
+slug | **string** A URL-friendly position identifier. Your position can be shared publicly at `https://whaleclub.co/position/:slug`.
+type | **string** Order type. Can be `market`, `limit`, or `stop`.
+size | **integer** Your position's size, in satoshis.
+margin_size | **integer** Your position's margin size, in satoshis.
+liquidation_price | **number** Price at which your position will auto-close to cover your margin in case of loss.
+stop_loss | **number** Price at which your position will auto-close in case of loss. Won't appear if not set in the request.
+take_profit | **number** Price at which your position will auto-close in profit. Won't appear if not set in the request.
+at_market | **boolean** Returns `true` if this position was executed at market price. Appears only if you open a position at market.
+leverage | **number** Position's leverage level.
+market | **string** Market this position was executed on.
+direction | **string** Can be `long` or `short`.
+
+### Errors
+
+In addition to the common API errors, this endpoint can return the following errors under the `403` status code.
+
+Name | Description
+---------- | -------
+Insufficient Balance | You have insufficient available funds to open a position of this size.
+Limits Exceeded | Submitting this position would exceed the active volume limit for this market.
+Position Max Exceeded | You have too many positions that are active or pending. Please cancel or close some before opening more.
+Limit Orders Only | Only limit orders are allowed in pre-market and after-hours trading.
+Market Disabled | Longs (or shorts) are temporarily disabled for this market.
+Market Closed | This market is currently closed (e.g. on weekends for stocks) and not accepting new positions.
+Price Unavailable | Bid and ask prices are currently unavailable for this market.
+Price Outdated | Bid and ask prices are currently outdated for this market.
+Market Maintenance | The price feed for this market is currently under maintenance.
 
 ## Update Position
 
