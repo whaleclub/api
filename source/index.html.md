@@ -9,11 +9,11 @@ search: true
 
 # Overview
 
-Welcome to Whaleclub's API. You can use our API to programmatically submit new trades, check your balance, fetch trading history, and much more. You can use the API to both trade with real funds and demo trade.
+Welcome to Whaleclub's API. You can use the API to programmatically submit new trades, check your balance, fetch trading history, and much more. You can both live trade and demo trade.
 
 The API is organized around [REST](http://en.wikipedia.org/wiki/Representational_State_Transfer). All requests should be made over SSL. All request and response bodies, including errors, are encoded in JSON (`application/json` content type).
 
-You can view code samples in the right-side column. Epoch dates are in UTC seconds.
+Code samples are displayed in the right-side column. All epoch dates are in UTC seconds.
 
 ### BASE ENDPOINT URL
 
@@ -21,20 +21,20 @@ You can view code samples in the right-side column. Epoch dates are in UTC secon
 
 # Authentication
 
-> Authenticate by passing a bearer token in an Authorization header:
+> Authenticate by passing your API token in an Authorization header:
 
 ```shell
 curl "https://api.whaleclub.co/v1/balance"
   -H "Authorization: Bearer {API_TOKEN}"
 ```
 
-Authentication is done via an API token that you can get from your [API Settings](https://trade.whaleclub.co/settings/api) page. You'll get one token for your live trading account and another for demo trading.
-
-Requests are authenticated by passing your API token as a bearer token in an `Authorization` header. 
-
 **All requests to the Whaleclub API must be authenticated.**
 
+Authentication is straightforward. Requests are authenticated by passing your API token as a bearer token in an `Authorization` header. 
+
 `Authorization: Bearer {API_TOKEN}`
+
+Get your API token from your [API Settings](https://trade.whaleclub.co/settings/api) page. You'll get one token for live trading and another for demo trading.
 
 <aside class="notice">
 You must replace <code>{API_TOKEN}</code> with your Whaleclub API token.
@@ -745,7 +745,7 @@ If the request is successful, the API will return a `200` (Ok) status code.
 
 ## Split Position
 
-> Split an active 100BTC EUR/USD position into 2 smaller positions:
+> Split an active 100BTC EUR/USD position into 2 smaller positions of 60BTC and 40BTC:
 
 ```shell
 curl "https://api.whaleclub.co/v1/position/split/22bCNkWhiwxF7qAMs" \
@@ -807,7 +807,7 @@ If the request is successful, the API will return a `200` (Ok) status code.
 
 Param | Description
 ---------- | -------
-ratio | **integer** Required. Must be between 5 and 95.
+ratio | **integer** Required. In percent. Must be between 5 and 95.
 
 ### Response
 
@@ -872,7 +872,7 @@ List positions.
 
 Use this endpoint to request a list of pending, active, or closed positions. It's strongly recommended that you maintain your own list of positions and use the [Price](#price) endpoint to keep it updated instead of polling this endpoint to track the state of your positions.
 
-Positions returned are sorted by `created_at` for pending positions, `entered_at` for active positions, and `closed_at` for closed positions.
+Pending positions are sorted by `created_at`, active positions are sorted by `entered_at`, and closed positions are sorted by `closed_at`.
 
 If the request is successful, the API will return a `200` (Ok) status code. 
 
@@ -1047,7 +1047,7 @@ Market Maintenance | `503` The price feed for this market is currently under mai
 > Fetch an existing turbo position:
 
 ```shell
-curl "https://api.whaleclub.co/v1/position-turbo/get/s6pGQ4nyS4Z7jHRvJ" \
+curl "https://api.whaleclub.co/v1/position-turbo/get/uWchea2SocXZHEiHS" \
   -H "Authorization: Bearer {API_TOKEN}"
 ```
 ```json
@@ -1126,7 +1126,7 @@ List turbo positions.
 
 Use this endpoint to request a list of active or closed turbo positions.
 
-Positions returned are sorted by `created_at` for active positions and `closed_at` for closed positions.
+Active positions are sorted by `created_at` and closed positions are sorted by `closed_at`.
 
 If the request is successful, the API will return a `200` (Ok) status code. 
 
