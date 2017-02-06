@@ -40,6 +40,18 @@ Get your API token from your [API Settings](https://trade.whaleclub.co/settings/
 You must replace <code>{API_TOKEN}</code> with your Whaleclub API token.
 </aside>
 
+# Referrals
+
+If you're using the API in an app that allows your users to access Whaleclub, you can earn referral commissions when they trade.
+
+Pass your Whaleclub referral code as a `Partner-Id` header in all the requests you make.
+
+`Partner-Id: {YOUR_PARTNER_CODE}`
+
+Get your partner code from your [API Settings](https://trade.whaleclub.co/wallet/referrals) page. Only trades with real funds will result in referral commissions.
+
+Please keep in mind that the use of auto-referrals or multiple live trading accounts will result in permanent account closure without notice.
+
 # Errors
 
 > Sample error response – Validation error (400):
