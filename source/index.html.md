@@ -1,28 +1,23 @@
 ---
 title: Whaleclub API Documentation
 
-language_tabs:
-  - shell
-  - ruby
-  - python
-  - javascript
-
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
+  - <a href='https://trade.whaleclub.co/signup'>Sign Up for Whaleclub</a>
 
 search: true
 ---
 
 # Overview
 
-Welcome to Whaleclub's API! You can use our API to programmatically submit new trades, check your balance, fetch trading history, and much more. You can use the API to both trade with real funds and demo trade.
+Welcome to Whaleclub's API. You can use our API to programmatically submit new trades, check your balance, fetch trading history, and much more. You can use the API to both trade with real funds and demo trade.
 
-The API is organized around [REST](http://en.wikipedia.org/wiki/Representational_State_Transfer). All requests should be made over SSL. All request and response bodies, including errors, are encoded in JSON.
+The API is organized around [REST](http://en.wikipedia.org/wiki/Representational_State_Transfer). All requests should be made over SSL. All request and response bodies, including errors, are encoded in JSON (`application/json` content type).
 
 You can view code samples in the right-side column. Epoch dates are in UTC seconds.
 
 ### BASE ENDPOINT URL
-`https://api.whaleclub.co/v1/`
+
+**`https://api.whaleclub.co/v1/`**
 
 # Authentication
 
@@ -35,17 +30,19 @@ curl "https://api.whaleclub.co/v1/balance"
 
 Authentication is done via an API token that you can get from your [API Settings](https://trade.whaleclub.co/settings/api) page. You'll get one token for your live trading account and another for demo trading.
 
-Requests are authenticated by passing your API token as a bearer token in an `Authorization` header. All Whaleclub API requests must be authenticated.
+Requests are authenticated by passing your API token as a bearer token in an `Authorization` header. 
+
+**All requests to the Whaleclub API must be authenticated.**
 
 `Authorization: Bearer {API_TOKEN}`
 
 <aside class="notice">
-You must replace <code>{API_TOKEN}</code> with your API token.
+You must replace <code>{API_TOKEN}</code> with your Whaleclub API token.
 </aside>
 
 # Errors
 
-> Validation failed (400)
+> Sample error response – Validation error (400):
 
 ```json
 {
@@ -72,9 +69,9 @@ Code | Description
 429 | Rate limit exceeded – too many requests
 50x | Internal Server Error – Whaleclub server error
 
-# Rate limiting
+# Rate limits
 
-> Check the headers of any response to see rate limit status
+> Check the headers of any response to see your rate limit status:
 
 ```shell
 curl -i "https://api.whaleclub.co/v1/balance"
@@ -88,7 +85,7 @@ X-RateLimit-Remaining: 54
 X-RateLimit-Reset: 1488230460
 ```
 
-> Rate limit exceeded (429)
+> Sample error response – Rate limit exceeded (429):
 
 ```json
 {
@@ -99,21 +96,23 @@ X-RateLimit-Reset: 1488230460
 }
 ```
 
-The Whaleclub API is rate limited to prevent abuse that would degrade our ability to maintain consistent API performance for all traders. By default, each API token is rate limited at 60 requests per minute. If your requests are being rate limited, you'll receive a Rate Limit Exceeded error with status code `429`.
+The Whaleclub API is rate limited to prevent abuse that would degrade our ability to maintain consistent API performance for all traders. 
+
+By default, each API token is rate limited at **60 requests per minute**. If your requests are being rate limited, you'll receive a Rate Limit Exceeded error with status code `429`.
+
+Requests are also throttled up to a maximum of 1 request per second.
 
 You can check the HTTP headers of any response you get from the Whaleclub API to see your current rate limit status.
 
 Header | Description
 ---------- | -------
-<code>X-RateLimit-Limit</code> | The maximum number of requests allowed per minute
-<code>X-RateLimit-Remaining</code> | The number of requests remaining in the current rate limit window
-<code>X-RateLimit-Reset</code> | The time at which the current rate limit window resets, in UTC epoch seconds
-
-# API Reference
+<code>X-RateLimit-Limit</code> | The maximum number of requests allowed per minute.
+<code>X-RateLimit-Remaining</code> | The number of requests left in the current rate limit window.
+<code>X-RateLimit-Reset</code> | The time at which the current rate limit window resets, in UTC epoch seconds.
 
 # Markets
 
-> Request market information for Gold and Apple
+> Request market information for Gold and Apple:
 
 ```shell
 curl "https://api.whaleclub.co/v1/markets/XAU-USD,AAPL"
@@ -152,7 +151,7 @@ curl "https://api.whaleclub.co/v1/markets/XAU-USD,AAPL"
 }
 ```
 
-> List all available markets
+> Request a list of all available markets:
 
 ```shell
 curl "https://api.whaleclub.co/v1/markets"
@@ -205,15 +204,15 @@ Attribute | Description
 display_name | **string** The market's conventional name.
 leverages | **array** Leverage levels available.
 limit | **integer** Maximum active position size, in satoshis
-hours | **string** Opening hours.
-financing_rate | **number** Daily rate levied as a fraction of the active position size, if leverage is used.
+hours | **string** Market operating hours. Market is closed at all other times.
+financing_rate | **number** Daily financing rate. Multiply by 100 to get the amount in percent.
 category | **string** Asset class.
 turbo | **object** Information about turbo trading, if it's available for this market. The **payoff** object contains the contract duration (in minutes) and the associated payoff.
 
 
 # Price
 
-> Request the current price for BTC/USD and EUR/USD
+> Request the current price for BTC/USD and EUR/USD:
 
 ```shell
 curl "https://api.whaleclub.co/v1/price/BTC-USD,EUR-USD"
@@ -244,7 +243,7 @@ Returns the current bid and ask prices for one or more markets.
 
 `:symbol(s)` is a list of one or more comma-separated market symbols. You can request price for up to 5 markets at once.
 
-You can fetch available symbols using the `/markets` endpoint. 
+You can get a list of available symbols using the [Markets](#markets) endpoint. 
 
 Param | Description
 ---------- | -------
@@ -262,7 +261,7 @@ last_updated | **integer** When prices for this market were last updated.
 
 # Price – Turbo
 
-> Request the current turbo price for USD/JPY and Crude Oil (WTI)
+> Request the current turbo price for USD/JPY and WTI Crude Oil:
 
 ```shell
 curl "https://api.whaleclub.co/v1/price-turbo/USD-JPY,WTICO-USD"
@@ -291,7 +290,7 @@ Returns the current turbo price for one or more markets.
 
 `:symbol(s)` is a list of one or more comma-separated market symbols. You can request turbo price for up to 5 markets at once.
 
-You can fetch available symbols using the `/markets` endpoint. 
+You can fetch available symbols using the [Markets](#markets) endpoint. 
 
 Param | Description
 ---------- | -------
@@ -302,13 +301,13 @@ symbol(s) | **string** Required. One or more comma-separated market symbols.
 Attribute | Description
 ---------- | -------
 mid | **number** The current turbo price.
-state | **string** Can be `open` or `closed`
+state | **string** Can be `open` or `closed`.
 last_updated | **integer** When turbo price for this market was last updated.
 
 
 # Balance
 
-> Request information about your balance
+> Request information about your current balance:
 
 ```shell
 curl "https://api.whaleclub.co/v1/balance"
@@ -391,7 +390,7 @@ curl "https://api.whaleclub.co/v1/position/get/s6pGQ4nyS4Z7jHRvJ" \
 }
 ```
 
-This section provides a reference for the **Position** object, which represents a position, typically returned by most position-related endpoints below.
+This section provides a reference for the **Position** object, which represents a position, returned by position-related endpoints below.
 
 Attribute | Description
 ---------- | -------
@@ -400,17 +399,17 @@ parent_id | **string** ID of parent position. Appears only if this position has 
 slug | **string** A URL-friendly position identifier. Your position can be shared publicly at `https://whaleclub.co/position/:slug`.
 direction | **string** Can be `long` or `short`.
 market | **string** Market this position was executed on.
-leverage | **number** The position's leverage level.
+leverage | **number** Position's leverage level.
 type | **string** Order type. Can be `market`, `limit`, or `stop`.
 state | **string** Can be `pending`, `active`, or `closed`.
-size | **integer** The position's size, in satoshis.
-margin_size | **integer** The position's margin size, in satoshis.
+size | **integer** Position's size, in satoshis.
+margin_size | **integer** Position's margin size, in satoshis.
 entry_price | **number** Price at which the position was executed (if at market) or will execute (if limit or stop).
 stop_loss | **number** Price at which the position will auto-close in case of loss. Appears only if the position's stop-loss is set.
 take_profit | **number** Price at which the position will auto-close in profit. Appears only if the position's take-profit is set.
 close_reason | **string** How the position was closed. Can be `market`, `stop-loss`, `take-profit`, or `liquidation`. Appears only if the position is `closed`.
 close_price | **number** Price at which the position was closed. Appears only if the position is `closed`.
-profit | **number** Profit made on the trade, in satoshis. Is negative in case of loss. Appears only if the position is `closed`.
+profit | **integer** Profit made on the trade, in satoshis. Negative in case of loss. Appears only if the position is `closed`.
 created_at | **integer** When the position was created.
 entered_at | **integer** When the position was executed. Appears only if the position is `active` or `closed`.
 closed_at | **integer** When the position was closed. Appears only if the position is `closed`.
@@ -420,7 +419,7 @@ financing | **integer** Leverage financing charged on the position, in satoshis.
 
 ## New Position
 
-> Open a 100BTC EUR/USD long position at market price, with stop-loss and take-profit
+> Open a 100BTC EUR/USD long position at market price, with a stop-loss and take-profit:
 
 ```shell
 curl "https://api.whaleclub.co/v1/position/new" \
@@ -453,7 +452,7 @@ curl "https://api.whaleclub.co/v1/position/new" \
 }
 ```
 
-> Submit a 50BTC Gold sell stop position at 1050
+> Submit a 50BTC Gold sell stop position at 1050:
 
 ```shell
 curl "https://api.whaleclub.co/v1/position/new" \
@@ -482,7 +481,7 @@ curl "https://api.whaleclub.co/v1/position/new" \
 }
 ```
 
-> Submit a 20BTC Netflix limit long position at 99
+> Submit a 20BTC Netflix limit long position at 99:
 
 ```shell
 curl "https://api.whaleclub.co/v1/position/new" \
@@ -523,9 +522,9 @@ Submit a new position.
 
 This endpoint allows you to submit a new position.
 
-To submit a limit or stop order, set the `entry_price` parameter in your request. We'll automatically detect whether it's a limit order or a stop order based on the current market price.
+To submit a **limit or stop order**, set the `entry_price` parameter in your request. We'll automatically detect whether it's a limit order or a stop order based on the current market price.
 
-To submit a position that will execute immediately at market price, simply omit the `entry_price` parameter from your request.
+To submit a **market order**, simply omit the `entry_price` parameter from your request. Your order will execute at the best available price.
 
 If the request is successful, the API will return a `201` (Created) status code. 
 
@@ -985,6 +984,70 @@ expires_at | **integer** When the contract expires and turbo positions settle.
 
 ## New Turbo Position
 
+> Open a 0.1BTC EUR/USD long turbo position
+
+```shell
+curl "https://api.whaleclub.co/v1/position-turbo/new" \
+  -H "Authorization: Bearer {API_TOKEN}" \
+  -X POST \
+  -d 'direction=long' \
+  -d 'market=EUR-USD' \
+  -d 'type=1min' \
+  -d 'size=10000000'
+```
+```json
+{
+  "id": "uWchea2SocXZHEiHS",
+  "contract_id": "QvgMMkF35kSKowAtf",
+  "direction": "long",
+  "market": "EUR-USD",
+  "state": "active",
+  "size": 10000000,
+  "entry_price": 1.11825,
+  "payoff": 0.55,
+  "created_at": 1464873229
+}
+```
+
+Open a new turbo position.
+
+### Request
+
+`POST https://api.whaleclub.co/v1/position-turbo/new` 
+
+This endpoint allows you to open a new turbo position.
+
+All turbo positions are executed at the market price, so there is no entry price to set.
+
+If the request is successful, the API will return a `201` (Created) status code. 
+
+Param | Description
+---------- | -------
+direction | **string** Required. Can be `long` or `short`.
+market | **string** Required.
+type | **string** Required. Contract type. Can be `1min` or `5min`.
+size | **integer** Required. Your turbo position's size, in satoshis.
+
+### Response
+
+Returns a **[Turbo Position](#turbo-position-object)** object containing your newly-submitted turbo position.
+
+### Errors
+
+In addition to the common API errors, this endpoint can return the following errors under the `403` status code.
+
+Name | Description
+---------- | -------
+Insufficient Balance | You have insufficient available funds to open a position of this size.
+Limits Exceeded | Submitting this position would exceed the active volume limit for this market.
+Position Max Exceeded | You have too many positions that are active or pending. Please cancel or close some before opening more.
+Purchase Deadline Passed | The purchase deadline has passed and this contract is no longer accepting new positions.
+Market Disabled | Longs (or shorts) are temporarily disabled for this market.
+Market Closed | This market is currently closed (e.g. on weekends for stocks) and not accepting new positions.
+Price Unavailable | Price is currently unavailable for this market.
+Price Outdated | Bid and ask prices are currently outdated for this market.
+Market Maintenance | The price feed for this market is currently under maintenance.
+
 ## Get Turbo Position
 
 > Fetch information about an existing turbo position 
@@ -1026,8 +1089,126 @@ Returns a **[Turbo Position](#turbo-position-object)** object.
 
 ## List Turbo Positions
 
+> List active turbo positions 
+
+```shell
+curl "https://api.whaleclub.co/v1/positions-turbo" \
+  -H "Authorization: Bearer {API_TOKEN}" \
+  -G \
+  --data-urlencode "state=active" \
+  --data-urlencode "limit=10"
+```
+```json
+[
+  {
+    "id": "uWchea2SocXZHEiHS",
+    "contract_id": "QvgMMkF35kSKowAtf",
+    "direction": "long",
+    "market": "EUR-USD",
+    "state": "active",
+    "size": 10000000,
+    "entry_price": 1.11825,
+    "payoff": 0.55,
+    "created_at": 1464873229
+  },
+  {
+    "id": "26fTLb7byb8fi48Qf",
+    "contract_id": "QvgMMkF35kSKowAtf",
+    "direction": "long",
+    "market": "AUD-USD",
+    "state": "active",
+    "size": 8000000,
+    "entry_price": 0.76661,
+    "payoff": 0.65,
+    "created_at": 1464873219
+  },
+  ...
+]
+```
+
+List turbo positions.
+
+### Request
+
+`GET https://api.whaleclub.co/v1/positions-turbo`
+
+Use this endpoint to request a list of active or closed turbo positions.
+
+Positions returned are sorted by `created_at` for active positions and `closed_at` for closed positions.
+
+If the request is successful, the API will return a `200` (Ok) status code. 
+
+Param | Description
+---------- | -------
+state | **string** Required. Can be `active`, or `closed`.
+limit | **integer** Optional. Number of results per request. Defaults to 5. Max is 30.
+
+### Response
+
+Returns an array of **[Turbo Position](#turbo-position-object)** objects.
+
 # Transactions
 
 ## List Transactions
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+> List deposits 
+
+```shell
+curl "https://api.whaleclub.co/v1/transactions" \
+  -H "Authorization: Bearer {API_TOKEN}" \
+  -G \
+  --data-urlencode "type=deposits" \
+  --data-urlencode "limit=10"
+```
+```json
+[
+  {
+    "id": "25RDQwc7LpPEFRQPC",
+    "amount": 236427766,
+    "state": "complete",
+    "hash": "a6a5fd411cac34d35f562e8dd65d03173e55d35c58423464400b478b9f408172",
+    "created_at": 1465526999
+  },
+  {
+    "id": "25RDQwc7LpPEFRQPC",
+    "amount": 100000000,
+    "state": "complete",
+    "hash": "b92841dc4ef1ec589fe717589b14424d792b93d13b56a78cc898cf2fd90005bf",
+    "created_at": 1459560146
+  },
+  ...
+]
+```
+
+List transactions.
+
+### Request
+
+`GET https://api.whaleclub.co/v1/transactions`
+
+Use this endpoint to request a list of deposits, withdrawals, referral payments, or bonus payments.
+
+Transactions returned are sorted by `created_at`.
+
+If the request is successful, the API will return a `200` (Ok) status code. 
+
+Param | Description
+---------- | -------
+type | **string** Required. Can be `deposits`, `withdrawals`, `referrals`, or `bonuses`.
+limit | **integer** Optional. Number of results per request. Defaults to 5. Max is 50.
+
+### Response
+
+Returns an array of transaction objects.
+
+Attribute | Description
+---------- | -------
+id | **string** Unique ID for the transaction.
+amount | **integer** Value of the transaction, in satoshis.
+state | **string** Can be `pending` or `complete`. Appears only for deposits and withdrawals.
+hash | **string** Bitcoin transaction hash. Appears only for deposits.
+address | **string** Destination Bitcoin address. Appears only for withdrawals.
+created_at | **integer** When the transaction was made.
+
+
+<div class='bottom-padder'>&nbsp;</div>
