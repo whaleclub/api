@@ -260,7 +260,7 @@ state | **string** Can be `open`, `closed`, `pre` (pre-market trading – stocks
 last_updated | **integer** When prices for this market were last updated.
 
 
-# Price Turbo
+# Price – Turbo
 
 > Request the current turbo price for USD/JPY and Crude Oil (WTI)
 
@@ -357,12 +357,12 @@ pending_amount | **object** Balance used in pending positions across markets, in
 active_amount_turbo | **object** Balance used in active turbo positions across markets, in satoshis.
 last_updated | **integer** When your balance was last updated.
 
-# Position
+# Positions
 
 ## Position Object
 
 ```shell
-curl "https://api.whaleclub.co/v1/position/s6pGQ4nyS4Z7jHRvJ" \
+curl "https://api.whaleclub.co/v1/position/get/s6pGQ4nyS4Z7jHRvJ" \
   -H "Authorization: Bearer {API_TOKEN}"
 ```
 ```json
@@ -396,6 +396,7 @@ This section provides a reference for the **Position** object, which represents 
 Attribute | Description
 ---------- | -------
 id | **string** Unique ID for the position.
+parent_id | **string** ID of parent position. Appears only if this position has been [split](#split-position).
 slug | **string** A URL-friendly position identifier. Your position can be shared publicly at `https://whaleclub.co/position/:slug`.
 direction | **string** Can be `long` or `short`.
 market | **string** Market this position was executed on.
@@ -416,7 +417,6 @@ closed_at | **integer** When the position was closed. Appears only if the positi
 last_updated | **integer** When the position's stop-loss and/or take-profit was last updated. Appears only if the position is manually updated after it's been submitted.
 liquidation_price | **number** Price at which the position will auto-close to cover your margin in case of loss.
 financing | **integer** Leverage financing charged on the position, in satoshis. Appears only if the position is `active` or `closed`.
-
 
 ## New Position
 
@@ -523,7 +523,7 @@ Submit a new position.
 
 This endpoint allows you to submit a new position.
 
-To submit a limit or stop order, set the `entry_price` parameter in your request.
+To submit a limit or stop order, set the `entry_price` parameter in your request. We'll automatically detect whether it's a limit order or a stop order based on the current market price.
 
 To submit a position that will execute immediately at market price, simply omit the `entry_price` parameter from your request.
 
@@ -541,7 +541,7 @@ take_profit | **number** Optional. Price at which your position will auto-close 
 
 ### Response
 
-Returns a **[Position](#position-object)** containing the values of your newly submitted position.
+Returns a **[Position](#position-object)** object containing your newly-submitted position.
 
 ### Errors
 
@@ -559,187 +559,475 @@ Price Unavailable | Bid and ask prices are currently unavailable for this market
 Price Outdated | Bid and ask prices are currently outdated for this market.
 Market Maintenance | The price feed for this market is currently under maintenance.
 
-## Update Position
+## Get Position
 
-> Set stop-loss and take-profit for an existing position 
+> Fetch information about an existing position 
 
 ```shell
-curl "https://api.whaleclub.co/v1/position/update" \
+curl "https://api.whaleclub.co/v1/position/get/s6pGQ4nyS4Z7jHRvJ" \
+  -H "Authorization: Bearer {API_TOKEN}"
+```
+```json
+{
+  "id": "s6pwQ4nyS4Z7jHRvJ",
+  "slug": "47n2728b3",
+  "direction": "long",
+  "market": "NFLX",
+  "leverage": 10,
+  "type": "limit",
+  "state": "closed",
+  "size": 2000000000,
+  "margin_size": 200000000,
+  "entry_price": 99,
+  "stop_loss": 96.5,
+  "take_profit": 126,
+  "close_reason": "market",
+  "close_price": 122.81,
+  "profit": 481000000,
+  "created_at": 1465795498,
+  "entered_at": 1465795598,
+  "closed_at": 1465799498,
+  "last_updated": 1465797498,
+  "liquidation_price": 91.08,
+  "financing": 120000,
+}
+```
+
+Fetch information about an existing position.
+
+### Request
+
+`GET https://api.whaleclub.co/v1/position/get/:id` 
+
+`:id` is the position ID returned in a **[Position](#position-object)** object.
+
+If the request is successful, the API will return a `200` (Ok) status code. 
+
+### Response
+
+Returns a **[Position](#position-object)** object.
+
+
+## Update Position
+
+> Set stop-loss and take-profit of an existing position 
+
+```shell
+curl "https://api.whaleclub.co/v1/position/update/22bCNkWhiwxF7qAMs" \
   -H "Authorization: Bearer {API_TOKEN}" \
-  -X POST \
-  -d 'id=22bCNkWhiwxF7qAMs' \
+  -X PUT \
   -d 'stop_loss=1.07576' \
   -d 'take_profit=1.08726'
 ```
 ```json
 {
   "id": "22bCNkWhiwxF7qAMs",
-  "entry_price": 1.07876,
-  "created_at": 1486327152,
-  "entered_at": 1486327152,
-  "state": "active",
   "slug": "vCDQah7Hv",
+  "direction": "long",
+  "market": "EUR-USD",
+  "leverage": 100,
   "type": "market",
+  "state": "active",
   "size": 10000000000,
   "margin_size": 100000000,
-  "liquidation_price": 1.07013,
+  "entry_price": 1.07876,
   "stop_loss": 1.07576,
   "take_profit": 1.08726,
-  "leverage": 100,
-  "market": "EUR-USD",
-  "direction": "long"
+  "created_at": 1486327152,
+  "entered_at": 1486327152,
+  "last_updated": 1486367152,
+  "liquidation_price": 1.07013
 }
 ```
 
+Update an existing position.
+
+### Request
+
+`PUT https://api.whaleclub.co/v1/position/update/:id` 
+
+This endpoint allows you to update the stop-loss and/or take-profit of an existing pending or active position.
+
+`:id` is the position ID returned in a **[Position](#position-object)** object.
+
+If the request is successful, the API will return a `200` (Ok) status code. 
+
+Param | Description
+---------- | -------
+stop_loss | **number** Optional. Price at which your position will auto-close in case of loss. Must be set if `take_profit` is not.
+take_profit | **number** Optional. Price at which your position will auto-close in profit. Must be set if `stop_loss` is not.
+
+### Response
+
+Returns a **[Position](#position-object)** object with the updated values.
+
 ## Close Position
+
+> Close a 100BTC EUR/USD long position at market price 
+
+```shell
+curl "https://api.whaleclub.co/v1/position/close/22bCNkWhiwxF7qAMs" \
+  -H "Authorization: Bearer {API_TOKEN}" \
+  -X POST
+```
+```json
+{
+  "id": "22bCNkWhiwxF7qAMs",
+  "slug": "vCDQah7Hv",
+  "direction": "long",
+  "market": "EUR-USD",
+  "leverage": 100,
+  "type": "market",
+  "state": "closed",
+  "size": 10000000000,
+  "margin_size": 100000000,
+  "entry_price": 1.07876,
+  "stop_loss": 1.07576,
+  "take_profit": 1.08726,
+  "close_reason": "market",
+  "close_price": 1.08126,
+  "profit": 23000000,
+  "created_at": 1486327152,
+  "entered_at": 1486327152,
+  "closed_at": 1486328121,
+  "last_updated": 1486327452,
+  "liquidation_price": 1.07013
+}
+```
+
+Close an existing position at market price.
+
+### Request
+
+`POST https://api.whaleclub.co/v1/position/close/:id` 
+
+`:id` is the position ID returned in a **[Position](#position-object)** object.
+
+If the request is successful, the API will return a `200` (Ok) status code.
+
+### Response
+
+Returns a **[Position](#position-object)** object with the updated values.
+
+### Errors
+
+In addition to the common API errors, this endpoint can return the following errors under the `403` status code.
+
+Name | Description
+---------- | -------
+Market Closed | This market is currently closed (e.g. on weekends for stocks) and not accepting new positions.
+Price Unavailable | Bid and ask prices are currently unavailable for this market.
+Price Outdated | Bid and ask prices are currently outdated for this market.
+Market Maintenance | The price feed for this market is currently under maintenance.
 
 ## Cancel Position
 
-## Split Position
-
-# Positions
-
-## List Pending Positions
-
-## List Active Positions
-
-## List Closed Positions
-
-# Positions Turbo
-
-## New Turbo Position
-
-## List Active Turbo Positions
-
-## List Closed Turbo Positions
-
-# Get Turbo Contracts
-
-# Transactions
-
-## List Deposits
-
-## List Withdrawals
-
-## List Referral Payments
-
-## List Bonus Payments
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
+> Cancel a pending position. 
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "https://api.whaleclub.co/v1/position/cancel/d7gAxDSeLtdYtZsEd" \
+  -H "Authorization: Bearer {API_TOKEN}" \
+  -X POST
+```
+```json
+{
+  "id": "d7gAxDSeLtdYtZsEd",
+  "cancelled": true
+}
 ```
 
-```javascript
-const kittn = require('kittn');
+Cancel an existing pending position.
 
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+### Request
+
+`POST https://api.whaleclub.co/v1/position/cancel/:id`
+
+This endpoint allows you to cancel a pending position that hasn't yet executed. Once cancelled, a position will be deleted and no longer have an id to query.
+
+`:id` is the position ID returned in a **[Position](#position-object)** object.
+
+If the request is successful, the API will return a `200` (Ok) status code.
+
+## Split Position
+
+> Split an active 100BTC EUR/USD position into 2 smaller positions 
+
+```shell
+curl "https://api.whaleclub.co/v1/position/split/22bCNkWhiwxF7qAMs" \
+  -H "Authorization: Bearer {API_TOKEN}" \
+  -X POST \
+  -d 'ratio=60'
 ```
-
-> The above command returns JSON structured like this:
-
 ```json
 [
   {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
+    "id": "RTcdY8cHxeptxZx9Q",
+    "parent_id": "22bCNkWhiwxF7qAMs"
+    "slug": "jYFs6Lpno",
+    "direction": "long",
+    "market": "EUR-USD",
+    "leverage": 100,
+    "type": "market",
+    "state": "active",
+    "size": 6000000000,
+    "margin_size": 60000000,
+    "entry_price": 1.07876,
+    "stop_loss": 1.07576,
+    "take_profit": 1.08726,
+    "created_at": 1486327152,
+    "entered_at": 1486327152,
+    "last_updated": 1486367152,
+    "liquidation_price": 1.07013
   },
   {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+    "id": "vM7i73QipKc6F7SFs",
+    "parent_id": "22bCNkWhiwxF7qAMs",
+    "slug": "fDVhecYF",
+    "direction": "long",
+    "market": "EUR-USD",
+    "leverage": 100,
+    "type": "market",
+    "state": "active",
+    "size": 4000000000,
+    "margin_size": 40000000,
+    "entry_price": 1.07876,
+    "stop_loss": 1.07576,
+    "take_profit": 1.08726,
+    "created_at": 1486327152,
+    "entered_at": 1486327152,
+    "last_updated": 1486367152,
+    "liquidation_price": 1.07013
+  }
+```
+
+Update an existing position.
+
+### Request
+
+`PUT https://api.whaleclub.co/v1/position/split/:id` 
+
+This endpoint allows you to split an existing position. It can only be called on an active position.
+
+`:id` is the position ID returned in a **[Position](#position-object)** object.
+
+If the request is successful, the API will return a `200` (Ok) status code. 
+
+Param | Description
+---------- | -------
+ratio | **integer** Required. Must be between 5 and 95.
+
+### Response
+
+Returns an array of **[Position](#position-object)** objects containing the resulting smaller positions.
+
+## List Positions
+
+> List open (pending or active) positions 
+
+```shell
+curl "https://api.whaleclub.co/v1/positions" \
+  -H "Authorization: Bearer {API_TOKEN}" \
+  -G \
+  --data-urlencode "state=active" \
+  --data-urlencode "limit=10"
+```
+```json
+[
+  {
+    "id": "22Eov6G9gXb7cC7n7",
+    "slug": "47n2728b3",
+    "direction": "long",
+    "market": "NFLX",
+    "leverage": 10,
+    "type": "limit",
+    "state": "active",
+    "size": 2000000000,
+    "margin_size": 200000000,
+    "entry_price": 99,
+    "stop_loss": 96.5,
+    "take_profit": 126,
+    "created_at": 1465795498,
+    "entered_at": 1465795498,
+    "liquidation_price": 91.08
+  },
+  {
+    "id": "22bCNkWhiwxF7qAMs",
+    "slug": "vCDQah7Hv",
+    "direction": "long",
+    "market": "EUR-USD",
+    "leverage": 100,
+    "type": "market",
+    "state": "active",
+    "size": 10000000000,
+    "margin_size": 10000000000,
+    "entry_price": 1.07876,
+    "stop_loss": 1.07676,
+    "take_profit": 1.08316,
+    "created_at": 1486327152,
+    "entered_at": 1486327152,
+    "liquidation_price": 1.07013
+  },
+  ...
+]
+```
+
+List positions.
+
+### Request
+
+`GET https://api.whaleclub.co/v1/positions`
+
+Use this endpoint to request a list of pending, active, or closed positions. It's strongly recommended that you maintain your own list of positions and use the /price endpoint to keep it updated instead of polling this endpoint to track the state of your positions.
+
+Positions returned are sorted by `created_at` for pending positions, `entered_at` for active positions, and `closed_at` for closed positions.
+
+If the request is successful, the API will return a `200` (Ok) status code. 
+
+Param | Description
+---------- | -------
+state | **string** Required. Can be `pending`, `active`, or `closed`.
+limit | **integer** Optional. Number of results per request. Defaults to 5. Max is 30.
+
+### Response
+
+Returns an array of **[Position](#position-object)** objects.
+
+# Positions – Turbo
+
+## Turbo Position Object
+
+```shell
+curl "https://api.whaleclub.co/v1/position-turbo/get/uWchea2SocXZHEiHS" \
+  -H "Authorization: Bearer {API_TOKEN}"
+```
+```json
+{
+  "id": "uWchea2SocXZHEiHS",
+  "contract_id": "QvgMMkF35kSKowAtf",
+  "direction": "long",
+  "market": "EUR-USD",
+  "state": "closed",
+  "size": 6000000,
+  "entry_price": 1.11825,
+  "payoff": 0.55,
+  "close_price": 1.118293,
+  "profit": 3300000,
+  "created_at": 1464873229,
+  "closed_at": 1464873270
+}
+```
+
+This section provides a reference for the **Turbo Position** object, which represents a turbo position, typically returned by most turbo position-related endpoints below.
+
+Attribute | Description
+---------- | -------
+id | **string** Unique ID for the turbo position.
+contract_id | **string** ID of the contract this turbo position belongs to.
+direction | **string** Can be `long` or `short`.
+market | **string** Market this turbo position was executed on.
+state | **string** Can be `active`, or `closed`.
+size | **integer** The position's size, in satoshis.
+entry_price | **number** Price at which the turbo position was executed.
+payoff | **number** Payoff in case of correct prediction. Multiply by size to get payoff in satoshis.
+close_price | **number** Price at which the position was closed. Appears only if the position is `closed`.
+profit | **number** Profit made on the trade, in satoshis. Is negative in case of loss. Appears only if the position is `closed`.
+created_at | **integer** When the position was created.
+closed_at | **integer** When the position was closed. Appears only if the position is `closed`.
+
+## Get Active Contracts
+
+> List active turbo contracts 
+
+```shell
+curl "https://api.whaleclub.co/v1/contracts" \
+  -H "Authorization: Bearer {API_TOKEN}"
+```
+```json
+[
+  {
+    "id": "pXuuzf2xZSZePXzvH",
+    "type": "1min",
+    "created_at": 1486347240,
+    "purchase_deadline": 1486347300,
+    "expires_at": 1486347330
+  },
+  {
+    "id": "Cbrnx32XEZRyeQGJo",
+    "type": "5min",
+    "created_at": 1486347000,
+    "purchase_deadline": 1486347300,
+    "expires_at": 1486347450
   }
 ]
 ```
 
-This endpoint retrieves all kittens.
+Fetch a list of currently active turbo contracts.
 
-### HTTP Request
+### Request
 
-`GET http://example.com/api/kittens`
+`GET https://api.whaleclub.co/v1/contracts`
 
-### Query Parameters
+This will return information about the currently active contracts such as the purchase deadline and expiry time.
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+If the request is successful, the API will return a `200` (Ok) status code. 
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Response
 
-## Get a Specific Kitten
+Returns an array of Contract objects.
 
-```ruby
-require 'kittn'
+Attribute | Description
+---------- | -------
+id | **string** Unique ID for the contract.
+type | **string** Can be `1min` or `5min`.
+created_at | **integer** When the contract first became active.
+purchase_deadline | **integer** Time before which a turbo position must be submitted to be included in the contract.
+expires_at | **integer** When the contract expires and turbo positions settle.
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
+## New Turbo Position
 
-```python
-import kittn
+## Get Turbo Position
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
+> Fetch information about an existing turbo position 
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
+curl "https://api.whaleclub.co/v1/position-turbo/get/s6pGQ4nyS4Z7jHRvJ" \
+  -H "Authorization: Bearer {API_TOKEN}"
 ```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+  "id": "uWchea2SocXZHEiHS",
+  "direction": "long",
+  "market": "EUR-USD",
+  "state": "closed",
+  "size": 6000000,
+  "entry_price": 1.11825,
+  "contract_id": "QvgMMkF35kSKowAtf",
+  "payoff": 0.55,
+  "close_price": 1.118293,
+  "profit": 3300000,
+  "created_at": 1464873229,
+  "closed_at": 1464873270
 }
 ```
 
-This endpoint retrieves a specific kitten.
+Fetch information about an existing turbo position.
+
+### Request
+
+`GET https://api.whaleclub.co/v1/position-turbo/get/:id` 
+
+`:id` is the position ID returned in a **[Turbo Position](#turbo-position-object)** object.
+
+If the request is successful, the API will return a `200` (Ok) status code. 
+
+### Response
+
+Returns a **[Turbo Position](#turbo-position-object)** object.
+
+## List Turbo Positions
+
+# Transactions
+
+## List Transactions
 
 <aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
