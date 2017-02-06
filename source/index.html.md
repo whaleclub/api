@@ -540,27 +540,29 @@ take_profit | **number** Optional. Price at which your position will auto-close 
 
 ### Response
 
-Returns a **[Position](#position-object)** object containing your newly-submitted position.
+Returns your newly-submitted position as a **[Position](#position-object)** object.
+
+In particular, an `id` is generated for the position that you can use in later calls such as updating or closing.
 
 ### Errors
 
-In addition to the common API errors, this endpoint can return the following errors under the `403` status code.
+In addition to the common API errors, this endpoint can return the following errors.
 
 Name | Description
 ---------- | -------
-Insufficient Balance | You have insufficient available funds to open a position of this size.
-Limits Exceeded | Submitting this position would exceed the active volume limit for this market.
-Position Max Exceeded | You have too many positions that are active or pending. Please cancel or close some before opening more.
-Limit Orders Only | Only limit orders are allowed in pre-market and after-hours trading.
-Market Disabled | Longs (or shorts) are temporarily disabled for this market.
-Market Closed | This market is currently closed (e.g. on weekends for stocks) and not accepting new positions.
-Price Unavailable | Bid and ask prices are currently unavailable for this market.
-Price Outdated | Bid and ask prices are currently outdated for this market.
-Market Maintenance | The price feed for this market is currently under maintenance.
+Insufficient Balance | `403` You have insufficient available funds to open this position.
+Limits Exceeded | `403` Submitting this position would exceed the active volume limit for this market.
+Position Max Exceeded | `403` You have too many positions that are active or pending. Please cancel or close some before opening additional positions.
+Limit Orders Only | `403` Only limit orders are allowed in pre-market and after-hours trading.
+Market Disabled | `403` Longs (or Shorts) are temporarily disabled for this market.
+Market Closed | `403` This market is currently closed (e.g. on weekends for stocks).
+Price Unavailable | `500` Bid and ask prices are currently unavailable for this market. Please try again later.
+Price Outdated | `500` Bid and ask prices are currently outdated for this market.  Please try again later.
+Market Maintenance | `503` The price feed for this market is currently under maintenance. Please try again later.
 
 ## Get Position
 
-> Fetch information about an existing position 
+> Fetch an existing position by passing its id to the request: 
 
 ```shell
 curl "https://api.whaleclub.co/v1/position/get/s6pGQ4nyS4Z7jHRvJ" \
@@ -596,9 +598,7 @@ Fetch information about an existing position.
 
 ### Request
 
-`GET https://api.whaleclub.co/v1/position/get/:id` 
-
-`:id` is the position ID returned in a **[Position](#position-object)** object.
+`GET https://api.whaleclub.co/v1/position/get/:id`
 
 If the request is successful, the API will return a `200` (Ok) status code. 
 
@@ -609,7 +609,7 @@ Returns a **[Position](#position-object)** object.
 
 ## Update Position
 
-> Set stop-loss and take-profit of an existing position 
+> Set stop-loss and take-profit on an existing position:
 
 ```shell
 curl "https://api.whaleclub.co/v1/position/update/22bCNkWhiwxF7qAMs" \
@@ -647,22 +647,20 @@ Update an existing position.
 
 This endpoint allows you to update the stop-loss and/or take-profit of an existing pending or active position.
 
-`:id` is the position ID returned in a **[Position](#position-object)** object.
-
 If the request is successful, the API will return a `200` (Ok) status code. 
 
 Param | Description
 ---------- | -------
-stop_loss | **number** Optional. Price at which your position will auto-close in case of loss. Must be set if `take_profit` is not.
-take_profit | **number** Optional. Price at which your position will auto-close in profit. Must be set if `stop_loss` is not.
+stop_loss | **number** Optional. Price at which the position will auto-close in case of loss. Must be set if `take_profit` is not.
+take_profit | **number** Optional. Price at which the position will auto-close in profit. Must be set if `stop_loss` is not.
 
 ### Response
 
-Returns a **[Position](#position-object)** object with the updated values.
+Returns a **[Position](#position-object)** object with updated values.
 
 ## Close Position
 
-> Close a 100BTC EUR/USD long position at market price 
+> Close a 100BTC EUR/USD long position at market price:
 
 ```shell
 curl "https://api.whaleclub.co/v1/position/close/22bCNkWhiwxF7qAMs" \
@@ -698,30 +696,30 @@ Close an existing position at market price.
 
 ### Request
 
-`POST https://api.whaleclub.co/v1/position/close/:id` 
+`POST https://api.whaleclub.co/v1/position/close/:id`
 
-`:id` is the position ID returned in a **[Position](#position-object)** object.
+Use this endpoint to close an existing active position at the best available market price.
 
 If the request is successful, the API will return a `200` (Ok) status code.
 
 ### Response
 
-Returns a **[Position](#position-object)** object with the updated values.
+Returns a **[Position](#position-object)** object with updated values.
 
 ### Errors
 
-In addition to the common API errors, this endpoint can return the following errors under the `403` status code.
+In addition to the common API errors, this endpoint can return the following errors.
 
 Name | Description
 ---------- | -------
-Market Closed | This market is currently closed (e.g. on weekends for stocks) and not accepting new positions.
-Price Unavailable | Bid and ask prices are currently unavailable for this market.
-Price Outdated | Bid and ask prices are currently outdated for this market.
-Market Maintenance | The price feed for this market is currently under maintenance.
+Market Closed | `403` This market is currently closed (e.g. on weekends for stocks) and not accepting new positions.
+Price Unavailable | `500` Bid and ask prices are currently unavailable for this market.
+Price Outdated | `500` Bid and ask prices are currently outdated for this market.
+Market Maintenance | `503` The price feed for this market is currently under maintenance.
 
 ## Cancel Position
 
-> Cancel a pending position. 
+> Cancel a pending position:
 
 ```shell
 curl "https://api.whaleclub.co/v1/position/cancel/d7gAxDSeLtdYtZsEd" \
@@ -741,15 +739,13 @@ Cancel an existing pending position.
 
 `POST https://api.whaleclub.co/v1/position/cancel/:id`
 
-This endpoint allows you to cancel a pending position that hasn't yet executed. Once cancelled, a position will be deleted and no longer have an id to query.
-
-`:id` is the position ID returned in a **[Position](#position-object)** object.
+This endpoint allows you to cancel a pending position that hasn't yet executed. Once cancelled, a position will be deleted and no longer have an id associated with it.
 
 If the request is successful, the API will return a `200` (Ok) status code.
 
 ## Split Position
 
-> Split an active 100BTC EUR/USD position into 2 smaller positions 
+> Split an active 100BTC EUR/USD position into 2 smaller positions:
 
 ```shell
 curl "https://api.whaleclub.co/v1/position/split/22bCNkWhiwxF7qAMs" \
@@ -799,15 +795,13 @@ curl "https://api.whaleclub.co/v1/position/split/22bCNkWhiwxF7qAMs" \
   }
 ```
 
-Update an existing position.
+Split an existing active position.
 
 ### Request
 
 `PUT https://api.whaleclub.co/v1/position/split/:id` 
 
 This endpoint allows you to split an existing position. It can only be called on an active position.
-
-`:id` is the position ID returned in a **[Position](#position-object)** object.
 
 If the request is successful, the API will return a `200` (Ok) status code. 
 
@@ -817,11 +811,11 @@ ratio | **integer** Required. Must be between 5 and 95.
 
 ### Response
 
-Returns an array of **[Position](#position-object)** objects containing the resulting smaller positions.
+Returns an array of **[Position](#position-object)** objects containing two smaller positions resulting from the split.
 
 ## List Positions
 
-> List open (pending or active) positions 
+> List active positions:
 
 ```shell
 curl "https://api.whaleclub.co/v1/positions" \
@@ -876,7 +870,7 @@ List positions.
 
 `GET https://api.whaleclub.co/v1/positions`
 
-Use this endpoint to request a list of pending, active, or closed positions. It's strongly recommended that you maintain your own list of positions and use the /price endpoint to keep it updated instead of polling this endpoint to track the state of your positions.
+Use this endpoint to request a list of pending, active, or closed positions. It's strongly recommended that you maintain your own list of positions and use the [Price](#price) endpoint to keep it updated instead of polling this endpoint to track the state of your positions.
 
 Positions returned are sorted by `created_at` for pending positions, `entered_at` for active positions, and `closed_at` for closed positions.
 
@@ -925,7 +919,7 @@ contract_id | **string** ID of the contract this turbo position belongs to.
 direction | **string** Can be `long` or `short`.
 market | **string** Market this turbo position was executed on.
 state | **string** Can be `active`, or `closed`.
-size | **integer** The position's size, in satoshis.
+size | **integer** Position's size, in satoshis.
 entry_price | **number** Price at which the turbo position was executed.
 payoff | **number** Payoff in case of correct prediction. Multiply by size to get payoff in satoshis.
 close_price | **number** Price at which the position was closed. Appears only if the position is `closed`.
@@ -935,7 +929,7 @@ closed_at | **integer** When the position was closed. Appears only if the positi
 
 ## Get Active Contracts
 
-> List active turbo contracts 
+> List active turbo contracts:
 
 ```shell
 curl "https://api.whaleclub.co/v1/contracts" \
@@ -966,13 +960,13 @@ Fetch a list of currently active turbo contracts.
 
 `GET https://api.whaleclub.co/v1/contracts`
 
-This will return information about the currently active contracts such as the purchase deadline and expiry time.
+This endpoint will return information about currently active contracts such as the purchase deadline and expiry time.
 
 If the request is successful, the API will return a `200` (Ok) status code. 
 
 ### Response
 
-Returns an array of Contract objects.
+Returns an array of contracts.
 
 Attribute | Description
 ---------- | -------
@@ -984,7 +978,7 @@ expires_at | **integer** When the contract expires and turbo positions settle.
 
 ## New Turbo Position
 
-> Open a 0.1BTC EUR/USD long turbo position
+> Open a 0.1BTC EUR/USD long turbo position:
 
 ```shell
 curl "https://api.whaleclub.co/v1/position-turbo/new" \
@@ -1030,27 +1024,27 @@ size | **integer** Required. Your turbo position's size, in satoshis.
 
 ### Response
 
-Returns a **[Turbo Position](#turbo-position-object)** object containing your newly-submitted turbo position.
+Returns your newly-submitted turbo position as a **[Turbo Position](#turbo-position-object)** object.
 
 ### Errors
 
-In addition to the common API errors, this endpoint can return the following errors under the `403` status code.
+In addition to the common API errors, this endpoint can return the following errors.
 
 Name | Description
 ---------- | -------
-Insufficient Balance | You have insufficient available funds to open a position of this size.
-Limits Exceeded | Submitting this position would exceed the active volume limit for this market.
-Position Max Exceeded | You have too many positions that are active or pending. Please cancel or close some before opening more.
-Purchase Deadline Passed | The purchase deadline has passed and this contract is no longer accepting new positions.
-Market Disabled | Longs (or shorts) are temporarily disabled for this market.
-Market Closed | This market is currently closed (e.g. on weekends for stocks) and not accepting new positions.
-Price Unavailable | Price is currently unavailable for this market.
-Price Outdated | Bid and ask prices are currently outdated for this market.
-Market Maintenance | The price feed for this market is currently under maintenance.
+Insufficient Balance | `403` You have insufficient available funds to open a position of this size.
+Limits Exceeded | `403` Submitting this position would exceed the active volume limit for this market.
+Position Max Exceeded | `403` You have too many positions that are active or pending. Please cancel or close some before opening more.
+Purchase Deadline Passed | `403` The purchase deadline has passed and this contract is no longer accepting new positions.
+Market Disabled | `403` Longs (or shorts) are temporarily disabled for this market.
+Market Closed | `403` This market is currently closed (e.g. on weekends for stocks) and not accepting new positions.
+Price Unavailable | `500` Price is currently unavailable for this market.
+Price Outdated | `500` Bid and ask prices are currently outdated for this market.
+Market Maintenance | `503` The price feed for this market is currently under maintenance.
 
 ## Get Turbo Position
 
-> Fetch information about an existing turbo position 
+> Fetch an existing turbo position:
 
 ```shell
 curl "https://api.whaleclub.co/v1/position-turbo/get/s6pGQ4nyS4Z7jHRvJ" \
@@ -1079,8 +1073,6 @@ Fetch information about an existing turbo position.
 
 `GET https://api.whaleclub.co/v1/position-turbo/get/:id` 
 
-`:id` is the position ID returned in a **[Turbo Position](#turbo-position-object)** object.
-
 If the request is successful, the API will return a `200` (Ok) status code. 
 
 ### Response
@@ -1089,7 +1081,7 @@ Returns a **[Turbo Position](#turbo-position-object)** object.
 
 ## List Turbo Positions
 
-> List active turbo positions 
+> List active turbo positions:
 
 ```shell
 curl "https://api.whaleclub.co/v1/positions-turbo" \
@@ -1151,7 +1143,7 @@ Returns an array of **[Turbo Position](#turbo-position-object)** objects.
 
 ## List Transactions
 
-> List deposits 
+> List deposits:
 
 ```shell
 curl "https://api.whaleclub.co/v1/transactions" \
