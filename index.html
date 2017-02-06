@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Reference</title>
+    <title>Whaleclub API Documentation</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -91,7 +91,7 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+  <body class="index" data-languages="[]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -100,12 +100,6 @@
     </a>
     <div class="tocify-wrapper">
       <img src="images/logo.png" alt="Logo" />
-        <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="ruby">ruby</a>
-              <a href="#" data-language-name="python">python</a>
-              <a href="#" data-language-name="javascript">javascript</a>
-        </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
         </div>
@@ -113,237 +107,1623 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-            <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+            <li><a href='https://trade.whaleclub.co/signup'>Sign Up for Whaleclub</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id="introduction">Introduction</h1>
+        <h1 id="overview">Overview</h1>
 
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+<p>Welcome to Whaleclub&rsquo;s API. You can use our API to programmatically submit new trades, check your balance, fetch trading history, and much more. You can use the API to both trade with real funds and demo trade.</p>
 
-<p>We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<p>The API is organized around <a href="http://en.wikipedia.org/wiki/Representational_State_Transfer">REST</a>. All requests should be made over SSL. All request and response bodies, including errors, are encoded in JSON (<code class="prettyprint">application/json</code> content type).</p>
 
-<p>This example API documentation page was created with <a href="https://github.com/tripit/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&rsquo;s documentation.</p>
+<p>You can view code samples in the right-side column. Epoch dates are in UTC seconds.</p>
+
+<h3 id="base-endpoint-url">BASE ENDPOINT URL</h3>
+
+<p><strong><code class="prettyprint">https://api.whaleclub.co/v1/</code></strong></p>
 
 <h1 id="authentication">Authentication</h1>
 
 <blockquote>
-<p>To authorize, use this code:</p>
+<p>Authenticate by passing your API token in an Authorization header:</p>
 </blockquote>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/balance"</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
 </code></pre>
-<blockquote>
-<p>Make sure to replace <code class="prettyprint">meowmeowmeow</code> with your API key.</p>
-</blockquote>
+<p><strong>All requests to the Whaleclub API must be authenticated.</strong></p>
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
+<p>Authentication is done via an API token that you can get from your <a href="https://trade.whaleclub.co/settings/api">API Settings</a> page. You&rsquo;ll get one token for live trading and another for demo trading.</p>
 
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
+<p>Requests are authenticated by passing your API token as a bearer token in an <code class="prettyprint">Authorization</code> header. </p>
 
-<p><code class="prettyprint">Authorization: meowmeowmeow</code></p>
+<p><code class="prettyprint">Authorization: Bearer {API_TOKEN}</code></p>
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>{API_TOKEN}</code> with your Whaleclub API token.
 </aside>
 
-<h1 id="kittens">Kittens</h1>
+<h1 id="errors">Errors</h1>
 
-<h2 id="get-all-kittens">Get All Kittens</h2>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre><pre class="highlight python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre><pre class="highlight shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
-</code></pre>
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
-<p>This endpoint retrieves all kittens.</p>
-
-<h3 id="http-request">HTTP Request</h3>
-
-<p><code class="prettyprint">GET http://example.com/api/kittens</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
-</tr>
-<tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
-</tr>
-</tbody></table>
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-<h2 id="get-a-specific-kitten">Get a Specific Kitten</h2>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>Sample error response – Validation error (400):</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+  </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Validation Error"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Please enter a valid amount."</span><span class="w">
+  </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves a specific kitten.</p>
+<p>The Whaleclub API returns standard HTTP success or error status codes. In case of an error, we&rsquo;ll include extra information about what went wrong in the JSON-encoded response.</p>
 
-<aside class="warning">Inside HTML code blocks like this one, you can&rsquo;t use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-<h3 id="http-request">HTTP Request</h3>
-
-<p><code class="prettyprint">GET http://example.com/kittens/&lt;ID&gt;</code></p>
-
-<h3 id="url-parameters">URL Parameters</h3>
+<p>If the request is successful, the API will return either a <code class="prettyprint">200</code> (OK) or a <code class="prettyprint">201</code> (Created) status code. </p>
 
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Code</th>
 <th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
-</tr>
-</tbody></table>
-
-          <h1 id="errors">Errors</h1>
-
-<aside class="notice">This error section is stored in a separate file in `includes/_errors.md`. Slate allows you to optionally separate out your docs into many files&hellip;just save them to the `includes` folder and add them to the top of your `index.md`&rsquo;s frontmatter. Files are included in the order listed.</aside>
-
-<p>The Kittn API uses the following error codes:</p>
-
-<table><thead>
-<tr>
-<th>Error Code</th>
-<th>Meaning</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>400</td>
-<td>Bad Request &ndash; Your request sucks</td>
+<td>Validation error – unable to validate POST/PUT request</td>
 </tr>
 <tr>
 <td>401</td>
-<td>Unauthorized &ndash; Your API key is wrong</td>
+<td>Unauthorized – invalid API token</td>
+</tr>
+<tr>
+<td>402</td>
+<td>Failed request</td>
 </tr>
 <tr>
 <td>403</td>
-<td>Forbidden &ndash; The kitten requested is hidden for administrators only</td>
+<td>Forbidden</td>
 </tr>
 <tr>
 <td>404</td>
-<td>Not Found &ndash; The specified kitten could not be found</td>
+<td>Resource not found</td>
 </tr>
 <tr>
-<td>405</td>
-<td>Method Not Allowed &ndash; You tried to access a kitten with an invalid method</td>
+<td>422</td>
+<td>Unprocessable entity – there was an issue parsing your request</td>
 </tr>
 <tr>
-<td>406</td>
-<td>Not Acceptable &ndash; You requested a format that isn&rsquo;t json</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone &ndash; The kitten requested has been removed from our servers</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&rsquo;m a teapot</td>
+<td>423</td>
+<td>You&rsquo;ve been blocked from making API requests</td>
 </tr>
 <tr>
 <td>429</td>
-<td>Too Many Requests &ndash; You&rsquo;re requesting too many kittens! Slow down!</td>
+<td>Rate limit exceeded – too many requests</td>
 </tr>
 <tr>
-<td>500</td>
-<td>Internal Server Error &ndash; We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable &ndash; We&rsquo;re temporarially offline for maintanance. Please try again later.</td>
+<td>50x</td>
+<td>Internal Server Error – Whaleclub server error</td>
 </tr>
 </tbody></table>
 
+<h1 id="rate-limits">Rate limits</h1>
+
+<blockquote>
+<p>Check the headers of any response to see your rate limit status:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -i <span class="s2">"https://api.whaleclub.co/v1/balance"</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+
+HTTP/1.1 200 OK
+Date: Mon, 27 Feb 2016 21:20:00 GMT
+Status: 200 OK
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 54
+X-RateLimit-Reset: 1488230460
+</code></pre>
+<blockquote>
+<p>Sample error response – Rate limit exceeded (429):</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rate Limit Exceeded"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Slow down! You've exceeded the allocated rate limits."</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>The Whaleclub API is rate limited to prevent abuse that would degrade our ability to maintain consistent API performance for all traders. </p>
+
+<p>By default, each API token is rate limited at <strong>60 requests per minute</strong>. If your requests are being rate limited, you&rsquo;ll receive a Rate Limit Exceeded error with status code <code class="prettyprint">429</code>.</p>
+
+<p>Requests are also throttled up to a maximum of 1 request per second.</p>
+
+<p>You can check the HTTP headers of any response you get from the Whaleclub API to see your current rate limit status.</p>
+
+<table><thead>
+<tr>
+<th>Header</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>X-RateLimit-Limit</code></td>
+<td>The maximum number of requests allowed per minute.</td>
+</tr>
+<tr>
+<td><code>X-RateLimit-Remaining</code></td>
+<td>The number of requests left in the current rate limit window.</td>
+</tr>
+<tr>
+<td><code>X-RateLimit-Reset</code></td>
+<td>The time at which the current rate limit window resets, in UTC epoch seconds.</td>
+</tr>
+</tbody></table>
+
+<h1 id="markets">Markets</h1>
+
+<blockquote>
+<p>Request market information for Gold and Apple:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/markets/XAU-USD,AAPL"</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+</code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"XAU-USD"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gold"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"leverages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mf">3.3</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">5000000000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"hours"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sun 5PM - Fri 5PM"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"financing_rate"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0005</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"commodities"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"turbo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"payoff"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"5"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000000</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"AAPL"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Apple"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"leverages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">3.3</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">3000000000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"hours"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mon-Fri 8AM-5PM"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"financing_rate"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.001</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stocks"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"turbo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"payoff"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"5"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000000</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Request a list of all available markets:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/markets"</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+</code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"BTC-USD"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC/USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"crypto"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"EUR-USD"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR/USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"forex"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"USD-JPY"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD/JPY"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"forex"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"XAU-USD"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gold"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"commodities"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"AAPL"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Apple"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stocks"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="err">...</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Returns market information for one or more markets.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET https://api.whaleclub.co/v1/markets/:symbol(s)</code></p>
+
+<p><code class="prettyprint">:symbol(s)</code> is a list of one or more comma-separated market symbols. You can request market information for up to 5 markets at once.</p>
+
+<p>Omit <code class="prettyprint">:symbol(s)</code> to get a list of of available markets with basic information such as display name and category.</p>
+
+<table><thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol(s)</td>
+<td><strong>string</strong> Optional. One or more comma-separated market symbols.</td>
+</tr>
+</tbody></table>
+
+<h3 id="response">Response</h3>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>display_name</td>
+<td><strong>string</strong> The market&rsquo;s conventional name.</td>
+</tr>
+<tr>
+<td>leverages</td>
+<td><strong>array</strong> Leverage levels available.</td>
+</tr>
+<tr>
+<td>limit</td>
+<td><strong>integer</strong> Maximum active position size, in satoshis</td>
+</tr>
+<tr>
+<td>hours</td>
+<td><strong>string</strong> Market operating hours. Market is closed at all other times.</td>
+</tr>
+<tr>
+<td>financing_rate</td>
+<td><strong>number</strong> Daily financing rate. Multiply by 100 to get the amount in percent.</td>
+</tr>
+<tr>
+<td>category</td>
+<td><strong>string</strong> Asset class.</td>
+</tr>
+<tr>
+<td>turbo</td>
+<td><strong>object</strong> Information about turbo trading, if it&rsquo;s available for this market. The <strong>payoff</strong> object contains the contract duration (in minutes) and the associated payoff.</td>
+</tr>
+</tbody></table>
+
+<h1 id="price">Price</h1>
+
+<blockquote>
+<p>Request the current price for BTC/USD and EUR/USD:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/price/BTC-USD,EUR-USD"</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+</code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"BTC-USD"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"bid"</span><span class="p">:</span><span class="w"> </span><span class="mf">1034.52</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ask"</span><span class="p">:</span><span class="w"> </span><span class="mf">1035.42</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"last_updated"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486283460</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"EUR-USD"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"bid"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07846</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ask"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07856</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"last_updated"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486283454</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Returns the current bid and ask prices for one or more markets.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET https://api.whaleclub.co/v1/price/:symbol(s)</code></p>
+
+<p><code class="prettyprint">:symbol(s)</code> is a list of one or more comma-separated market symbols. You can request price for up to 5 markets at once.</p>
+
+<p>You can get a list of available symbols using the <a href="#markets">Markets</a> endpoint. </p>
+
+<table><thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol(s)</td>
+<td><strong>string</strong> Required. One or more comma-separated market symbols.</td>
+</tr>
+</tbody></table>
+
+<h3 id="response">Response</h3>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>bid</td>
+<td><strong>number</strong> The current bid price.</td>
+</tr>
+<tr>
+<td>ask</td>
+<td><strong>number</strong> The current ask price.</td>
+</tr>
+<tr>
+<td>state</td>
+<td><strong>string</strong> Can be <code class="prettyprint">open</code>, <code class="prettyprint">closed</code>, <code class="prettyprint">pre</code> (pre-market trading – stocks only), or <code class="prettyprint">after</code> (after-market trading – stocks only)</td>
+</tr>
+<tr>
+<td>last_updated</td>
+<td><strong>integer</strong> When prices for this market were last updated.</td>
+</tr>
+</tbody></table>
+
+<h1 id="price-turbo">Price – Turbo</h1>
+
+<blockquote>
+<p>Request the current turbo price for USD/JPY and WTI Crude Oil:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/price-turbo/USD-JPY,WTICO-USD"</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+</code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"USD-JPY"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"mid"</span><span class="p">:</span><span class="w"> </span><span class="mf">112.593</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"last_updated"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486159183</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"WTICO-USD"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"mid"</span><span class="p">:</span><span class="w"> </span><span class="mf">44.0912</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"last_updated"</span><span class="p">:</span><span class="w"> </span><span class="mi">1474676038</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Returns the current turbo price for one or more markets.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET https://api.whaleclub.co/v1/price-turbo/:symbol(s)</code></p>
+
+<p><code class="prettyprint">:symbol(s)</code> is a list of one or more comma-separated market symbols. You can request turbo price for up to 5 markets at once.</p>
+
+<p>You can fetch available symbols using the <a href="#markets">Markets</a> endpoint. </p>
+
+<table><thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol(s)</td>
+<td><strong>string</strong> Required. One or more comma-separated market symbols.</td>
+</tr>
+</tbody></table>
+
+<h3 id="response">Response</h3>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mid</td>
+<td><strong>number</strong> The current turbo price.</td>
+</tr>
+<tr>
+<td>state</td>
+<td><strong>string</strong> Can be <code class="prettyprint">open</code> or <code class="prettyprint">closed</code>.</td>
+</tr>
+<tr>
+<td>last_updated</td>
+<td><strong>integer</strong> When turbo price for this market was last updated.</td>
+</tr>
+</tbody></table>
+
+<h1 id="balance">Balance</h1>
+
+<blockquote>
+<p>Request information about your current balance:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/balance"</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+</code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"available_amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"total_amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">1200000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"unconfirmed_balance"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"deposit_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1JZZNHDNrXtdfGduRiSXANvBRZhgoa83zo"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"active_amount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"BTC-USD"</span><span class="p">:</span><span class="w"> </span><span class="mi">400000000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"AAPL"</span><span class="p">:</span><span class="w"> </span><span class="mi">900000000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"EUR-USD"</span><span class="p">:</span><span class="w"> </span><span class="mi">4000000000</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"pending_amount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"USD-JPY"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000000000</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"active_amount_turbo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"EUR-JPY"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"XAU-USD"</span><span class="p">:</span><span class="w"> </span><span class="mi">5000000</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"last_updated"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485645703</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Returns information about your balance.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET https://api.whaleclub.co/v1/balance</code></p>
+
+<p>Real or demo balance information will be returned based on whether you use your live or demo API token.</p>
+
+<h3 id="response">Response</h3>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>available_amount</td>
+<td><strong>integer</strong> Balance available to trade, in satoshis.</td>
+</tr>
+<tr>
+<td>total_amount</td>
+<td><strong>integer</strong> Total balance, in satoshis.</td>
+</tr>
+<tr>
+<td>unconfirmed_amount</td>
+<td><strong>integer</strong> Deposit amount that has not yet confirmed, in satoshis.</td>
+</tr>
+<tr>
+<td>deposit_address</td>
+<td><strong>string</strong> Your deposit address.</td>
+</tr>
+<tr>
+<td>active_amount</td>
+<td><strong>object</strong> Balance used in active positions across markets, in satoshis.</td>
+</tr>
+<tr>
+<td>pending_amount</td>
+<td><strong>object</strong> Balance used in pending positions across markets, in satoshis.</td>
+</tr>
+<tr>
+<td>active_amount_turbo</td>
+<td><strong>object</strong> Balance used in active turbo positions across markets, in satoshis.</td>
+</tr>
+<tr>
+<td>last_updated</td>
+<td><strong>integer</strong> When your balance was last updated.</td>
+</tr>
+</tbody></table>
+
+<h1 id="positions">Positions</h1>
+
+<h2 id="position-object">Position Object</h2>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position/get/s6pGQ4nyS4Z7jHRvJ"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+</code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"s6pwQ4nyS4Z7jHRvJ"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"47n2728b3"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"market"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NFLX"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"leverage"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"closed"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">2000000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"margin_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">200000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">99</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"stop_loss"</span><span class="p">:</span><span class="w"> </span><span class="mf">96.5</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"take_profit"</span><span class="p">:</span><span class="w"> </span><span class="mi">126</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"close_reason"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"close_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">122.81</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"profit"</span><span class="p">:</span><span class="w"> </span><span class="mi">481000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465795498</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"entered_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465795598</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"closed_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465799498</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"last_updated"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465797498</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">91.08</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"financing"</span><span class="p">:</span><span class="w"> </span><span class="mi">120000</span><span class="p">,</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This section provides a reference for the <strong>Position</strong> object, which represents a position, returned by position-related endpoints below.</p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td><strong>string</strong> Unique ID for the position.</td>
+</tr>
+<tr>
+<td>parent_id</td>
+<td><strong>string</strong> ID of parent position. Appears only if this position has been <a href="#split-position">split</a>.</td>
+</tr>
+<tr>
+<td>slug</td>
+<td><strong>string</strong> A URL-friendly position identifier. Your position can be shared publicly at <code class="prettyprint">https://whaleclub.co/position/:slug</code>.</td>
+</tr>
+<tr>
+<td>direction</td>
+<td><strong>string</strong> Can be <code class="prettyprint">long</code> or <code class="prettyprint">short</code>.</td>
+</tr>
+<tr>
+<td>market</td>
+<td><strong>string</strong> Market this position was executed on.</td>
+</tr>
+<tr>
+<td>leverage</td>
+<td><strong>number</strong> Position&rsquo;s leverage level.</td>
+</tr>
+<tr>
+<td>type</td>
+<td><strong>string</strong> Order type. Can be <code class="prettyprint">market</code>, <code class="prettyprint">limit</code>, or <code class="prettyprint">stop</code>.</td>
+</tr>
+<tr>
+<td>state</td>
+<td><strong>string</strong> Can be <code class="prettyprint">pending</code>, <code class="prettyprint">active</code>, or <code class="prettyprint">closed</code>.</td>
+</tr>
+<tr>
+<td>size</td>
+<td><strong>integer</strong> Position&rsquo;s size, in satoshis.</td>
+</tr>
+<tr>
+<td>margin_size</td>
+<td><strong>integer</strong> Position&rsquo;s margin size, in satoshis.</td>
+</tr>
+<tr>
+<td>entry_price</td>
+<td><strong>number</strong> Price at which the position was executed (if at market) or will execute (if limit or stop).</td>
+</tr>
+<tr>
+<td>stop_loss</td>
+<td><strong>number</strong> Price at which the position will auto-close in case of loss. Appears only if the position&rsquo;s stop-loss is set.</td>
+</tr>
+<tr>
+<td>take_profit</td>
+<td><strong>number</strong> Price at which the position will auto-close in profit. Appears only if the position&rsquo;s take-profit is set.</td>
+</tr>
+<tr>
+<td>close_reason</td>
+<td><strong>string</strong> How the position was closed. Can be <code class="prettyprint">market</code>, <code class="prettyprint">stop-loss</code>, <code class="prettyprint">take-profit</code>, or <code class="prettyprint">liquidation</code>. Appears only if the position is <code class="prettyprint">closed</code>.</td>
+</tr>
+<tr>
+<td>close_price</td>
+<td><strong>number</strong> Price at which the position was closed. Appears only if the position is <code class="prettyprint">closed</code>.</td>
+</tr>
+<tr>
+<td>profit</td>
+<td><strong>integer</strong> Profit made on the trade, in satoshis. Negative in case of loss. Appears only if the position is <code class="prettyprint">closed</code>.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td><strong>integer</strong> When the position was created.</td>
+</tr>
+<tr>
+<td>entered_at</td>
+<td><strong>integer</strong> When the position was executed. Appears only if the position is <code class="prettyprint">active</code> or <code class="prettyprint">closed</code>.</td>
+</tr>
+<tr>
+<td>closed_at</td>
+<td><strong>integer</strong> When the position was closed. Appears only if the position is <code class="prettyprint">closed</code>.</td>
+</tr>
+<tr>
+<td>last_updated</td>
+<td><strong>integer</strong> When the position&rsquo;s stop-loss and/or take-profit was last updated. Appears only if the position is manually updated after it&rsquo;s been submitted.</td>
+</tr>
+<tr>
+<td>liquidation_price</td>
+<td><strong>number</strong> Price at which the position will auto-close to cover your margin in case of loss.</td>
+</tr>
+<tr>
+<td>financing</td>
+<td><strong>integer</strong> Leverage financing charged on the position, in satoshis. Appears only if the position is <code class="prettyprint">active</code> or <code class="prettyprint">closed</code>.</td>
+</tr>
+</tbody></table>
+
+<h2 id="new-position">New Position</h2>
+
+<blockquote>
+<p>Open a 100BTC EUR/USD long position at market price, with a stop-loss and take-profit:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position/new"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -X POST <span class="se">\</span>
+  -d <span class="s1">'direction=long'</span> <span class="se">\</span>
+  -d <span class="s1">'market=EUR-USD'</span> <span class="se">\</span>
+  -d <span class="s1">'leverage=100'</span> <span class="se">\</span>
+  -d <span class="s1">'size=10000000000'</span> <span class="se">\</span>
+  -d <span class="s1">'stop_loss=1.07676'</span> <span class="se">\</span>
+  -d <span class="s1">'take_profit=1.08316'</span>
+</code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22bCNkWhiwxF7qAMs"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vCDQah7Hv"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"market"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR-USD"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"leverage"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"margin_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07876</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"stop_loss"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07676</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"take_profit"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.08316</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"entered_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07013</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Submit a 50BTC Gold sell stop position at 1050:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position/new"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -X POST <span class="se">\</span>
+  -d <span class="s1">'direction=short'</span> <span class="se">\</span>
+  -d <span class="s1">'market=XAU-USD'</span> <span class="se">\</span>
+  -d <span class="s1">'leverage=10'</span> <span class="se">\</span>
+  -d <span class="s1">'size=5000000000'</span> <span class="se">\</span>
+  -d <span class="s1">'entry_price=1050'</span>
+</code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"d7gAxDSeLtdYtZsEd"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GaK75ndGm"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"short"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"market"</span><span class="p">:</span><span class="w"> </span><span class="s2">"XAU-USD"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"leverage"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stop"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pending"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">5000000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"margin_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">500000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">1050</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486307187</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">1150</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Submit a 20BTC Netflix limit long position at 99:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position/new"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -X POST <span class="se">\</span>
+  -d <span class="s1">'direction=long'</span> <span class="se">\</span>
+  -d <span class="s1">'market=NFLX'</span> <span class="se">\</span>
+  -d <span class="s1">'leverage=10'</span> <span class="se">\</span>
+  -d <span class="s1">'size=2000000000'</span> <span class="se">\</span>
+  -d <span class="s1">'entry_price=99'</span> <span class="se">\</span>
+  -d <span class="s1">'stop_loss=96.5'</span> <span class="se">\</span>
+  -d <span class="s1">'take_profit=126'</span>
+</code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22Eov6G9gXb7cC7n7"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"47n2728b3"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"market"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NFLX"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"leverage"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pending"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">2000000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"margin_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">200000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">99</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"stop_loss"</span><span class="p">:</span><span class="w"> </span><span class="mf">96.5</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"take_profit"</span><span class="p">:</span><span class="w"> </span><span class="mi">126</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465795498</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">91.08</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Submit a new position.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">POST https://api.whaleclub.co/v1/position/new</code> </p>
+
+<p>This endpoint allows you to submit a new position.</p>
+
+<p>To submit a <strong>limit or stop order</strong>, set the <code class="prettyprint">entry_price</code> parameter in your request. We&rsquo;ll automatically detect whether it&rsquo;s a limit order or a stop order based on the current market price.</p>
+
+<p>To submit a <strong>market order</strong>, simply omit the <code class="prettyprint">entry_price</code> parameter from your request. Your order will execute at the best available price.</p>
+
+<p>If the request is successful, the API will return a <code class="prettyprint">201</code> (Created) status code. </p>
+
+<table><thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>direction</td>
+<td><strong>string</strong> Required. Can be <code class="prettyprint">long</code> or <code class="prettyprint">short</code>.</td>
+</tr>
+<tr>
+<td>market</td>
+<td><strong>string</strong> Required.</td>
+</tr>
+<tr>
+<td>leverage</td>
+<td><strong>integer</strong> Required.</td>
+</tr>
+<tr>
+<td>size</td>
+<td><strong>integer</strong> Required. Your position&rsquo;s size, in satoshis. This is the total size including leverage, not the margin size.</td>
+</tr>
+<tr>
+<td>entry_price</td>
+<td><strong>number</strong> Optional. Set this to submit a limit/stop order. If omitted, your position will execute at the best available market price.</td>
+</tr>
+<tr>
+<td>stop_loss</td>
+<td><strong>number</strong> Optional. Price at which your position will auto-close in case of loss.</td>
+</tr>
+<tr>
+<td>take_profit</td>
+<td><strong>number</strong> Optional. Price at which your position will auto-close in profit.</td>
+</tr>
+</tbody></table>
+
+<h3 id="response">Response</h3>
+
+<p>Returns your newly-submitted position as a <strong><a href="#position-object">Position</a></strong> object.</p>
+
+<p>In particular, an <code class="prettyprint">id</code> is generated for the position that you can use in later calls such as updating or closing.</p>
+
+<h3 id="errors">Errors</h3>
+
+<p>In addition to the common API errors, this endpoint can return the following errors.</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Insufficient Balance</td>
+<td><code class="prettyprint">403</code> You have insufficient available funds to open this position.</td>
+</tr>
+<tr>
+<td>Limits Exceeded</td>
+<td><code class="prettyprint">403</code> Submitting this position would exceed the active volume limit for this market.</td>
+</tr>
+<tr>
+<td>Position Max Exceeded</td>
+<td><code class="prettyprint">403</code> You have too many positions that are active or pending. Please cancel or close some before opening additional positions.</td>
+</tr>
+<tr>
+<td>Limit Orders Only</td>
+<td><code class="prettyprint">403</code> Only limit orders are allowed in pre-market and after-hours trading.</td>
+</tr>
+<tr>
+<td>Market Disabled</td>
+<td><code class="prettyprint">403</code> Longs (or Shorts) are temporarily disabled for this market.</td>
+</tr>
+<tr>
+<td>Market Closed</td>
+<td><code class="prettyprint">403</code> This market is currently closed (e.g. on weekends for stocks).</td>
+</tr>
+<tr>
+<td>Price Unavailable</td>
+<td><code class="prettyprint">500</code> Bid and ask prices are currently unavailable for this market. Please try again later.</td>
+</tr>
+<tr>
+<td>Price Outdated</td>
+<td><code class="prettyprint">500</code> Bid and ask prices are currently outdated for this market.  Please try again later.</td>
+</tr>
+<tr>
+<td>Market Maintenance</td>
+<td><code class="prettyprint">503</code> The price feed for this market is currently under maintenance. Please try again later.</td>
+</tr>
+</tbody></table>
+
+<h2 id="get-position">Get Position</h2>
+
+<blockquote>
+<p>Fetch an existing position by passing its id to the request: </p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position/get/s6pGQ4nyS4Z7jHRvJ"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+</code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"s6pwQ4nyS4Z7jHRvJ"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"47n2728b3"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"market"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NFLX"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"leverage"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"closed"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">2000000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"margin_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">200000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">99</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"stop_loss"</span><span class="p">:</span><span class="w"> </span><span class="mf">96.5</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"take_profit"</span><span class="p">:</span><span class="w"> </span><span class="mi">126</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"close_reason"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"close_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">122.81</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"profit"</span><span class="p">:</span><span class="w"> </span><span class="mi">481000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465795498</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"entered_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465795598</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"closed_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465799498</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"last_updated"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465797498</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">91.08</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"financing"</span><span class="p">:</span><span class="w"> </span><span class="mi">120000</span><span class="p">,</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Fetch information about an existing position.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET https://api.whaleclub.co/v1/position/get/:id</code></p>
+
+<p>If the request is successful, the API will return a <code class="prettyprint">200</code> (Ok) status code. </p>
+
+<h3 id="response">Response</h3>
+
+<p>Returns a <strong><a href="#position-object">Position</a></strong> object.</p>
+
+<h2 id="update-position">Update Position</h2>
+
+<blockquote>
+<p>Set stop-loss and take-profit on an existing position:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position/update/22bCNkWhiwxF7qAMs"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -X PUT <span class="se">\</span>
+  -d <span class="s1">'stop_loss=1.07576'</span> <span class="se">\</span>
+  -d <span class="s1">'take_profit=1.08726'</span>
+</code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22bCNkWhiwxF7qAMs"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vCDQah7Hv"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"market"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR-USD"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"leverage"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"margin_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">100000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07876</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"stop_loss"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07576</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"take_profit"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.08726</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"entered_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"last_updated"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486367152</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07013</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Update an existing position.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">PUT https://api.whaleclub.co/v1/position/update/:id</code> </p>
+
+<p>This endpoint allows you to update the stop-loss and/or take-profit of an existing pending or active position.</p>
+
+<p>If the request is successful, the API will return a <code class="prettyprint">200</code> (Ok) status code. </p>
+
+<table><thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>stop_loss</td>
+<td><strong>number</strong> Optional. Price at which the position will auto-close in case of loss. Must be set if <code class="prettyprint">take_profit</code> is not.</td>
+</tr>
+<tr>
+<td>take_profit</td>
+<td><strong>number</strong> Optional. Price at which the position will auto-close in profit. Must be set if <code class="prettyprint">stop_loss</code> is not.</td>
+</tr>
+</tbody></table>
+
+<h3 id="response">Response</h3>
+
+<p>Returns a <strong><a href="#position-object">Position</a></strong> object with updated values.</p>
+
+<h2 id="close-position">Close Position</h2>
+
+<blockquote>
+<p>Close a 100BTC EUR/USD long position at market price:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position/close/22bCNkWhiwxF7qAMs"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -X POST
+</code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22bCNkWhiwxF7qAMs"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vCDQah7Hv"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"market"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR-USD"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"leverage"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"closed"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"margin_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">100000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07876</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"stop_loss"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07576</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"take_profit"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.08726</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"close_reason"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"close_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.08126</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"profit"</span><span class="p">:</span><span class="w"> </span><span class="mi">23000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"entered_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"closed_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486328121</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"last_updated"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327452</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07013</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Close an existing position at market price.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">POST https://api.whaleclub.co/v1/position/close/:id</code></p>
+
+<p>Use this endpoint to close an existing active position at the best available market price.</p>
+
+<p>If the request is successful, the API will return a <code class="prettyprint">200</code> (Ok) status code.</p>
+
+<h3 id="response">Response</h3>
+
+<p>Returns a <strong><a href="#position-object">Position</a></strong> object with updated values.</p>
+
+<h3 id="errors">Errors</h3>
+
+<p>In addition to the common API errors, this endpoint can return the following errors.</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Market Closed</td>
+<td><code class="prettyprint">403</code> This market is currently closed (e.g. on weekends for stocks) and not accepting new positions.</td>
+</tr>
+<tr>
+<td>Price Unavailable</td>
+<td><code class="prettyprint">500</code> Bid and ask prices are currently unavailable for this market.</td>
+</tr>
+<tr>
+<td>Price Outdated</td>
+<td><code class="prettyprint">500</code> Bid and ask prices are currently outdated for this market.</td>
+</tr>
+<tr>
+<td>Market Maintenance</td>
+<td><code class="prettyprint">503</code> The price feed for this market is currently under maintenance.</td>
+</tr>
+</tbody></table>
+
+<h2 id="cancel-position">Cancel Position</h2>
+
+<blockquote>
+<p>Cancel a pending position:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position/cancel/d7gAxDSeLtdYtZsEd"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -X POST
+</code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"d7gAxDSeLtdYtZsEd"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"cancelled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Cancel an existing pending position.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">POST https://api.whaleclub.co/v1/position/cancel/:id</code></p>
+
+<p>This endpoint allows you to cancel a pending position that hasn&rsquo;t yet executed. Once cancelled, a position will be deleted and no longer have an id associated with it.</p>
+
+<p>If the request is successful, the API will return a <code class="prettyprint">200</code> (Ok) status code.</p>
+
+<h2 id="split-position">Split Position</h2>
+
+<blockquote>
+<p>Split an active 100BTC EUR/USD position into 2 smaller positions:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position/split/22bCNkWhiwxF7qAMs"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -X POST <span class="se">\</span>
+  -d <span class="s1">'ratio=60'</span>
+</code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RTcdY8cHxeptxZx9Q"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"parent_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22bCNkWhiwxF7qAMs"</span><span class="w">
+    </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jYFs6Lpno"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"market"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR-USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"leverage"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">6000000000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"margin_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07876</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"stop_loss"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07576</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"take_profit"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.08726</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"entered_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"last_updated"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486367152</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07013</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vM7i73QipKc6F7SFs"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"parent_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22bCNkWhiwxF7qAMs"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fDVhecYF"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"market"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR-USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"leverage"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">4000000000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"margin_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">40000000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07876</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"stop_loss"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07576</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"take_profit"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.08726</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"entered_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"last_updated"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486367152</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07013</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Split an existing active position.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">PUT https://api.whaleclub.co/v1/position/split/:id</code> </p>
+
+<p>This endpoint allows you to split an existing position. It can only be called on an active position.</p>
+
+<p>If the request is successful, the API will return a <code class="prettyprint">200</code> (Ok) status code. </p>
+
+<table><thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ratio</td>
+<td><strong>integer</strong> Required. Must be between 5 and 95.</td>
+</tr>
+</tbody></table>
+
+<h3 id="response">Response</h3>
+
+<p>Returns an array of <strong><a href="#position-object">Position</a></strong> objects containing two smaller positions resulting from the split.</p>
+
+<h2 id="list-positions">List Positions</h2>
+
+<blockquote>
+<p>List active positions:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/positions"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -G <span class="se">\</span>
+  --data-urlencode <span class="s2">"state=active"</span> <span class="se">\</span>
+  --data-urlencode <span class="s2">"limit=10"</span>
+</code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22Eov6G9gXb7cC7n7"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"47n2728b3"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"market"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NFLX"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"leverage"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"limit"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">2000000000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"margin_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">200000000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">99</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"stop_loss"</span><span class="p">:</span><span class="w"> </span><span class="mf">96.5</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"take_profit"</span><span class="p">:</span><span class="w"> </span><span class="mi">126</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465795498</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"entered_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465795498</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">91.08</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22bCNkWhiwxF7qAMs"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vCDQah7Hv"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"market"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR-USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"leverage"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"market"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000000000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"margin_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000000000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07876</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"stop_loss"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07676</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"take_profit"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.08316</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"entered_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07013</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="err">...</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>List positions.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET https://api.whaleclub.co/v1/positions</code></p>
+
+<p>Use this endpoint to request a list of pending, active, or closed positions. It&rsquo;s strongly recommended that you maintain your own list of positions and use the <a href="#price">Price</a> endpoint to keep it updated instead of polling this endpoint to track the state of your positions.</p>
+
+<p>Positions returned are sorted by <code class="prettyprint">created_at</code> for pending positions, <code class="prettyprint">entered_at</code> for active positions, and <code class="prettyprint">closed_at</code> for closed positions.</p>
+
+<p>If the request is successful, the API will return a <code class="prettyprint">200</code> (Ok) status code. </p>
+
+<table><thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>state</td>
+<td><strong>string</strong> Required. Can be <code class="prettyprint">pending</code>, <code class="prettyprint">active</code>, or <code class="prettyprint">closed</code>.</td>
+</tr>
+<tr>
+<td>limit</td>
+<td><strong>integer</strong> Optional. Number of results per request. Defaults to 5. Max is 30.</td>
+</tr>
+</tbody></table>
+
+<h3 id="response">Response</h3>
+
+<p>Returns an array of <strong><a href="#position-object">Position</a></strong> objects.</p>
+
+<h1 id="positions-turbo">Positions – Turbo</h1>
+
+<h2 id="turbo-position-object">Turbo Position Object</h2>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position-turbo/get/uWchea2SocXZHEiHS"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+</code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uWchea2SocXZHEiHS"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"contract_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"QvgMMkF35kSKowAtf"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"market"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR-USD"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"closed"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">6000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.11825</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"payoff"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.55</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"close_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.118293</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"profit"</span><span class="p">:</span><span class="w"> </span><span class="mi">3300000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873229</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"closed_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873270</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This section provides a reference for the <strong>Turbo Position</strong> object, which represents a turbo position, typically returned by most turbo position-related endpoints below.</p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td><strong>string</strong> Unique ID for the turbo position.</td>
+</tr>
+<tr>
+<td>contract_id</td>
+<td><strong>string</strong> ID of the contract this turbo position belongs to.</td>
+</tr>
+<tr>
+<td>direction</td>
+<td><strong>string</strong> Can be <code class="prettyprint">long</code> or <code class="prettyprint">short</code>.</td>
+</tr>
+<tr>
+<td>market</td>
+<td><strong>string</strong> Market this turbo position was executed on.</td>
+</tr>
+<tr>
+<td>state</td>
+<td><strong>string</strong> Can be <code class="prettyprint">active</code>, or <code class="prettyprint">closed</code>.</td>
+</tr>
+<tr>
+<td>size</td>
+<td><strong>integer</strong> Position&rsquo;s size, in satoshis.</td>
+</tr>
+<tr>
+<td>entry_price</td>
+<td><strong>number</strong> Price at which the turbo position was executed.</td>
+</tr>
+<tr>
+<td>payoff</td>
+<td><strong>number</strong> Payoff in case of correct prediction. Multiply by size to get payoff in satoshis.</td>
+</tr>
+<tr>
+<td>close_price</td>
+<td><strong>number</strong> Price at which the position was closed. Appears only if the position is <code class="prettyprint">closed</code>.</td>
+</tr>
+<tr>
+<td>profit</td>
+<td><strong>number</strong> Profit made on the trade, in satoshis. Is negative in case of loss. Appears only if the position is <code class="prettyprint">closed</code>.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td><strong>integer</strong> When the position was created.</td>
+</tr>
+<tr>
+<td>closed_at</td>
+<td><strong>integer</strong> When the position was closed. Appears only if the position is <code class="prettyprint">closed</code>.</td>
+</tr>
+</tbody></table>
+
+<h2 id="get-active-contracts">Get Active Contracts</h2>
+
+<blockquote>
+<p>List active turbo contracts:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/contracts"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+</code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pXuuzf2xZSZePXzvH"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1min"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486347240</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"purchase_deadline"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486347300</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"expires_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486347330</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cbrnx32XEZRyeQGJo"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5min"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486347000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"purchase_deadline"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486347300</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"expires_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486347450</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>Fetch a list of currently active turbo contracts.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET https://api.whaleclub.co/v1/contracts</code></p>
+
+<p>This endpoint will return information about currently active contracts such as the purchase deadline and expiry time.</p>
+
+<p>If the request is successful, the API will return a <code class="prettyprint">200</code> (Ok) status code. </p>
+
+<h3 id="response">Response</h3>
+
+<p>Returns an array of contracts.</p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td><strong>string</strong> Unique ID for the contract.</td>
+</tr>
+<tr>
+<td>type</td>
+<td><strong>string</strong> Can be <code class="prettyprint">1min</code> or <code class="prettyprint">5min</code>.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td><strong>integer</strong> When the contract first became active.</td>
+</tr>
+<tr>
+<td>purchase_deadline</td>
+<td><strong>integer</strong> Time before which a turbo position must be submitted to be included in the contract.</td>
+</tr>
+<tr>
+<td>expires_at</td>
+<td><strong>integer</strong> When the contract expires and turbo positions settle.</td>
+</tr>
+</tbody></table>
+
+<h2 id="new-turbo-position">New Turbo Position</h2>
+
+<blockquote>
+<p>Open a 0.1BTC EUR/USD long turbo position:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position-turbo/new"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -X POST <span class="se">\</span>
+  -d <span class="s1">'direction=long'</span> <span class="se">\</span>
+  -d <span class="s1">'market=EUR-USD'</span> <span class="se">\</span>
+  -d <span class="s1">'type=1min'</span> <span class="se">\</span>
+  -d <span class="s1">'size=10000000'</span>
+</code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uWchea2SocXZHEiHS"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"contract_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"QvgMMkF35kSKowAtf"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"market"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR-USD"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.11825</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"payoff"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.55</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873229</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Open a new turbo position.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">POST https://api.whaleclub.co/v1/position-turbo/new</code> </p>
+
+<p>This endpoint allows you to open a new turbo position.</p>
+
+<p>All turbo positions are executed at the market price, so there is no entry price to set.</p>
+
+<p>If the request is successful, the API will return a <code class="prettyprint">201</code> (Created) status code. </p>
+
+<table><thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>direction</td>
+<td><strong>string</strong> Required. Can be <code class="prettyprint">long</code> or <code class="prettyprint">short</code>.</td>
+</tr>
+<tr>
+<td>market</td>
+<td><strong>string</strong> Required.</td>
+</tr>
+<tr>
+<td>type</td>
+<td><strong>string</strong> Required. Contract type. Can be <code class="prettyprint">1min</code> or <code class="prettyprint">5min</code>.</td>
+</tr>
+<tr>
+<td>size</td>
+<td><strong>integer</strong> Required. Your turbo position&rsquo;s size, in satoshis.</td>
+</tr>
+</tbody></table>
+
+<h3 id="response">Response</h3>
+
+<p>Returns your newly-submitted turbo position as a <strong><a href="#turbo-position-object">Turbo Position</a></strong> object.</p>
+
+<h3 id="errors">Errors</h3>
+
+<p>In addition to the common API errors, this endpoint can return the following errors.</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Insufficient Balance</td>
+<td><code class="prettyprint">403</code> You have insufficient available funds to open a position of this size.</td>
+</tr>
+<tr>
+<td>Limits Exceeded</td>
+<td><code class="prettyprint">403</code> Submitting this position would exceed the active volume limit for this market.</td>
+</tr>
+<tr>
+<td>Position Max Exceeded</td>
+<td><code class="prettyprint">403</code> You have too many positions that are active or pending. Please cancel or close some before opening more.</td>
+</tr>
+<tr>
+<td>Purchase Deadline Passed</td>
+<td><code class="prettyprint">403</code> The purchase deadline has passed and this contract is no longer accepting new positions.</td>
+</tr>
+<tr>
+<td>Market Disabled</td>
+<td><code class="prettyprint">403</code> Longs (or shorts) are temporarily disabled for this market.</td>
+</tr>
+<tr>
+<td>Market Closed</td>
+<td><code class="prettyprint">403</code> This market is currently closed (e.g. on weekends for stocks) and not accepting new positions.</td>
+</tr>
+<tr>
+<td>Price Unavailable</td>
+<td><code class="prettyprint">500</code> Price is currently unavailable for this market.</td>
+</tr>
+<tr>
+<td>Price Outdated</td>
+<td><code class="prettyprint">500</code> Bid and ask prices are currently outdated for this market.</td>
+</tr>
+<tr>
+<td>Market Maintenance</td>
+<td><code class="prettyprint">503</code> The price feed for this market is currently under maintenance.</td>
+</tr>
+</tbody></table>
+
+<h2 id="get-turbo-position">Get Turbo Position</h2>
+
+<blockquote>
+<p>Fetch an existing turbo position:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position-turbo/get/s6pGQ4nyS4Z7jHRvJ"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+</code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uWchea2SocXZHEiHS"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"market"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR-USD"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"closed"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">6000000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.11825</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"contract_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"QvgMMkF35kSKowAtf"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"payoff"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.55</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"close_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.118293</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"profit"</span><span class="p">:</span><span class="w"> </span><span class="mi">3300000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873229</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"closed_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873270</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Fetch information about an existing turbo position.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET https://api.whaleclub.co/v1/position-turbo/get/:id</code> </p>
+
+<p>If the request is successful, the API will return a <code class="prettyprint">200</code> (Ok) status code. </p>
+
+<h3 id="response">Response</h3>
+
+<p>Returns a <strong><a href="#turbo-position-object">Turbo Position</a></strong> object.</p>
+
+<h2 id="list-turbo-positions">List Turbo Positions</h2>
+
+<blockquote>
+<p>List active turbo positions:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/positions-turbo"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -G <span class="se">\</span>
+  --data-urlencode <span class="s2">"state=active"</span> <span class="se">\</span>
+  --data-urlencode <span class="s2">"limit=10"</span>
+</code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uWchea2SocXZHEiHS"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"contract_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"QvgMMkF35kSKowAtf"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"market"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR-USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.11825</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"payoff"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.55</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873229</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"26fTLb7byb8fi48Qf"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"contract_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"QvgMMkF35kSKowAtf"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"market"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AUD-USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">8000000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.76661</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"payoff"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.65</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873219</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="err">...</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>List turbo positions.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET https://api.whaleclub.co/v1/positions-turbo</code></p>
+
+<p>Use this endpoint to request a list of active or closed turbo positions.</p>
+
+<p>Positions returned are sorted by <code class="prettyprint">created_at</code> for active positions and <code class="prettyprint">closed_at</code> for closed positions.</p>
+
+<p>If the request is successful, the API will return a <code class="prettyprint">200</code> (Ok) status code. </p>
+
+<table><thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>state</td>
+<td><strong>string</strong> Required. Can be <code class="prettyprint">active</code>, or <code class="prettyprint">closed</code>.</td>
+</tr>
+<tr>
+<td>limit</td>
+<td><strong>integer</strong> Optional. Number of results per request. Defaults to 5. Max is 30.</td>
+</tr>
+</tbody></table>
+
+<h3 id="response">Response</h3>
+
+<p>Returns an array of <strong><a href="#turbo-position-object">Turbo Position</a></strong> objects.</p>
+
+<h1 id="transactions">Transactions</h1>
+
+<h2 id="list-transactions">List Transactions</h2>
+
+<blockquote>
+<p>List deposits:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/transactions"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -G <span class="se">\</span>
+  --data-urlencode <span class="s2">"type=deposits"</span> <span class="se">\</span>
+  --data-urlencode <span class="s2">"limit=10"</span>
+</code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"25RDQwc7LpPEFRQPC"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">236427766</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"complete"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a6a5fd411cac34d35f562e8dd65d03173e55d35c58423464400b478b9f408172"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465526999</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"25RDQwc7LpPEFRQPC"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">100000000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"complete"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b92841dc4ef1ec589fe717589b14424d792b93d13b56a78cc898cf2fd90005bf"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1459560146</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="err">...</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>List transactions.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET https://api.whaleclub.co/v1/transactions</code></p>
+
+<p>Use this endpoint to request a list of deposits, withdrawals, referral payments, or bonus payments.</p>
+
+<p>Transactions returned are sorted by <code class="prettyprint">created_at</code>.</p>
+
+<p>If the request is successful, the API will return a <code class="prettyprint">200</code> (Ok) status code. </p>
+
+<table><thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td><strong>string</strong> Required. Can be <code class="prettyprint">deposits</code>, <code class="prettyprint">withdrawals</code>, <code class="prettyprint">referrals</code>, or <code class="prettyprint">bonuses</code>.</td>
+</tr>
+<tr>
+<td>limit</td>
+<td><strong>integer</strong> Optional. Number of results per request. Defaults to 5. Max is 50.</td>
+</tr>
+</tbody></table>
+
+<h3 id="response">Response</h3>
+
+<p>Returns an array of transaction objects.</p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td><strong>string</strong> Unique ID for the transaction.</td>
+</tr>
+<tr>
+<td>amount</td>
+<td><strong>integer</strong> Value of the transaction, in satoshis.</td>
+</tr>
+<tr>
+<td>state</td>
+<td><strong>string</strong> Can be <code class="prettyprint">pending</code> or <code class="prettyprint">complete</code>. Appears only for deposits and withdrawals.</td>
+</tr>
+<tr>
+<td>hash</td>
+<td><strong>string</strong> Bitcoin transaction hash. Appears only for deposits.</td>
+</tr>
+<tr>
+<td>address</td>
+<td><strong>string</strong> Destination Bitcoin address. Appears only for withdrawals.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td><strong>integer</strong> When the transaction was made.</td>
+</tr>
+</tbody></table>
+
+<div class='bottom-padder'>&nbsp;</div>
+
       </div>
       <div class="dark-box">
-          <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="ruby">ruby</a>
-                <a href="#" data-language-name="python">python</a>
-                <a href="#" data-language-name="javascript">javascript</a>
-          </div>
       </div>
     </div>
   </body>
