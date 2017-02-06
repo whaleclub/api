@@ -359,6 +359,65 @@ last_updated | **integer** When your balance was last updated.
 
 # Position
 
+## Position Object
+
+```shell
+curl "https://api.whaleclub.co/v1/position/s6pGQ4nyS4Z7jHRvJ" \
+  -H "Authorization: Bearer {API_TOKEN}"
+```
+```json
+{
+  "id": "s6pwQ4nyS4Z7jHRvJ",
+  "slug": "47n2728b3",
+  "direction": "long",
+  "market": "NFLX",
+  "leverage": 10,
+  "type": "limit",
+  "state": "closed",
+  "size": 2000000000,
+  "margin_size": 200000000,
+  "entry_price": 99,
+  "stop_loss": 96.5,
+  "take_profit": 126,
+  "close_reason": "market",
+  "close_price": 122.81,
+  "profit": 481000000,
+  "created_at": 1465795498,
+  "entered_at": 1465795598,
+  "closed_at": 1465799498,
+  "last_updated": 1465797498,
+  "liquidation_price": 91.08,
+  "financing": 120000,
+}
+```
+
+This section provides a reference for the **Position** object, which represents a position, typically returned by most position-related endpoints below.
+
+Attribute | Description
+---------- | -------
+id | **string** Unique ID for the position.
+slug | **string** A URL-friendly position identifier. Your position can be shared publicly at `https://whaleclub.co/position/:slug`.
+direction | **string** Can be `long` or `short`.
+market | **string** Market this position was executed on.
+leverage | **number** The position's leverage level.
+type | **string** Order type. Can be `market`, `limit`, or `stop`.
+state | **string** Can be `pending`, `active`, or `closed`.
+size | **integer** The position's size, in satoshis.
+margin_size | **integer** The position's margin size, in satoshis.
+entry_price | **number** Price at which the position was executed (if at market) or will execute (if limit or stop).
+stop_loss | **number** Price at which the position will auto-close in case of loss. Appears only if the position's stop-loss is set.
+take_profit | **number** Price at which the position will auto-close in profit. Appears only if the position's take-profit is set.
+close_reason | **string** How the position was closed. Can be `market`, `stop-loss`, `take-profit`, or `liquidation`. Appears only if the position is `closed`.
+close_price | **number** Price at which the position was closed. Appears only if the position is `closed`.
+profit | **number** Profit made on the trade, in satoshis. Is negative in case of loss. Appears only if the position is `closed`.
+created_at | **integer** When the position was created.
+entered_at | **integer** When the position was executed. Appears only if the position is `active` or `closed`.
+closed_at | **integer** When the position was closed. Appears only if the position is `closed`.
+last_updated | **integer** When the position's stop-loss and/or take-profit was last updated. Appears only if the position is manually updated after it's been submitted.
+liquidation_price | **number** Price at which the position will auto-close to cover your margin in case of loss.
+financing | **integer** Leverage financing charged on the position, in satoshis. Appears only if the position is `active` or `closed`.
+
+
 ## New Position
 
 > Open a 100BTC EUR/USD long position at market price, with stop-loss and take-profit
@@ -368,29 +427,29 @@ curl "https://api.whaleclub.co/v1/position/new" \
   -H "Authorization: Bearer {API_TOKEN}" \
   -X POST \
   -d 'direction=long' \
-  -d 'size=10000000000' \
   -d 'market=EUR-USD' \
   -d 'leverage=100' \
+  -d 'size=10000000000' \
   -d 'stop_loss=1.07676' \
   -d 'take_profit=1.08316'
 ```
 ```json
 {
   "id": "22bCNkWhiwxF7qAMs",
-  "entry_price": 1.07876,
-  "created_at": 1486327152,
-  "entered_at": 1486327152,
-  "state": "active",
   "slug": "vCDQah7Hv",
+  "direction": "long",
+  "market": "EUR-USD",
+  "leverage": 100,
   "type": "market",
+  "state": "active",
   "size": 10000000000,
-  "margin_size": 100000000,
-  "liquidation_price": 1.07013,
+  "margin_size": 10000000000,
+  "entry_price": 1.07876,
   "stop_loss": 1.07676,
   "take_profit": 1.08316,
-  "leverage": 100,
-  "market": "EUR-USD",
-  "direction": "long"
+  "created_at": 1486327152,
+  "entered_at": 1486327152,
+  "liquidation_price": 1.07013
 }
 ```
 
@@ -401,25 +460,25 @@ curl "https://api.whaleclub.co/v1/position/new" \
   -H "Authorization: Bearer {API_TOKEN}" \
   -X POST \
   -d 'direction=short' \
-  -d 'size=5000000000' \
-  -d 'entry_price=1050' \
   -d 'market=XAU-USD' \
-  -d 'leverage=10'
+  -d 'leverage=10' \
+  -d 'size=5000000000' \
+  -d 'entry_price=1050'
 ```
 ```json
 {
   "id": "d7gAxDSeLtdYtZsEd",
-  "entry_price": 1050,
-  "created_at": 1486307187
-  "state": "pending",
   "slug": "GaK75ndGm",
+  "direction": "short",
+  "market": "XAU-USD",
+  "leverage": 10,
   "type": "stop",
+  "state": "pending",
   "size": 5000000000,
   "margin_size": 500000000,
-  "liquidation_price": 1150,
-  "leverage": 10,
-  "market": "XAU-USD",
-  "direction": "short"
+  "entry_price": 1050,
+  "created_at": 1486307187,
+  "liquidation_price": 1150
 }
 ```
 
@@ -430,25 +489,29 @@ curl "https://api.whaleclub.co/v1/position/new" \
   -H "Authorization: Bearer {API_TOKEN}" \
   -X POST \
   -d 'direction=long' \
+  -d 'market=NFLX' \
+  -d 'leverage=10' \
   -d 'size=2000000000' \
   -d 'entry_price=99' \
-  -d 'market=NFLX' \
-  -d 'leverage=10'
+  -d 'stop_loss=96.5' \
+  -d 'take_profit=126'
 ```
 ```json
 {
   "id": "22Eov6G9gXb7cC7n7",
-  "entry_price": 99,
-  "created_at": 1465795498
-  "state": "pending",
   "slug": "47n2728b3",
+  "direction": "long",
+  "market": "NFLX",
+  "leverage": 10,
   "type": "limit",
+  "state": "pending",
   "size": 2000000000,
   "margin_size": 200000000,
-  "liquidation_price": 91.08,
-  "leverage": 10,
-  "market": "NFLX",
-  "direction": "long"
+  "entry_price": 99,
+  "stop_loss": 96.5,
+  "take_profit": 126,
+  "created_at": 1465795498,
+  "liquidation_price": 91.08
 }
 ```
 
@@ -469,33 +532,16 @@ If the request is successful, the API will return a `201` (Created) status code.
 Param | Description
 ---------- | -------
 direction | **string** Required. Can be `long` or `short`.
-size | **integer** Required. Your position's size, in satoshis. This is the total size including leverage, not the margin size.
 market | **string** Required.
 leverage | **integer** Required.
+size | **integer** Required. Your position's size, in satoshis. This is the total size including leverage, not the margin size.
 entry_price | **number** Optional. Set this to submit a limit/stop order. If omitted, your position will execute at the best available market price.
 stop_loss | **number** Optional. Price at which your position will auto-close in case of loss.
 take_profit | **number** Optional. Price at which your position will auto-close in profit.
 
 ### Response
 
-Attribute | Description
----------- | -------
-id | **string** Unique ID for your new position.
-entry_price | **number** Price at which your position was executed (if at market) or will execute (if limit or stop).
-created_at | **integer** When your position was created.
-entered_at | **integer** When your position was executed. Won't appear if you submit a limit or stop position.
-state | **string** Can be `pending` or `active`.
-slug | **string** A URL-friendly position identifier. Your position can be shared publicly at `https://whaleclub.co/position/:slug`.
-type | **string** Order type. Can be `market`, `limit`, or `stop`.
-size | **integer** Your position's size, in satoshis.
-margin_size | **integer** Your position's margin size, in satoshis.
-liquidation_price | **number** Price at which your position will auto-close to cover your margin in case of loss.
-stop_loss | **number** Price at which your position will auto-close in case of loss. Won't appear if not set in the request.
-take_profit | **number** Price at which your position will auto-close in profit. Won't appear if not set in the request.
-at_market | **boolean** Returns `true` if this position was executed at market price. Appears only if you open a position at market.
-leverage | **number** Position's leverage level.
-market | **string** Market this position was executed on.
-direction | **string** Can be `long` or `short`.
+Returns a **[Position](#position-object)** containing the values of your newly submitted position.
 
 ### Errors
 
@@ -514,6 +560,36 @@ Price Outdated | Bid and ask prices are currently outdated for this market.
 Market Maintenance | The price feed for this market is currently under maintenance.
 
 ## Update Position
+
+> Set stop-loss and take-profit for an existing position 
+
+```shell
+curl "https://api.whaleclub.co/v1/position/update" \
+  -H "Authorization: Bearer {API_TOKEN}" \
+  -X POST \
+  -d 'id=22bCNkWhiwxF7qAMs' \
+  -d 'stop_loss=1.07576' \
+  -d 'take_profit=1.08726'
+```
+```json
+{
+  "id": "22bCNkWhiwxF7qAMs",
+  "entry_price": 1.07876,
+  "created_at": 1486327152,
+  "entered_at": 1486327152,
+  "state": "active",
+  "slug": "vCDQah7Hv",
+  "type": "market",
+  "size": 10000000000,
+  "margin_size": 100000000,
+  "liquidation_price": 1.07013,
+  "stop_loss": 1.07576,
+  "take_profit": 1.08726,
+  "leverage": 100,
+  "market": "EUR-USD",
+  "direction": "long"
+}
+```
 
 ## Close Position
 
