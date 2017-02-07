@@ -2,7 +2,7 @@
 title: Whaleclub API Documentation
 
 toc_footers:
-  - <a href='https://trade.whaleclub.co/signup'>Sign Up for Whaleclub</a>
+  - <a href='https://trade.whaleclub.co/signup' target='_blank'>Sign Up for Whaleclub</a>
 
 search: true
 ---
@@ -44,9 +44,9 @@ You must replace <code>{API_TOKEN}</code> with your Whaleclub API token.
 
 If you're using the API in an app that allows your users to access Whaleclub, you can earn referral commissions when they trade.
 
-Pass your Whaleclub referral code as a `Partner-Id` header in all the requests you make.
+Pass your Whaleclub referral code as a `Partner-ID` header in all the requests you make.
 
-`Partner-Id: {YOUR_PARTNER_CODE}`
+`Partner-ID: {YOUR_PARTNER_CODE}`
 
 Get your partner code from your [API Settings](https://trade.whaleclub.co/wallet/referrals) page. Only trades with real funds will result in referral commissions.
 
@@ -566,6 +566,7 @@ Insufficient Balance | `403` You have insufficient available funds to open this 
 Limits Exceeded | `403` Submitting this position would exceed the active volume limit for this market.
 Position Max Exceeded | `403` You have too many positions that are active or pending. Please cancel or close some before opening additional positions.
 Limit Orders Only | `403` Only limit orders are allowed in pre-market and after-hours trading.
+Entry Too Far | `403` Your entry price is too far from the current market price.
 Market Disabled | `403` Longs (or Shorts) are temporarily disabled for this market.
 Market Closed | `403` This market is currently closed (e.g. on weekends for stocks).
 Price Unavailable | `500` Bid and ask prices are currently unavailable for this market. Please try again later.
@@ -677,7 +678,7 @@ Returns a **[Position](#position-object)** object with updated values.
 ```shell
 curl "https://api.whaleclub.co/v1/position/close/22bCNkWhiwxF7qAMs" \
   -H "Authorization: Bearer {API_TOKEN}" \
-  -X POST
+  -X PUT
 ```
 ```json
 {
@@ -708,7 +709,7 @@ Close an existing position at market price.
 
 ### Request
 
-`POST https://api.whaleclub.co/v1/position/close/:id`
+`PUT https://api.whaleclub.co/v1/position/close/:id`
 
 Use this endpoint to close an existing active position at the best available market price.
 
@@ -736,7 +737,7 @@ Market Maintenance | `503` The price feed for this market is currently under mai
 ```shell
 curl "https://api.whaleclub.co/v1/position/cancel/d7gAxDSeLtdYtZsEd" \
   -H "Authorization: Bearer {API_TOKEN}" \
-  -X POST
+  -X PUT
 ```
 ```json
 {
@@ -749,7 +750,7 @@ Cancel an existing pending position.
 
 ### Request
 
-`POST https://api.whaleclub.co/v1/position/cancel/:id`
+`PUT https://api.whaleclub.co/v1/position/cancel/:id`
 
 This endpoint allows you to cancel a pending position that hasn't yet executed. Once cancelled, a position will be deleted and no longer have an id associated with it.
 
@@ -811,7 +812,7 @@ Split an existing active position.
 
 ### Request
 
-`PUT https://api.whaleclub.co/v1/position/split/:id` 
+`POST https://api.whaleclub.co/v1/position/split/:id` 
 
 This endpoint allows you to split an existing position. It can only be called on an active position.
 
