@@ -19,7 +19,7 @@ Code samples are displayed in the right-side column. All epoch dates are in UTC 
 
 **`https://api.whaleclub.co/v1/`**
 
-# Authentication
+## Authentication
 
 > Authenticate by passing your API token in an Authorization header:
 
@@ -40,7 +40,7 @@ Get your API token from your [API Settings](https://trade.whaleclub.co/settings/
 You must replace <code>{API_TOKEN}</code> with your Whaleclub API token.
 </aside>
 
-# Referrals
+## Referrals
 
 If you're using the API in an app that allows your users to access Whaleclub, you can earn referral commissions when they trade.
 
@@ -52,7 +52,7 @@ Get your partner code from your [API Settings](https://trade.whaleclub.co/wallet
 
 Please keep in mind that the use of auto-referrals or multiple live trading accounts will result in permanent account closure without notice.
 
-# Errors
+## Errors
 
 > Sample error response – Validation error (400):
 
@@ -81,7 +81,7 @@ Code | Description
 429 | Rate limit exceeded – too many requests
 50x | Internal Server Error – Whaleclub server error
 
-# Rate limits
+## Rate limits
 
 > Check the headers of any response to see your rate limit status:
 
@@ -368,12 +368,73 @@ pending_amount | **object** Balance used in pending positions across markets, in
 active_amount_turbo | **object** Balance used in active turbo positions across markets, in satoshis.
 last_updated | **integer** When your balance was last updated.
 
+# Transactions
+
+> List deposits:
+
+```shell
+curl "https://api.whaleclub.co/v1/transactions" \
+  -H "Authorization: Bearer {API_TOKEN}" \
+  -G \
+  --data-urlencode "type=deposits" \
+  --data-urlencode "limit=10"
+```
+```json
+[
+  {
+    "id": "25RDQwc7LpPEFRQPC",
+    "amount": 236427766,
+    "state": "complete",
+    "hash": "a6a5fd411cac34d35f562e8dd65d03173e55d35c58423464400b478b9f408172",
+    "created_at": 1465526999
+  },
+  {
+    "id": "25RDQwc7LpPEFRQPC",
+    "amount": 100000000,
+    "state": "complete",
+    "hash": "b92841dc4ef1ec589fe717589b14424d792b93d13b56a78cc898cf2fd90005bf",
+    "created_at": 1459560146
+  },
+  ...
+]
+```
+
+List transactions.
+
+### Request
+
+`GET https://api.whaleclub.co/v1/transactions`
+
+Use this endpoint to request a list of deposits, withdrawals, referral payments, or bonus payments.
+
+Transactions returned are sorted by `created_at`.
+
+If the request is successful, the API will return a `200` (Ok) status code. 
+
+Param | Description
+---------- | -------
+type | **string** Optional. Can be `deposits`, `withdrawals`, `referrals`, or `bonuses`. Defaults to `deposits`.
+limit | **integer** Optional. Number of results per request. Defaults to 5. Max is 50.
+
+### Response
+
+Returns an array of transaction objects.
+
+Attribute | Description
+---------- | -------
+id | **string** Unique ID for the transaction.
+amount | **integer** Value of the transaction, in satoshis.
+state | **string** Can be `pending` or `complete`. Appears only for deposits and withdrawals.
+hash | **string** Bitcoin transaction hash. Appears only for deposits.
+address | **string** Destination Bitcoin address. Appears only for withdrawals.
+created_at | **integer** When the transaction was made.
+
 # Positions
 
 ## Position Object
 
 ```shell
-curl "https://api.whaleclub.co/v1/position/get/s6pGQ4nyS4Z7jHRvJ" \
+curl "https://api.whaleclub.co/v1/position/s6pGQ4nyS4Z7jHRvJ" \
   -H "Authorization: Bearer {API_TOKEN}"
 ```
 ```json
@@ -398,7 +459,7 @@ curl "https://api.whaleclub.co/v1/position/get/s6pGQ4nyS4Z7jHRvJ" \
   "closed_at": 1465799498,
   "last_updated": 1465797498,
   "liquidation_price": 91.08,
-  "financing": 120000,
+  "financing": 120000
 }
 ```
 
@@ -419,7 +480,7 @@ margin_size | **integer** Position's margin size, in satoshis.
 entry_price | **number** Price at which the position was executed (if at market) or will execute (if limit or stop).
 stop_loss | **number** Price at which the position will auto-close in case of loss. Appears only if the position's stop-loss is set.
 take_profit | **number** Price at which the position will auto-close in profit. Appears only if the position's take-profit is set.
-close_reason | **string** How the position was closed. Can be `market`, `stop-loss`, `take-profit`, or `liquidation`. Appears only if the position is `closed`.
+close_reason | **string** How the position was closed. Can be `at_market`, `at_stop`, `at_target`, or `liquidation`. Appears only if the position is `closed`.
 close_price | **number** Price at which the position was closed. Appears only if the position is `closed`.
 profit | **integer** Profit made on the trade, in satoshis. Negative in case of loss. Appears only if the position is `closed`.
 created_at | **integer** When the position was created.
@@ -578,7 +639,7 @@ Market Maintenance | `503` The price feed for this market is currently under mai
 > Fetch an existing position by passing its id to the request: 
 
 ```shell
-curl "https://api.whaleclub.co/v1/position/get/s6pGQ4nyS4Z7jHRvJ" \
+curl "https://api.whaleclub.co/v1/position/s6pGQ4nyS4Z7jHRvJ" \
   -H "Authorization: Bearer {API_TOKEN}"
 ```
 ```json
@@ -603,7 +664,7 @@ curl "https://api.whaleclub.co/v1/position/get/s6pGQ4nyS4Z7jHRvJ" \
   "closed_at": 1465799498,
   "last_updated": 1465797498,
   "liquidation_price": 91.08,
-  "financing": 120000,
+  "financing": 120000
 }
 ```
 
@@ -611,7 +672,7 @@ Fetch information about an existing position.
 
 ### Request
 
-`GET https://api.whaleclub.co/v1/position/get/:id`
+`GET https://api.whaleclub.co/v1/position/:id`
 
 If the request is successful, the API will return a `200` (Ok) status code. 
 
@@ -772,39 +833,15 @@ curl "https://api.whaleclub.co/v1/position/split/22bCNkWhiwxF7qAMs" \
     "id": "RTcdY8cHxeptxZx9Q",
     "parent_id": "22bCNkWhiwxF7qAMs"
     "slug": "jYFs6Lpno",
-    "direction": "long",
-    "market": "EUR-USD",
-    "leverage": 100,
-    "type": "market",
-    "state": "active",
     "size": 6000000000,
-    "margin_size": 60000000,
-    "entry_price": 1.07876,
-    "stop_loss": 1.07576,
-    "take_profit": 1.08726,
-    "created_at": 1486327152,
-    "entered_at": 1486327152,
-    "last_updated": 1486367152,
-    "liquidation_price": 1.07013
+    "created_at": 1486327152
   },
   {
     "id": "vM7i73QipKc6F7SFs",
     "parent_id": "22bCNkWhiwxF7qAMs",
     "slug": "fDVhecYF",
-    "direction": "long",
-    "market": "EUR-USD",
-    "leverage": 100,
-    "type": "market",
-    "state": "active",
     "size": 4000000000,
-    "margin_size": 40000000,
-    "entry_price": 1.07876,
-    "stop_loss": 1.07576,
-    "take_profit": 1.08726,
-    "created_at": 1486327152,
-    "entered_at": 1486327152,
-    "last_updated": 1486367152,
-    "liquidation_price": 1.07013
+    "created_at": 1486327152
   }
 ```
 
@@ -891,7 +928,7 @@ If the request is successful, the API will return a `200` (Ok) status code.
 
 Param | Description
 ---------- | -------
-state | **string** Required. Can be `pending`, `active`, or `closed`.
+state | **string** Optional. Can be `pending`, `active`, or `closed`. Defaults to `active`.
 limit | **integer** Optional. Number of results per request. Defaults to 5. Max is 30.
 
 ### Response
@@ -903,7 +940,7 @@ Returns an array of **[Position](#position-object)** objects.
 ## Turbo Position Object
 
 ```shell
-curl "https://api.whaleclub.co/v1/position-turbo/get/uWchea2SocXZHEiHS" \
+curl "https://api.whaleclub.co/v1/position-turbo/uWchea2SocXZHEiHS" \
   -H "Authorization: Bearer {API_TOKEN}"
 ```
 ```json
@@ -973,7 +1010,7 @@ Fetch a list of currently active turbo contracts.
 
 `GET https://api.whaleclub.co/v1/contracts`
 
-This endpoint will return information about currently active contracts such as the purchase deadline and expiry time.
+This endpoint will return information about currently active contracts such as the purchase deadline and expiry time. Contracts apply across all markets.
 
 If the request is successful, the API will return a `200` (Ok) status code. 
 
@@ -1048,6 +1085,7 @@ Name | Description
 Insufficient Balance | `403` You have insufficient available funds to open a position of this size.
 Limits Exceeded | `403` Submitting this position would exceed the active volume limit for this market.
 Position Max Exceeded | `403` You have too many positions that are active or pending. Please cancel or close some before opening more.
+Contract Invalid | `403` This contract is not available for this market. Perhaps try another contract type?
 Purchase Deadline Passed | `403` The purchase deadline has passed and this contract is no longer accepting new positions.
 Market Disabled | `403` Longs (or shorts) are temporarily disabled for this market.
 Market Closed | `403` This market is currently closed (e.g. on weekends for stocks) and not accepting new positions.
@@ -1060,7 +1098,7 @@ Market Maintenance | `503` The price feed for this market is currently under mai
 > Fetch an existing turbo position:
 
 ```shell
-curl "https://api.whaleclub.co/v1/position-turbo/get/uWchea2SocXZHEiHS" \
+curl "https://api.whaleclub.co/v1/position-turbo/uWchea2SocXZHEiHS" \
   -H "Authorization: Bearer {API_TOKEN}"
 ```
 ```json
@@ -1084,7 +1122,7 @@ Fetch information about an existing turbo position.
 
 ### Request
 
-`GET https://api.whaleclub.co/v1/position-turbo/get/:id` 
+`GET https://api.whaleclub.co/v1/position-turbo/:id` 
 
 If the request is successful, the API will return a `200` (Ok) status code. 
 
@@ -1145,75 +1183,12 @@ If the request is successful, the API will return a `200` (Ok) status code.
 
 Param | Description
 ---------- | -------
-state | **string** Required. Can be `active`, or `closed`.
+state | **string** Optional. Can be `active`, or `closed`. Defaults to `active`.
 limit | **integer** Optional. Number of results per request. Defaults to 5. Max is 30.
 
 ### Response
 
 Returns an array of **[Turbo Position](#turbo-position-object)** objects.
-
-# Transactions
-
-## List Transactions
-
-> List deposits:
-
-```shell
-curl "https://api.whaleclub.co/v1/transactions" \
-  -H "Authorization: Bearer {API_TOKEN}" \
-  -G \
-  --data-urlencode "type=deposits" \
-  --data-urlencode "limit=10"
-```
-```json
-[
-  {
-    "id": "25RDQwc7LpPEFRQPC",
-    "amount": 236427766,
-    "state": "complete",
-    "hash": "a6a5fd411cac34d35f562e8dd65d03173e55d35c58423464400b478b9f408172",
-    "created_at": 1465526999
-  },
-  {
-    "id": "25RDQwc7LpPEFRQPC",
-    "amount": 100000000,
-    "state": "complete",
-    "hash": "b92841dc4ef1ec589fe717589b14424d792b93d13b56a78cc898cf2fd90005bf",
-    "created_at": 1459560146
-  },
-  ...
-]
-```
-
-List transactions.
-
-### Request
-
-`GET https://api.whaleclub.co/v1/transactions`
-
-Use this endpoint to request a list of deposits, withdrawals, referral payments, or bonus payments.
-
-Transactions returned are sorted by `created_at`.
-
-If the request is successful, the API will return a `200` (Ok) status code. 
-
-Param | Description
----------- | -------
-type | **string** Required. Can be `deposits`, `withdrawals`, `referrals`, or `bonuses`.
-limit | **integer** Optional. Number of results per request. Defaults to 5. Max is 50.
-
-### Response
-
-Returns an array of transaction objects.
-
-Attribute | Description
----------- | -------
-id | **string** Unique ID for the transaction.
-amount | **integer** Value of the transaction, in satoshis.
-state | **string** Can be `pending` or `complete`. Appears only for deposits and withdrawals.
-hash | **string** Bitcoin transaction hash. Appears only for deposits.
-address | **string** Destination Bitcoin address. Appears only for withdrawals.
-created_at | **integer** When the transaction was made.
 
 
 <div class='bottom-padder'>&nbsp;</div>
