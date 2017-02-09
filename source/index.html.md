@@ -1047,7 +1047,8 @@ curl "https://api.whaleclub.co/v1/position-turbo/new" \
   "size": 10000000,
   "entry_price": 1.11825,
   "payoff": 0.55,
-  "created_at": 1464873229
+  "created_at": 1464873229,
+  "expires_at": 1464873429
 }
 ```
 
@@ -1136,7 +1137,6 @@ Returns a **[Turbo Position](#turbo-position-object)** object.
 curl "https://api.whaleclub.co/v1/positions-turbo" \
   -H "Authorization: Bearer {API_TOKEN}" \
   -G \
-  --data-urlencode "state=active" \
   --data-urlencode "limit=10"
 ```
 ```json
@@ -1150,7 +1150,8 @@ curl "https://api.whaleclub.co/v1/positions-turbo" \
     "size": 10000000,
     "entry_price": 1.11825,
     "payoff": 0.55,
-    "created_at": 1464873229
+    "created_at": 1464873229,
+    "expires_at": 1464873429
   },
   {
     "id": "26fTLb7byb8fi48Qf",
@@ -1161,7 +1162,8 @@ curl "https://api.whaleclub.co/v1/positions-turbo" \
     "size": 8000000,
     "entry_price": 0.76661,
     "payoff": 0.65,
-    "created_at": 1464873219
+    "created_at": 1464873219,
+    "expires_at": 1464873409
   },
   ...
 ]
