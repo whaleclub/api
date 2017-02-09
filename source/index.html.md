@@ -373,10 +373,9 @@ last_updated | **integer** When your balance was last updated.
 > List deposits:
 
 ```shell
-curl "https://api.whaleclub.co/v1/transactions" \
+curl "https://api.whaleclub.co/v1/transactions/deposits" \
   -H "Authorization: Bearer {API_TOKEN}" \
   -G \
-  --data-urlencode "type=deposits" \
   --data-urlencode "limit=10"
 ```
 ```json
@@ -403,9 +402,9 @@ List transactions.
 
 ### Request
 
-`GET https://api.whaleclub.co/v1/transactions`
+`GET https://api.whaleclub.co/v1/transactions/:type`
 
-Use this endpoint to request a list of deposits, withdrawals, referral payments, or bonus payments.
+Use this endpoint to request a list of transactions. `type` can be `deposits`, `withdrawals`, `referrals`, or `bonuses`. Defaults to `deposits`.
 
 Transactions returned are sorted by `created_at`.
 
@@ -413,7 +412,6 @@ If the request is successful, the API will return a `200` (Ok) status code.
 
 Param | Description
 ---------- | -------
-type | **string** Optional. Can be `deposits`, `withdrawals`, `referrals`, or `bonuses`. Defaults to `deposits`.
 limit | **integer** Optional. Number of results per request. Defaults to 5. Max is 50.
 
 ### Response
@@ -725,8 +723,8 @@ If the request is successful, the API will return a `200` (Ok) status code.
 
 Param | Description
 ---------- | -------
-stop_loss | **number** Optional. Price at which the position will auto-close in case of loss. Must be set if `take_profit` is not.
-take_profit | **number** Optional. Price at which the position will auto-close in profit. Must be set if `stop_loss` is not.
+stop_loss | **number** Optional. Price at which the position will auto-close in case of loss. Must be set if `take_profit` is not. Set to `0` to remove.
+take_profit | **number** Optional. Price at which the position will auto-close in profit. Must be set if `stop_loss` is not. Set to `0` to remove.
 
 ### Response
 
@@ -868,10 +866,9 @@ Returns an array of **[Position](#position-object)** objects containing two smal
 > List active positions:
 
 ```shell
-curl "https://api.whaleclub.co/v1/positions" \
+curl "https://api.whaleclub.co/v1/positions/active" \
   -H "Authorization: Bearer {API_TOKEN}" \
   -G \
-  --data-urlencode "state=active" \
   --data-urlencode "limit=10"
 ```
 ```json
@@ -918,9 +915,11 @@ List positions.
 
 ### Request
 
-`GET https://api.whaleclub.co/v1/positions`
+`GET https://api.whaleclub.co/v1/positions/:state`
 
-Use this endpoint to request a list of pending, active, or closed positions. It's strongly recommended that you maintain your own list of positions and use the [Price](#price) endpoint to keep it updated instead of polling this endpoint to track the state of your positions.
+Use this endpoint to request a list of positions. `state` can be `pending`, `active`, or `closed`. Defaults to `active`.
+
+It's strongly recommended that you maintain your own list of positions and use the [Price](#price) endpoint to keep it updated instead of polling this endpoint to track the state of your positions.
 
 Pending positions are sorted by `created_at`, active positions are sorted by `entered_at`, and closed positions are sorted by `closed_at`.
 
@@ -928,7 +927,6 @@ If the request is successful, the API will return a `200` (Ok) status code.
 
 Param | Description
 ---------- | -------
-state | **string** Optional. Can be `pending`, `active`, or `closed`. Defaults to `active`.
 limit | **integer** Optional. Number of results per request. Defaults to 5. Max is 30.
 
 ### Response
@@ -1173,9 +1171,9 @@ List turbo positions.
 
 ### Request
 
-`GET https://api.whaleclub.co/v1/positions-turbo`
+`GET https://api.whaleclub.co/v1/positions-turbo/:state`
 
-Use this endpoint to request a list of active or closed turbo positions.
+Use this endpoint to request a list of turbo positions. `state` can be `active` or `closed`. Defaults to `active`.
 
 Active positions are sorted by `created_at` and closed positions are sorted by `closed_at`.
 
@@ -1183,7 +1181,6 @@ If the request is successful, the API will return a `200` (Ok) status code.
 
 Param | Description
 ---------- | -------
-state | **string** Optional. Can be `active`, or `closed`. Defaults to `active`.
 limit | **integer** Optional. Number of results per request. Defaults to 5. Max is 30.
 
 ### Response
