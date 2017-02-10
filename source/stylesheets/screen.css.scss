@@ -172,7 +172,7 @@ html, body {
     transition-property: background;
     transition-timing-function: linear;
     transition-duration: 230ms;
-    padding: 2px 0;
+    //padding: 2px 0;
   }
 
   // This is the currently selected ToC entry
@@ -634,4 +634,14 @@ html, body {
 
 .highlight, .highlight .w {
   background-color: $code-bg;
+}
+
+
+// EXTRA
+
+h3#beta-notice {
+  background-color: gold;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  text-shadow: none;
 }

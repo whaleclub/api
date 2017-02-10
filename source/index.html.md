@@ -2,8 +2,7 @@
 title: Whaleclub API Documentation
 
 toc_footers:
-  - <a href='https://trade.whaleclub.co/signup' target='_blank'>Sign Up for Whaleclub</a>
-  - <a href='https://whaleclub.co/' target='_blank'>Back to Whaleclub</a>
+  - <a href='https://whaleclub.co/'>Back to Whaleclub</a>
 
 includes:
   - overview

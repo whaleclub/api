@@ -113,7 +113,7 @@ Param | Description
 ---------- | -------
 direction | **string** Required. Can be `long` or `short`.
 market | **string** Required.
-leverage | **integer** Required.
+leverage | **number** Required.
 size | **integer** Required. Your position's size, in satoshis. This is the total size including leverage, not the margin size.
 entry_price | **number** Optional. Set this to submit a limit/stop order. If omitted, your position will execute at the best available market price.
 stop_loss | **number** Optional. Price at which your position will auto-close in case of loss.

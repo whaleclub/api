@@ -1,8 +1,10 @@
 # Overview
 
-Welcome to Whaleclub's API! You can use the API to programmatically submit new trades, check your balance, fetch trading history, and much more. You can both live trade and demo trade.
+Welcome to Whaleclub's API! 
 
-The API is organized around [REST](http://en.wikipedia.org/wiki/Representational_State_Transfer). All requests should be made over SSL. All request and response bodies, including errors, are encoded in JSON (`application/json` content type).
+You can use the API to programmatically submit new trades, check your balance, fetch your trading history, and much more. The API works with both your live and demo accounts.
+
+The API is organized around <a href='https://en.wikipedia.org/wiki/Representational_State_Transfer' target='_blank'>REST</a>. All request and response bodies, including errors, are encoded in JSON (`application/json` content type). All requests must be made over SSL.
 
 Code samples are displayed in the right-side column. All epoch dates are in UTC seconds and amounts in satoshis, unless otherwise indicated.
 
@@ -12,9 +14,9 @@ Code samples are displayed in the right-side column. All epoch dates are in UTC 
 
 ### BETA NOTICE
 
-The Whaleclub API, while functional, is in BETA until March 1st, 2017. This means it could go down without notice temporarily during this period. Edge case queries may cause it to not work as expected.
+The Whaleclub API, while functional, is currently in BETA. This means it could go down without notice temporarily during this period. Edge case queries may cause it to not work as expected.
 
-It also means we're looking for your feedback! You have full access to our engineers at [dev-support@whaleclub.co](mailto:dev-support@whaleclub.co) to submit bug reports, feature requests, and any other type of API-related feedback. Be sure to include your Whaleclub username and any supporting material, such as code samples, so we can address your request quickly and effectively.
+It also means we're looking for your feedback! You have full access to our engineers at [dev-support@whaleclub.co](mailto:dev-support@whaleclub.co) to submit bug reports, feature requests, and any other API-related feedback. Be sure to include your Whaleclub username and any supporting material, such as code samples, so we can address your request quickly and effectively.
 
 More general support requests should be directed to [support@whaleclub.co](mailto:support@whaleclub.co).
 
@@ -50,7 +52,7 @@ Pass your Whaleclub Partner ID as a `Partner-ID` header in all the requests you 
 You can get your Partner ID from your [API Settings](https://trade.whaleclub.co/settings/api) page, too. Only trades with real funds will result in referral commissions.
 
 <aside class="warning">
-Use of auto-referrals or multiple live trading accounts will result in permanent account closure without notice.
+Self-referring and using multiple trading accounts will result in account closure without notice.
 </aside>
 
 ## Errors
