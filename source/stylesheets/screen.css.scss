@@ -86,7 +86,7 @@ html, body {
   // This is the logo at the top of the ToC
   &>img {
     display: block;
-    max-width: 100%;
+    max-width: 110px;
   }
 
   &>.search {
@@ -172,6 +172,7 @@ html, body {
     transition-property: background;
     transition-timing-function: linear;
     transition-duration: 230ms;
+    padding: 4px 0;
   }
 
   // This is the currently selected ToC entry
@@ -210,9 +211,10 @@ html, body {
     }
 
     li {
-      font-size: 0.8em;
+      font-size: 12px;
       line-height: 1.7;
       text-decoration: none;
+      opacity: 0.8;
     }
   }
 
@@ -569,7 +571,7 @@ html, body {
       background-color: $code-annotation-bg;
       padding: 0;
       padding-top: 20px;
-      color: #767f96;
+      color: #9099B0;
     }
   }
 }

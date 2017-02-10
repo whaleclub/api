@@ -1,6 +1,6 @@
 # Overview
 
-Welcome to Whaleclub's API. You can use the API to programmatically submit new trades, check your balance, fetch trading history, and much more. You can both live trade and demo trade.
+Welcome to Whaleclub's API! You can use the API to programmatically submit new trades, check your balance, fetch trading history, and much more. You can both live trade and demo trade.
 
 The API is organized around [REST](http://en.wikipedia.org/wiki/Representational_State_Transfer). All requests should be made over SSL. All request and response bodies, including errors, are encoded in JSON (`application/json` content type).
 
@@ -74,7 +74,7 @@ Code | Description
 ---------- | -------
 400 | Validation Error – unable to validate POST/PUT request
 401 | Unauthorized – invalid API token
-402 | Failed request
+402 | Failed Request
 403 | Forbidden
 404 | Resource Not Found
 422 | Unprocessable Entity – there was an issue parsing your request
