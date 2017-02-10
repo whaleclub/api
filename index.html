@@ -108,6 +108,7 @@
       </div>
         <ul class="toc-footer">
             <li><a href='https://trade.whaleclub.co/signup' target='_blank'>Sign Up for Whaleclub</a></li>
+            <li><a href='https://whaleclub.co/' target='_blank'>Back to Whaleclub</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -148,7 +149,7 @@
 
 <p><code class="prettyprint">Authorization: Bearer {API_TOKEN}</code></p>
 
-<p>You can get your API token from your <a href="https://trade.whaleclub.co/settings/api">API Settings</a> page. You&rsquo;ll get one token for live trading and another for demo trading.</p>
+<p>You can get your API token from your <a href="https://trade.whaleclub.co/settings/api">API Settings</a> page. You get one token for live trading and another for demo trading.</p>
 
 <aside class="notice">
 Replace <code>{API_TOKEN}</code> with your Whaleclub API token.
@@ -162,7 +163,7 @@ Replace <code>{API_TOKEN}</code> with your Whaleclub API token.
 
 <p><code class="prettyprint">Partner-ID: {YOUR_PARTNER_ID}</code></p>
 
-<p>You can get your Partner ID from your <a href="https://trade.whaleclub.co/settings/api">API Settings</a> page. Only trades with real funds will result in referral commissions.</p>
+<p>You can get your Partner ID from your <a href="https://trade.whaleclub.co/settings/api">API Settings</a> page, too. Only trades with real funds will result in referral commissions.</p>
 
 <aside class="warning">
 Use of auto-referrals or multiple live trading accounts will result in permanent account closure without notice.
@@ -223,7 +224,7 @@ Use of auto-referrals or multiple live trading accounts will result in permanent
 <td>Rate Limit Exceeded – too many requests</td>
 </tr>
 <tr>
-<td>50x</td>
+<td>500</td>
 <td>Internal Server Error – Whaleclub server error</td>
 </tr>
 </tbody></table>
@@ -404,7 +405,7 @@ X-RateLimit-Reset: 1488230460
 </tr>
 <tr>
 <td>turbo</td>
-<td><strong>object</strong> Information about turbo trading, if it&rsquo;s available for this market. The <strong>payoff</strong> object contains the contract duration (in minutes) and the associated payoff.</td>
+<td><strong>object</strong> Information about turbo trading, if it&rsquo;s available for this market. The <code class="prettyprint">payoff</code> object contains the contract duration (in minutes) and the associated payoff.</td>
 </tr>
 </tbody></table>
 
@@ -709,6 +710,10 @@ X-RateLimit-Reset: 1488230460
           <h1 id="positions">Positions</h1>
 
 <h2 id="position-object">Position Object</h2>
+
+<blockquote>
+<p>Sample Position Object:</p>
+</blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position/s6pGQ4nyS4Z7jHRvJ"</span> <span class="se">\</span>
   -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
 </code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -735,7 +740,7 @@ X-RateLimit-Reset: 1488230460
   </span><span class="s2">"financing"</span><span class="p">:</span><span class="w"> </span><span class="mi">120000</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This section provides a reference for the <strong>Position</strong> object, which represents a position, returned by position-related endpoints below.</p>
+<p>This section provides a reference for the <strong>Position</strong> object which is returned by position-related endpoints below.</p>
 
 <table><thead>
 <tr>
@@ -975,7 +980,7 @@ X-RateLimit-Reset: 1488230460
 
 <p>Returns your newly-submitted position as a <strong><a href="#position-object">Position</a></strong> object.</p>
 
-<p>In particular, an <code class="prettyprint">id</code> is generated for the position that you can use in later calls such as updating or closing.</p>
+<p>In particular, an <code class="prettyprint">id</code> is generated for the position that you can use in later calls such as to update or close it.</p>
 
 <h3 id="errors">Errors</h3>
 
@@ -1119,11 +1124,11 @@ X-RateLimit-Reset: 1488230460
 </thead><tbody>
 <tr>
 <td>stop_loss</td>
-<td><strong>number</strong> Optional. Price at which the position will auto-close in case of loss. Must be set if <code class="prettyprint">take_profit</code> is not. Set to <code class="prettyprint">0</code> to remove.</td>
+<td><strong>number</strong> Optional. Price at which the position will auto-close in case of loss. Must be set if <code class="prettyprint">take_profit</code> is not. Set to <code class="prettyprint">0</code> to remove an existing stop-loss.</td>
 </tr>
 <tr>
 <td>take_profit</td>
-<td><strong>number</strong> Optional. Price at which the position will auto-close in profit. Must be set if <code class="prettyprint">stop_loss</code> is not. Set to <code class="prettyprint">0</code> to remove.</td>
+<td><strong>number</strong> Optional. Price at which the position will auto-close in profit. Must be set if <code class="prettyprint">stop_loss</code> is not. Set to <code class="prettyprint">0</code> to remove an existing take-profit.</td>
 </tr>
 </tbody></table>
 
@@ -1188,7 +1193,7 @@ X-RateLimit-Reset: 1488230460
 </thead><tbody>
 <tr>
 <td>Market Closed</td>
-<td><code class="prettyprint">403</code> This market is currently closed (e.g. on weekends for stocks) and not accepting new positions.</td>
+<td><code class="prettyprint">403</code> This market is currently closed (e.g. on weekends for stocks).</td>
 </tr>
 <tr>
 <td>Price Unavailable</td>
@@ -1223,7 +1228,7 @@ X-RateLimit-Reset: 1488230460
 
 <p><code class="prettyprint">PUT https://api.whaleclub.co/v1/position/cancel/:id</code></p>
 
-<p>This endpoint allows you to cancel a pending position that hasn&rsquo;t yet executed. Once cancelled, a position will be deleted and no longer have an id associated with it.</p>
+<p>This endpoint allows you to cancel a limit or stop order that hasn&rsquo;t yet executed. Once cancelled, your position will be deleted and no longer accessible.</p>
 
 <p>If the request is successful, the API will return a <code class="prettyprint">200</code> (Ok) status code.</p>
 
@@ -1252,13 +1257,13 @@ X-RateLimit-Reset: 1488230460
     </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>Split an existing active position.</p>
+<p>Split an existing pending or active position.</p>
 
 <h3 id="request">Request</h3>
 
 <p><code class="prettyprint">POST https://api.whaleclub.co/v1/position/split/:id</code> </p>
 
-<p>This endpoint allows you to split an existing position. It can only be called on an active position.</p>
+<p>This endpoint allows you to split an existing position according to a ratio you provide. It can only be called on a pending or active position.</p>
 
 <p>If the request is successful, the API will return a <code class="prettyprint">200</code> (Ok) status code. </p>
 
@@ -1358,6 +1363,10 @@ X-RateLimit-Reset: 1488230460
           <h1 id="positions-turbo">Positions – Turbo</h1>
 
 <h2 id="turbo-position-object">Turbo Position Object</h2>
+
+<blockquote>
+<p>Sample Turbo Position Object:</p>
+</blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position-turbo/uWchea2SocXZHEiHS"</span> <span class="se">\</span>
   -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
 </code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -1375,7 +1384,7 @@ X-RateLimit-Reset: 1488230460
   </span><span class="s2">"closed_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873270</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This section provides a reference for the <strong>Turbo Position</strong> object, which represents a turbo position, typically returned by most turbo position-related endpoints below.</p>
+<p>This section provides a reference for the <strong>Turbo Position</strong> object which is returned by turbo position-related endpoints below.</p>
 
 <table><thead>
 <tr>
@@ -1463,7 +1472,9 @@ X-RateLimit-Reset: 1488230460
 
 <p><code class="prettyprint">GET https://api.whaleclub.co/v1/contracts</code></p>
 
-<p>This endpoint will return information about currently active contracts such as the purchase deadline and expiry time. Contracts apply across all markets.</p>
+<p>This endpoint will return information about currently active contracts such as the purchase deadline and expiry time. </p>
+
+<p>When you submit a new turbo position, it&rsquo;ll be on one of the active contracts you get from here.</p>
 
 <p>If the request is successful, the API will return a <code class="prettyprint">200</code> (Ok) status code. </p>
 
