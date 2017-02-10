@@ -113,17 +113,26 @@
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id="overview">Overview</h1>
+        
+          <h1 id="overview">Overview</h1>
 
-<p>Welcome to Whaleclub&rsquo;s API. You can use the API to programmatically submit new trades, check your balance, fetch trading history, and much more. You can both live trade and demo trade.</p>
+<p>Welcome to Whaleclub&rsquo;s API! You can use the API to programmatically submit new trades, check your balance, fetch trading history, and much more. You can both live trade and demo trade.</p>
 
 <p>The API is organized around <a href="http://en.wikipedia.org/wiki/Representational_State_Transfer">REST</a>. All requests should be made over SSL. All request and response bodies, including errors, are encoded in JSON (<code class="prettyprint">application/json</code> content type).</p>
 
-<p>Code samples are displayed in the right-side column. All epoch dates are in UTC seconds.</p>
+<p>Code samples are displayed in the right-side column. All epoch dates are in UTC seconds and amounts in satoshis, unless otherwise indicated.</p>
 
 <h3 id="base-endpoint-url">BASE ENDPOINT URL</h3>
 
 <p><strong><code class="prettyprint">https://api.whaleclub.co/v1/</code></strong></p>
+
+<h3 id="beta-notice">BETA NOTICE</h3>
+
+<p>The Whaleclub API, while functional, is in BETA until March 1st, 2017. This means it could go down without notice temporarily during this period. Edge case queries may cause it to not work as expected.</p>
+
+<p>It also means we&rsquo;re looking for your feedback! You have full access to our engineers at <a href="mailto:dev-support@whaleclub.co">dev-support@whaleclub.co</a> to submit bug reports, feature requests, and any other type of API-related feedback. Be sure to include your Whaleclub username and any supporting material, such as code samples, so we can address your request quickly and effectively.</p>
+
+<p>More general support requests should be directed to <a href="mailto:support@whaleclub.co">support@whaleclub.co</a>.</p>
 
 <h2 id="authentication">Authentication</h2>
 
@@ -135,27 +144,29 @@
 </code></pre>
 <p><strong>All requests to the Whaleclub API must be authenticated.</strong></p>
 
-<p>Authentication is straightforward. Requests are authenticated by passing your API token as a bearer token in an <code class="prettyprint">Authorization</code> header. </p>
+<p>Authentication is straightforward. Pass your API token as a bearer token in an <code class="prettyprint">Authorization</code> header in every request you make. </p>
 
 <p><code class="prettyprint">Authorization: Bearer {API_TOKEN}</code></p>
 
-<p>Get your API token from your <a href="https://trade.whaleclub.co/settings/api">API Settings</a> page. You&rsquo;ll get one token for live trading and another for demo trading.</p>
+<p>You can get your API token from your <a href="https://trade.whaleclub.co/settings/api">API Settings</a> page. You&rsquo;ll get one token for live trading and another for demo trading.</p>
 
 <aside class="notice">
-You must replace <code>{API_TOKEN}</code> with your Whaleclub API token.
+Replace <code>{API_TOKEN}</code> with your Whaleclub API token.
 </aside>
 
 <h2 id="referrals">Referrals</h2>
 
-<p>If you&rsquo;re using the API in an app that allows your users to access Whaleclub, you can earn referral commissions when they trade.</p>
+<p>If you&rsquo;re using the Whaleclub API as part of an app or service you offer to other traders, you can earn referral commissions when they trade.</p>
 
-<p>Pass your Whaleclub referral code as a <code class="prettyprint">Partner-ID</code> header in all the requests you make.</p>
+<p>Pass your Whaleclub Partner ID as a <code class="prettyprint">Partner-ID</code> header in all the requests you make.</p>
 
-<p><code class="prettyprint">Partner-ID: {YOUR_PARTNER_CODE}</code></p>
+<p><code class="prettyprint">Partner-ID: {YOUR_PARTNER_ID}</code></p>
 
-<p>Get your partner code from your <a href="https://trade.whaleclub.co/wallet/referrals">API Settings</a> page. Only trades with real funds will result in referral commissions.</p>
+<p>You can get your Partner ID from your <a href="https://trade.whaleclub.co/settings/api">API Settings</a> page. Only trades with real funds will result in referral commissions.</p>
 
-<p>Please keep in mind that the use of auto-referrals or multiple live trading accounts will result in permanent account closure without notice.</p>
+<aside class="warning">
+Use of auto-referrals or multiple live trading accounts will result in permanent account closure without notice.
+</aside>
 
 <h2 id="errors">Errors</h2>
 
@@ -169,7 +180,7 @@ You must replace <code>{API_TOKEN}</code> with your Whaleclub API token.
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>The Whaleclub API returns standard HTTP success or error status codes. In case of an error, we&rsquo;ll include extra information about what went wrong in the JSON-encoded response.</p>
+<p>The Whaleclub API returns standard HTTP success and error status codes. In case of an error, we&rsquo;ll include extra information about what went wrong in the JSON-encoded response.</p>
 
 <p>If the request is successful, the API will return either a <code class="prettyprint">200</code> (OK) or a <code class="prettyprint">201</code> (Created) status code. </p>
 
@@ -181,7 +192,7 @@ You must replace <code>{API_TOKEN}</code> with your Whaleclub API token.
 </thead><tbody>
 <tr>
 <td>400</td>
-<td>Validation error – unable to validate POST/PUT request</td>
+<td>Validation Error – unable to validate POST/PUT request</td>
 </tr>
 <tr>
 <td>401</td>
@@ -189,7 +200,7 @@ You must replace <code>{API_TOKEN}</code> with your Whaleclub API token.
 </tr>
 <tr>
 <td>402</td>
-<td>Failed request</td>
+<td>Failed Request</td>
 </tr>
 <tr>
 <td>403</td>
@@ -197,19 +208,19 @@ You must replace <code>{API_TOKEN}</code> with your Whaleclub API token.
 </tr>
 <tr>
 <td>404</td>
-<td>Resource not found</td>
+<td>Resource Not Found</td>
 </tr>
 <tr>
 <td>422</td>
-<td>Unprocessable entity – there was an issue parsing your request</td>
+<td>Unprocessable Entity – there was an issue parsing your request</td>
 </tr>
 <tr>
 <td>423</td>
-<td>You&rsquo;ve been blocked from making API requests</td>
+<td>Blocked – you&rsquo;ve been blocked from making API requests</td>
 </tr>
 <tr>
 <td>429</td>
-<td>Rate limit exceeded – too many requests</td>
+<td>Rate Limit Exceeded – too many requests</td>
 </tr>
 <tr>
 <td>50x</td>
@@ -233,7 +244,7 @@ X-RateLimit-Remaining: 54
 X-RateLimit-Reset: 1488230460
 </code></pre>
 <blockquote>
-<p>Sample error response – Rate limit exceeded (429):</p>
+<p>Sample error response – Rate Limit Exceeded (429):</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -246,7 +257,7 @@ X-RateLimit-Reset: 1488230460
 
 <p>By default, each API token is rate limited at <strong>60 requests per minute</strong>. If your requests are being rate limited, you&rsquo;ll receive a Rate Limit Exceeded error with status code <code class="prettyprint">429</code>.</p>
 
-<p>Requests are also throttled up to a maximum of 1 request per second.</p>
+<p>Additionally, requests are throttled up to a maximum of <strong>3 requests per second</strong>.</p>
 
 <p>You can check the HTTP headers of any response you get from the Whaleclub API to see your current rate limit status.</p>
 
@@ -270,7 +281,7 @@ X-RateLimit-Reset: 1488230460
 </tr>
 </tbody></table>
 
-<h1 id="markets">Markets</h1>
+          <h1 id="markets">Markets</h1>
 
 <blockquote>
 <p>Request market information for Gold and Apple:</p>
@@ -397,7 +408,7 @@ X-RateLimit-Reset: 1488230460
 </tr>
 </tbody></table>
 
-<h1 id="price">Price</h1>
+          <h1 id="price">Price</h1>
 
 <blockquote>
 <p>Request the current price for BTC/USD and EUR/USD:</p>
@@ -467,7 +478,7 @@ X-RateLimit-Reset: 1488230460
 </tr>
 </tbody></table>
 
-<h1 id="price-turbo">Price – Turbo</h1>
+          <h1 id="price-turbo">Price – Turbo</h1>
 
 <blockquote>
 <p>Request the current turbo price for USD/JPY and WTI Crude Oil:</p>
@@ -531,7 +542,7 @@ X-RateLimit-Reset: 1488230460
 </tr>
 </tbody></table>
 
-<h1 id="balance">Balance</h1>
+          <h1 id="balance">Balance</h1>
 
 <blockquote>
 <p>Request information about your current balance:</p>
@@ -608,15 +619,14 @@ X-RateLimit-Reset: 1488230460
 </tr>
 </tbody></table>
 
-<h1 id="transactions">Transactions</h1>
+          <h1 id="transactions">Transactions</h1>
 
 <blockquote>
-<p>List deposits:</p>
+<p>List deposits you&rsquo;ve made to your Whaleclub wallet:</p>
 </blockquote>
-<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/transactions"</span> <span class="se">\</span>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/transactions/deposits"</span> <span class="se">\</span>
   -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
   -G <span class="se">\</span>
-  --data-urlencode <span class="s2">"type=deposits"</span> <span class="se">\</span>
   --data-urlencode <span class="s2">"limit=10"</span>
 </code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
@@ -636,15 +646,15 @@ X-RateLimit-Reset: 1488230460
   </span><span class="err">...</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>List transactions.</p>
+<p>List transactions that have occurred on your account.</p>
 
 <h3 id="request">Request</h3>
 
-<p><code class="prettyprint">GET https://api.whaleclub.co/v1/transactions</code></p>
+<p><code class="prettyprint">GET https://api.whaleclub.co/v1/transactions/:type</code></p>
 
-<p>Use this endpoint to request a list of deposits, withdrawals, referral payments, or bonus payments.</p>
+<p>Use this endpoint to request a list of transactions. <code class="prettyprint">type</code> can be <code class="prettyprint">deposits</code>, <code class="prettyprint">withdrawals</code>, <code class="prettyprint">referrals</code>, or <code class="prettyprint">bonuses</code>. Defaults to <code class="prettyprint">deposits</code>.</p>
 
-<p>Transactions returned are sorted by <code class="prettyprint">created_at</code>.</p>
+<p>Transactions returned are sorted by creation date (<code class="prettyprint">created_at</code>).</p>
 
 <p>If the request is successful, the API will return a <code class="prettyprint">200</code> (Ok) status code. </p>
 
@@ -654,10 +664,6 @@ X-RateLimit-Reset: 1488230460
 <th>Description</th>
 </tr>
 </thead><tbody>
-<tr>
-<td>type</td>
-<td><strong>string</strong> Optional. Can be <code class="prettyprint">deposits</code>, <code class="prettyprint">withdrawals</code>, <code class="prettyprint">referrals</code>, or <code class="prettyprint">bonuses</code>. Defaults to <code class="prettyprint">deposits</code>.</td>
-</tr>
 <tr>
 <td>limit</td>
 <td><strong>integer</strong> Optional. Number of results per request. Defaults to 5. Max is 50.</td>
@@ -700,7 +706,7 @@ X-RateLimit-Reset: 1488230460
 </tr>
 </tbody></table>
 
-<h1 id="positions">Positions</h1>
+          <h1 id="positions">Positions</h1>
 
 <h2 id="position-object">Position Object</h2>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position/s6pGQ4nyS4Z7jHRvJ"</span> <span class="se">\</span>
@@ -827,7 +833,7 @@ X-RateLimit-Reset: 1488230460
 </tr>
 </tbody></table>
 
-<h2 id="new-position">New Position</h2>
+          <h2 id="new-position">New Position</h2>
 
 <blockquote>
 <p>Open a 100BTC EUR/USD long position at market price, with a stop-loss and take-profit:</p>
@@ -1023,7 +1029,7 @@ X-RateLimit-Reset: 1488230460
 </tr>
 </tbody></table>
 
-<h2 id="get-position">Get Position</h2>
+          <h2 id="get-position">Get Position</h2>
 
 <blockquote>
 <p>Fetch an existing position by passing its id to the request: </p>
@@ -1066,7 +1072,7 @@ X-RateLimit-Reset: 1488230460
 
 <p>Returns a <strong><a href="#position-object">Position</a></strong> object.</p>
 
-<h2 id="update-position">Update Position</h2>
+          <h2 id="update-position">Update Position</h2>
 
 <blockquote>
 <p>Set stop-loss and take-profit on an existing position:</p>
@@ -1113,11 +1119,11 @@ X-RateLimit-Reset: 1488230460
 </thead><tbody>
 <tr>
 <td>stop_loss</td>
-<td><strong>number</strong> Optional. Price at which the position will auto-close in case of loss. Must be set if <code class="prettyprint">take_profit</code> is not.</td>
+<td><strong>number</strong> Optional. Price at which the position will auto-close in case of loss. Must be set if <code class="prettyprint">take_profit</code> is not. Set to <code class="prettyprint">0</code> to remove.</td>
 </tr>
 <tr>
 <td>take_profit</td>
-<td><strong>number</strong> Optional. Price at which the position will auto-close in profit. Must be set if <code class="prettyprint">stop_loss</code> is not.</td>
+<td><strong>number</strong> Optional. Price at which the position will auto-close in profit. Must be set if <code class="prettyprint">stop_loss</code> is not. Set to <code class="prettyprint">0</code> to remove.</td>
 </tr>
 </tbody></table>
 
@@ -1125,7 +1131,7 @@ X-RateLimit-Reset: 1488230460
 
 <p>Returns a <strong><a href="#position-object">Position</a></strong> object with updated values.</p>
 
-<h2 id="close-position">Close Position</h2>
+          <h2 id="close-position">Close Position</h2>
 
 <blockquote>
 <p>Close a 100BTC EUR/USD long position at market price:</p>
@@ -1198,7 +1204,7 @@ X-RateLimit-Reset: 1488230460
 </tr>
 </tbody></table>
 
-<h2 id="cancel-position">Cancel Position</h2>
+          <h2 id="cancel-position">Cancel Position</h2>
 
 <blockquote>
 <p>Cancel a pending position:</p>
@@ -1221,7 +1227,7 @@ X-RateLimit-Reset: 1488230460
 
 <p>If the request is successful, the API will return a <code class="prettyprint">200</code> (Ok) status code.</p>
 
-<h2 id="split-position">Split Position</h2>
+          <h2 id="split-position">Split Position</h2>
 
 <blockquote>
 <p>Split an active 100BTC EUR/USD position into 2 smaller positions of 60BTC and 40BTC:</p>
@@ -1272,15 +1278,14 @@ X-RateLimit-Reset: 1488230460
 
 <p>Returns an array of <strong><a href="#position-object">Position</a></strong> objects containing two smaller positions resulting from the split.</p>
 
-<h2 id="list-positions">List Positions</h2>
+          <h2 id="list-positions">List Positions</h2>
 
 <blockquote>
 <p>List active positions:</p>
 </blockquote>
-<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/positions"</span> <span class="se">\</span>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/positions/active"</span> <span class="se">\</span>
   -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
   -G <span class="se">\</span>
-  --data-urlencode <span class="s2">"state=active"</span> <span class="se">\</span>
   --data-urlencode <span class="s2">"limit=10"</span>
 </code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
@@ -1324,9 +1329,11 @@ X-RateLimit-Reset: 1488230460
 
 <h3 id="request">Request</h3>
 
-<p><code class="prettyprint">GET https://api.whaleclub.co/v1/positions</code></p>
+<p><code class="prettyprint">GET https://api.whaleclub.co/v1/positions/:state</code></p>
 
-<p>Use this endpoint to request a list of pending, active, or closed positions. It&rsquo;s strongly recommended that you maintain your own list of positions and use the <a href="#price">Price</a> endpoint to keep it updated instead of polling this endpoint to track the state of your positions.</p>
+<p>Use this endpoint to request a list of positions. <code class="prettyprint">state</code> can be <code class="prettyprint">pending</code>, <code class="prettyprint">active</code>, or <code class="prettyprint">closed</code>. Defaults to <code class="prettyprint">active</code>.</p>
+
+<p>It&rsquo;s strongly recommended that you maintain your own list of positions and use the <a href="#price">Price</a> endpoint to keep it updated instead of polling this endpoint to track the state of your positions.</p>
 
 <p>Pending positions are sorted by <code class="prettyprint">created_at</code>, active positions are sorted by <code class="prettyprint">entered_at</code>, and closed positions are sorted by <code class="prettyprint">closed_at</code>.</p>
 
@@ -1339,10 +1346,6 @@ X-RateLimit-Reset: 1488230460
 </tr>
 </thead><tbody>
 <tr>
-<td>state</td>
-<td><strong>string</strong> Optional. Can be <code class="prettyprint">pending</code>, <code class="prettyprint">active</code>, or <code class="prettyprint">closed</code>. Defaults to <code class="prettyprint">active</code>.</td>
-</tr>
-<tr>
 <td>limit</td>
 <td><strong>integer</strong> Optional. Number of results per request. Defaults to 5. Max is 30.</td>
 </tr>
@@ -1352,7 +1355,7 @@ X-RateLimit-Reset: 1488230460
 
 <p>Returns an array of <strong><a href="#position-object">Position</a></strong> objects.</p>
 
-<h1 id="positions-turbo">Positions – Turbo</h1>
+          <h1 id="positions-turbo">Positions – Turbo</h1>
 
 <h2 id="turbo-position-object">Turbo Position Object</h2>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position-turbo/uWchea2SocXZHEiHS"</span> <span class="se">\</span>
@@ -1430,7 +1433,7 @@ X-RateLimit-Reset: 1488230460
 </tr>
 </tbody></table>
 
-<h2 id="get-active-contracts">Get Active Contracts</h2>
+          <h2 id="get-active-contracts">Get Active Contracts</h2>
 
 <blockquote>
 <p>List active turbo contracts:</p>
@@ -1496,7 +1499,7 @@ X-RateLimit-Reset: 1488230460
 </tr>
 </tbody></table>
 
-<h2 id="new-turbo-position">New Turbo Position</h2>
+          <h2 id="new-turbo-position">New Turbo Position</h2>
 
 <blockquote>
 <p>Open a 0.1BTC EUR/USD long turbo position:</p>
@@ -1517,7 +1520,8 @@ X-RateLimit-Reset: 1488230460
   </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000000</span><span class="p">,</span><span class="w">
   </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.11825</span><span class="p">,</span><span class="w">
   </span><span class="s2">"payoff"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.55</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873229</span><span class="w">
+  </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873229</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"expires_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873429</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>Open a new turbo position.</p>
@@ -1612,7 +1616,7 @@ X-RateLimit-Reset: 1488230460
 </tr>
 </tbody></table>
 
-<h2 id="get-turbo-position">Get Turbo Position</h2>
+          <h2 id="get-turbo-position">Get Turbo Position</h2>
 
 <blockquote>
 <p>Fetch an existing turbo position:</p>
@@ -1646,7 +1650,7 @@ X-RateLimit-Reset: 1488230460
 
 <p>Returns a <strong><a href="#turbo-position-object">Turbo Position</a></strong> object.</p>
 
-<h2 id="list-turbo-positions">List Turbo Positions</h2>
+          <h2 id="list-turbo-positions">List Turbo Positions</h2>
 
 <blockquote>
 <p>List active turbo positions:</p>
@@ -1654,7 +1658,6 @@ X-RateLimit-Reset: 1488230460
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/positions-turbo"</span> <span class="se">\</span>
   -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
   -G <span class="se">\</span>
-  --data-urlencode <span class="s2">"state=active"</span> <span class="se">\</span>
   --data-urlencode <span class="s2">"limit=10"</span>
 </code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
@@ -1666,7 +1669,8 @@ X-RateLimit-Reset: 1488230460
     </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000000</span><span class="p">,</span><span class="w">
     </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.11825</span><span class="p">,</span><span class="w">
     </span><span class="s2">"payoff"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.55</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873229</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873229</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"expires_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873429</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"26fTLb7byb8fi48Qf"</span><span class="p">,</span><span class="w">
@@ -1677,7 +1681,8 @@ X-RateLimit-Reset: 1488230460
     </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">8000000</span><span class="p">,</span><span class="w">
     </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.76661</span><span class="p">,</span><span class="w">
     </span><span class="s2">"payoff"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.65</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873219</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873219</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"expires_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873409</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="err">...</span><span class="w">
 </span><span class="p">]</span><span class="w">
@@ -1686,9 +1691,9 @@ X-RateLimit-Reset: 1488230460
 
 <h3 id="request">Request</h3>
 
-<p><code class="prettyprint">GET https://api.whaleclub.co/v1/positions-turbo</code></p>
+<p><code class="prettyprint">GET https://api.whaleclub.co/v1/positions-turbo/:state</code></p>
 
-<p>Use this endpoint to request a list of active or closed turbo positions.</p>
+<p>Use this endpoint to request a list of turbo positions. <code class="prettyprint">state</code> can be <code class="prettyprint">active</code> or <code class="prettyprint">closed</code>. Defaults to <code class="prettyprint">active</code>.</p>
 
 <p>Active positions are sorted by <code class="prettyprint">created_at</code> and closed positions are sorted by <code class="prettyprint">closed_at</code>.</p>
 
@@ -1700,10 +1705,6 @@ X-RateLimit-Reset: 1488230460
 <th>Description</th>
 </tr>
 </thead><tbody>
-<tr>
-<td>state</td>
-<td><strong>string</strong> Optional. Can be <code class="prettyprint">active</code>, or <code class="prettyprint">closed</code>. Defaults to <code class="prettyprint">active</code>.</td>
-</tr>
 <tr>
 <td>limit</td>
 <td><strong>integer</strong> Optional. Number of results per request. Defaults to 5. Max is 30.</td>
