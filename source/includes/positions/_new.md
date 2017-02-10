@@ -123,7 +123,7 @@ take_profit | **number** Optional. Price at which your position will auto-close 
 
 Returns your newly-submitted position as a **[Position](#position-object)** object.
 
-In particular, an `id` is generated for the position that you can use in later calls such as updating or closing.
+In particular, an `id` is generated for the position that you can use in later calls such as to update or close it.
 
 ### Errors
 

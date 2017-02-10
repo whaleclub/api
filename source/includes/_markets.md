@@ -95,4 +95,4 @@ limit | **integer** Maximum active position size, in satoshis
 hours | **string** Market operating hours. Market is closed at all other times.
 financing_rate | **number** Daily financing rate. Multiply by 100 to get the amount in percent.
 category | **string** Asset class.
-turbo | **object** Information about turbo trading, if it's available for this market. The **payoff** object contains the contract duration (in minutes) and the associated payoff.
+turbo | **object** Information about turbo trading, if it's available for this market. The `payoff` object contains the contract duration (in minutes) and the associated payoff.

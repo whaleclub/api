@@ -52,7 +52,7 @@ In addition to the common API errors, this endpoint can return the following err
 
 Name | Description
 ---------- | -------
-Market Closed | `403` This market is currently closed (e.g. on weekends for stocks) and not accepting new positions.
+Market Closed | `403` This market is currently closed (e.g. on weekends for stocks).
 Price Unavailable | `500` Bid and ask prices are currently unavailable for this market.
 Price Outdated | `500` Bid and ask prices are currently outdated for this market.
 Market Maintenance | `503` The price feed for this market is currently under maintenance.

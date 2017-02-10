@@ -31,7 +31,9 @@ Fetch a list of currently active turbo contracts.
 
 `GET https://api.whaleclub.co/v1/contracts`
 
-This endpoint will return information about currently active contracts such as the purchase deadline and expiry time. Contracts apply across all markets.
+This endpoint will return information about currently active contracts such as the purchase deadline and expiry time. 
+
+When you submit a new turbo position, it'll be on one of the active contracts you get from here.
 
 If the request is successful, the API will return a `200` (Ok) status code. 
 

@@ -20,6 +20,6 @@ Cancel an existing pending position.
 
 `PUT https://api.whaleclub.co/v1/position/cancel/:id`
 
-This endpoint allows you to cancel a pending position that hasn't yet executed. Once cancelled, a position will be deleted and no longer have an id associated with it.
+This endpoint allows you to cancel a limit or stop order that hasn't yet executed. Once cancelled, your position will be deleted and no longer accessible.
 
 If the request is successful, the API will return a `200` (Ok) status code.

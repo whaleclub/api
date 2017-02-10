@@ -34,7 +34,7 @@ curl "https://api.whaleclub.co/v1/position/s6pGQ4nyS4Z7jHRvJ" \
 }
 ```
 
-This section provides a reference for the **Position** object, which represents a position, returned by position-related endpoints below.
+This section provides a reference for the **Position** object which is returned by position-related endpoints below.
 
 Attribute | Description
 ---------- | -------

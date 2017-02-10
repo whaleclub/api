@@ -26,13 +26,13 @@ curl "https://api.whaleclub.co/v1/position/split/22bCNkWhiwxF7qAMs" \
   }
 ```
 
-Split an existing active position.
+Split an existing pending or active position.
 
 ### Request
 
 `POST https://api.whaleclub.co/v1/position/split/:id` 
 
-This endpoint allows you to split an existing position. It can only be called on an active position.
+This endpoint allows you to split an existing position according to a ratio you provide. It can only be called on a pending or active position.
 
 If the request is successful, the API will return a `200` (Ok) status code. 
 

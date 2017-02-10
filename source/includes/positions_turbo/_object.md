@@ -25,7 +25,7 @@ curl "https://api.whaleclub.co/v1/position-turbo/uWchea2SocXZHEiHS" \
 }
 ```
 
-This section provides a reference for the **Turbo Position** object, which represents a turbo position, typically returned by most turbo position-related endpoints below.
+This section provides a reference for the **Turbo Position** object which is returned by turbo position-related endpoints below.
 
 Attribute | Description
 ---------- | -------
