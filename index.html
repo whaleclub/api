@@ -107,8 +107,7 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><a href='https://trade.whaleclub.co/signup' target='_blank'>Sign Up for Whaleclub</a></li>
-            <li><a href='https://whaleclub.co/' target='_blank'>Back to Whaleclub</a></li>
+            <li><a href='https://whaleclub.co/'>Back to Whaleclub</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -117,9 +116,11 @@
         
           <h1 id="overview">Overview</h1>
 
-<p>Welcome to Whaleclub&rsquo;s API! You can use the API to programmatically submit new trades, check your balance, fetch trading history, and much more. You can both live trade and demo trade.</p>
+<p>Welcome to Whaleclub&rsquo;s API! </p>
 
-<p>The API is organized around <a href="http://en.wikipedia.org/wiki/Representational_State_Transfer">REST</a>. All requests should be made over SSL. All request and response bodies, including errors, are encoded in JSON (<code class="prettyprint">application/json</code> content type).</p>
+<p>You can use the API to programmatically submit new trades, check your balance, fetch your trading history, and much more. The API works with both your live and demo accounts.</p>
+
+<p>The API is organized around <a href='https://en.wikipedia.org/wiki/Representational_State_Transfer' target='_blank'>REST</a>. All request and response bodies, including errors, are encoded in JSON (<code class="prettyprint">application/json</code> content type). All requests must be made over SSL.</p>
 
 <p>Code samples are displayed in the right-side column. All epoch dates are in UTC seconds and amounts in satoshis, unless otherwise indicated.</p>
 
@@ -129,9 +130,9 @@
 
 <h3 id="beta-notice">BETA NOTICE</h3>
 
-<p>The Whaleclub API, while functional, is in BETA until March 1st, 2017. This means it could go down without notice temporarily during this period. Edge case queries may cause it to not work as expected.</p>
+<p>The Whaleclub API, while functional, is currently in BETA. This means it could go down without notice temporarily during this period. Edge case queries may cause it to not work as expected.</p>
 
-<p>It also means we&rsquo;re looking for your feedback! You have full access to our engineers at <a href="mailto:dev-support@whaleclub.co">dev-support@whaleclub.co</a> to submit bug reports, feature requests, and any other type of API-related feedback. Be sure to include your Whaleclub username and any supporting material, such as code samples, so we can address your request quickly and effectively.</p>
+<p>It also means we&rsquo;re looking for your feedback! You have full access to our engineers at <a href="mailto:dev-support@whaleclub.co">dev-support@whaleclub.co</a> to submit bug reports, feature requests, and any other API-related feedback. Be sure to include your Whaleclub username and any supporting material, such as code samples, so we can address your request quickly and effectively.</p>
 
 <p>More general support requests should be directed to <a href="mailto:support@whaleclub.co">support@whaleclub.co</a>.</p>
 
@@ -166,7 +167,7 @@ Replace <code>{API_TOKEN}</code> with your Whaleclub API token.
 <p>You can get your Partner ID from your <a href="https://trade.whaleclub.co/settings/api">API Settings</a> page, too. Only trades with real funds will result in referral commissions.</p>
 
 <aside class="warning">
-Use of auto-referrals or multiple live trading accounts will result in permanent account closure without notice.
+Self-referring and using multiple trading accounts will result in account closure without notice.
 </aside>
 
 <h2 id="errors">Errors</h2>
@@ -956,7 +957,7 @@ X-RateLimit-Reset: 1488230460
 </tr>
 <tr>
 <td>leverage</td>
-<td><strong>integer</strong> Required.</td>
+<td><strong>number</strong> Required.</td>
 </tr>
 <tr>
 <td>size</td>
