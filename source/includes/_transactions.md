@@ -4,7 +4,7 @@
 
 ```shell
 curl "https://api.whaleclub.co/v1/transactions/deposits" \
-  -H "Authorization: Bearer {API_TOKEN}" \
+  -H "Authorization: Bearer API_TOKEN" \
   -G \
   --data-urlencode "limit=10"
 ```

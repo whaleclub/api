@@ -4,7 +4,7 @@
 
 ```shell
 curl "https://api.whaleclub.co/v1/markets/XAU-USD,AAPL"
-  -H "Authorization: Bearer {API_TOKEN}"
+  -H "Authorization: Bearer API_TOKEN"
 ```
 ```json
 {
@@ -43,7 +43,7 @@ curl "https://api.whaleclub.co/v1/markets/XAU-USD,AAPL"
 
 ```shell
 curl "https://api.whaleclub.co/v1/markets"
-  -H "Authorization: Bearer {API_TOKEN}"
+  -H "Authorization: Bearer API_TOKEN"
 ```
 ```json
 {

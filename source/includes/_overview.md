@@ -12,11 +12,11 @@ Code samples are displayed in the right-side column. All epoch dates are in UTC 
 
 **`https://api.whaleclub.co/v1/`**
 
-### BETA NOTICE
+### FEEDBACK & SUPPORT
 
-The Whaleclub API, while functional, is currently in BETA. This means it could go down without notice temporarily during this period. Edge case queries may cause it to not work as expected.
+Are you using the Whaleclub API? We're looking for your feedback! 
 
-It also means we're looking for your feedback! You have full access to our engineers at [dev-support@whaleclub.co](mailto:dev-support@whaleclub.co) to submit bug reports, feature requests, and any other API-related feedback. Be sure to include your Whaleclub username and any supporting material, such as code samples, so we can address your request quickly and effectively.
+You have full access to our engineers at [dev-support@whaleclub.co](mailto:dev-support@whaleclub.co) to submit bug reports, feature requests, and any other API-related feedback. Be sure to include your Whaleclub username and any supporting material, such as code samples, so we can address your request quickly and effectively.
 
 More general support requests should be directed to [support@whaleclub.co](mailto:support@whaleclub.co).
 
@@ -26,19 +26,19 @@ More general support requests should be directed to [support@whaleclub.co](mailt
 
 ```shell
 curl "https://api.whaleclub.co/v1/balance"
-  -H "Authorization: Bearer {API_TOKEN}"
+  -H "Authorization: Bearer API_TOKEN"
 ```
 
 **All requests to the Whaleclub API must be authenticated.**
 
 Authentication is straightforward. Pass your API token as a bearer token in an `Authorization` header in every request you make. 
 
-`Authorization: Bearer {API_TOKEN}`
+`Authorization: Bearer API_TOKEN`
 
 You can get your API token from your [API Settings](https://trade.whaleclub.co/settings/api) page. You get one token for live trading and another for demo trading.
 
 <aside class="notice">
-Replace <code>{API_TOKEN}</code> with your Whaleclub API token.
+Replace <code>API_TOKEN</code> with your Whaleclub API token.
 </aside>
 
 ## Referrals
@@ -47,7 +47,7 @@ If you're using the Whaleclub API as part of an app or service you offer to othe
 
 Pass your Whaleclub Partner ID as a `Partner-ID` header in all the requests you make.
 
-`Partner-ID: {YOUR_PARTNER_ID}`
+`Partner-ID: YOUR_PARTNER_ID`
 
 You can get your Partner ID from your [API Settings](https://trade.whaleclub.co/settings/api) page, too. Only trades with real funds will result in referral commissions.
 
@@ -90,7 +90,7 @@ Code | Description
 
 ```shell
 curl -i "https://api.whaleclub.co/v1/balance"
-  -H "Authorization: Bearer {API_TOKEN}"
+  -H "Authorization: Bearer API_TOKEN"
 
 HTTP/1.1 200 OK
 Date: Mon, 27 Feb 2016 21:20:00 GMT

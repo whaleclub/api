@@ -6,7 +6,7 @@
 
 ```shell
 curl "https://api.whaleclub.co/v1/position-turbo/uWchea2SocXZHEiHS" \
-  -H "Authorization: Bearer {API_TOKEN}"
+  -H "Authorization: Bearer API_TOKEN"
 ```
 ```json
 {

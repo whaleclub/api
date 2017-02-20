@@ -4,7 +4,7 @@
 
 ```shell
 curl "https://api.whaleclub.co/v1/position/close/22bCNkWhiwxF7qAMs" \
-  -H "Authorization: Bearer {API_TOKEN}" \
+  -H "Authorization: Bearer API_TOKEN" \
   -X PUT
 ```
 ```json

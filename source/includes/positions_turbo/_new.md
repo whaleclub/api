@@ -4,7 +4,7 @@
 
 ```shell
 curl "https://api.whaleclub.co/v1/position-turbo/new" \
-  -H "Authorization: Bearer {API_TOKEN}" \
+  -H "Authorization: Bearer API_TOKEN" \
   -X POST \
   -d 'direction=long' \
   -d 'market=EUR-USD' \

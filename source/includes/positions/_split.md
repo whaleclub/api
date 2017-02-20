@@ -4,7 +4,7 @@
 
 ```shell
 curl "https://api.whaleclub.co/v1/position/split/22bCNkWhiwxF7qAMs" \
-  -H "Authorization: Bearer {API_TOKEN}" \
+  -H "Authorization: Bearer API_TOKEN" \
   -X POST \
   -d 'ratio=60'
 ```

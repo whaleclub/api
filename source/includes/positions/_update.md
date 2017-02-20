@@ -4,7 +4,7 @@
 
 ```shell
 curl "https://api.whaleclub.co/v1/position/update/22bCNkWhiwxF7qAMs" \
-  -H "Authorization: Bearer {API_TOKEN}" \
+  -H "Authorization: Bearer API_TOKEN" \
   -X PUT \
   -d 'stop_loss=1.07576' \
   -d 'take_profit=1.08726'

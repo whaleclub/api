@@ -4,7 +4,7 @@
 
 ```shell
 curl "https://api.whaleclub.co/v1/price/BTC-USD,EUR-USD"
-  -H "Authorization: Bearer {API_TOKEN}"
+  -H "Authorization: Bearer API_TOKEN"
 ```
 ```json
 {

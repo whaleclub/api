@@ -4,7 +4,7 @@
 
 ```shell
 curl "https://api.whaleclub.co/v1/position/new" \
-  -H "Authorization: Bearer {API_TOKEN}" \
+  -H "Authorization: Bearer API_TOKEN" \
   -X POST \
   -d 'direction=long' \
   -d 'market=EUR-USD' \
@@ -37,7 +37,7 @@ curl "https://api.whaleclub.co/v1/position/new" \
 
 ```shell
 curl "https://api.whaleclub.co/v1/position/new" \
-  -H "Authorization: Bearer {API_TOKEN}" \
+  -H "Authorization: Bearer API_TOKEN" \
   -X POST \
   -d 'direction=short' \
   -d 'market=XAU-USD' \
@@ -66,7 +66,7 @@ curl "https://api.whaleclub.co/v1/position/new" \
 
 ```shell
 curl "https://api.whaleclub.co/v1/position/new" \
-  -H "Authorization: Bearer {API_TOKEN}" \
+  -H "Authorization: Bearer API_TOKEN" \
   -X POST \
   -d 'direction=long' \
   -d 'market=NFLX' \
