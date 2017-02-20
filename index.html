@@ -159,11 +159,11 @@
 
 <p><strong><code class="prettyprint">https://api.whaleclub.co/v1/</code></strong></p>
 
-<h3 id="beta-notice">BETA NOTICE</h3>
+<h3 id="feedback-amp-support">FEEDBACK &amp; SUPPORT</h3>
 
-<p>The Whaleclub API, while functional, is currently in BETA. This means it could go down without notice temporarily during this period. Edge case queries may cause it to not work as expected.</p>
+<p>Are you using the Whaleclub API? We&rsquo;re looking for your feedback! </p>
 
-<p>It also means we&rsquo;re looking for your feedback! You have full access to our engineers at <a href="mailto:dev-support@whaleclub.co">dev-support@whaleclub.co</a> to submit bug reports, feature requests, and any other API-related feedback. Be sure to include your Whaleclub username and any supporting material, such as code samples, so we can address your request quickly and effectively.</p>
+<p>You have full access to our engineers at <a href="mailto:dev-support@whaleclub.co">dev-support@whaleclub.co</a> to submit bug reports, feature requests, and any other API-related feedback. Be sure to include your Whaleclub username and any supporting material, such as code samples, so we can address your request quickly and effectively.</p>
 
 <p>More general support requests should be directed to <a href="mailto:support@whaleclub.co">support@whaleclub.co</a>.</p>
 
@@ -173,18 +173,18 @@
 <p>Authenticate by passing your API token in an Authorization header:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/balance"</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span>
 </code></pre>
 <p><strong>All requests to the Whaleclub API must be authenticated.</strong></p>
 
 <p>Authentication is straightforward. Pass your API token as a bearer token in an <code class="prettyprint">Authorization</code> header in every request you make. </p>
 
-<p><code class="prettyprint">Authorization: Bearer {API_TOKEN}</code></p>
+<p><code class="prettyprint">Authorization: Bearer API_TOKEN</code></p>
 
 <p>You can get your API token from your <a href="https://trade.whaleclub.co/settings/api">API Settings</a> page. You get one token for live trading and another for demo trading.</p>
 
 <aside class="notice">
-Replace <code>{API_TOKEN}</code> with your Whaleclub API token.
+Replace <code>API_TOKEN</code> with your Whaleclub API token.
 </aside>
 
 <h2 id="referrals">Referrals</h2>
@@ -193,7 +193,7 @@ Replace <code>{API_TOKEN}</code> with your Whaleclub API token.
 
 <p>Pass your Whaleclub Partner ID as a <code class="prettyprint">Partner-ID</code> header in all the requests you make.</p>
 
-<p><code class="prettyprint">Partner-ID: {YOUR_PARTNER_ID}</code></p>
+<p><code class="prettyprint">Partner-ID: YOUR_PARTNER_ID</code></p>
 
 <p>You can get your Partner ID from your <a href="https://trade.whaleclub.co/settings/api">API Settings</a> page, too. Only trades with real funds will result in referral commissions.</p>
 
@@ -267,7 +267,7 @@ Self-referring and using multiple trading accounts will result in account closur
 <p>Check the headers of any response to see your rate limit status:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl -i <span class="s2">"https://api.whaleclub.co/v1/balance"</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span>
 
 HTTP/1.1 200 OK
 Date: Mon, 27 Feb 2016 21:20:00 GMT
@@ -320,7 +320,7 @@ X-RateLimit-Reset: 1488230460
 <p>Request market information for Gold and Apple:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/markets/XAU-USD,AAPL"</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span>
 </code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"XAU-USD"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gold"</span><span class="p">,</span><span class="w">
@@ -356,7 +356,7 @@ X-RateLimit-Reset: 1488230460
 <p>Request a list of all available markets:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/markets"</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span>
 </code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"BTC-USD"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC/USD"</span><span class="p">,</span><span class="w">
@@ -447,7 +447,7 @@ X-RateLimit-Reset: 1488230460
 <p>Request the current price for BTC/USD and EUR/USD:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/price/BTC-USD,EUR-USD"</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span>
 </code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"BTC-USD"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="s2">"bid"</span><span class="p">:</span><span class="w"> </span><span class="mf">1034.52</span><span class="p">,</span><span class="w">
@@ -517,7 +517,7 @@ X-RateLimit-Reset: 1488230460
 <p>Request the current turbo price for USD/JPY and WTI Crude Oil:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/price-turbo/USD-JPY,WTICO-USD"</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span>
 </code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"USD-JPY"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="s2">"mid"</span><span class="p">:</span><span class="w"> </span><span class="mf">112.593</span><span class="p">,</span><span class="w">
@@ -581,7 +581,7 @@ X-RateLimit-Reset: 1488230460
 <p>Request information about your current balance:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/balance"</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span>
 </code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"available_amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000000000</span><span class="p">,</span><span class="w">
   </span><span class="s2">"total_amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">1200000000</span><span class="p">,</span><span class="w">
@@ -658,7 +658,7 @@ X-RateLimit-Reset: 1488230460
 <p>List deposits you&rsquo;ve made to your Whaleclub wallet:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/transactions/deposits"</span> <span class="se">\</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span> <span class="se">\</span>
   -G <span class="se">\</span>
   --data-urlencode <span class="s2">"limit=10"</span>
 </code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
@@ -747,7 +747,7 @@ X-RateLimit-Reset: 1488230460
 <p>Sample Position Object:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position/s6pGQ4nyS4Z7jHRvJ"</span> <span class="se">\</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span>
 </code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"s6pwQ4nyS4Z7jHRvJ"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"47n2728b3"</span><span class="p">,</span><span class="w">
@@ -876,7 +876,7 @@ X-RateLimit-Reset: 1488230460
 <p>Open a 100BTC EUR/USD long position at market price, with a stop-loss and take-profit:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position/new"</span> <span class="se">\</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span> <span class="se">\</span>
   -X POST <span class="se">\</span>
   -d <span class="s1">'direction=long'</span> <span class="se">\</span>
   -d <span class="s1">'market=EUR-USD'</span> <span class="se">\</span>
@@ -906,7 +906,7 @@ X-RateLimit-Reset: 1488230460
 <p>Submit a 50BTC Gold sell stop position at 1050:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position/new"</span> <span class="se">\</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span> <span class="se">\</span>
   -X POST <span class="se">\</span>
   -d <span class="s1">'direction=short'</span> <span class="se">\</span>
   -d <span class="s1">'market=XAU-USD'</span> <span class="se">\</span>
@@ -932,7 +932,7 @@ X-RateLimit-Reset: 1488230460
 <p>Submit a 20BTC Netflix limit long position at 99:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position/new"</span> <span class="se">\</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span> <span class="se">\</span>
   -X POST <span class="se">\</span>
   -d <span class="s1">'direction=long'</span> <span class="se">\</span>
   -d <span class="s1">'market=NFLX'</span> <span class="se">\</span>
@@ -1072,7 +1072,7 @@ X-RateLimit-Reset: 1488230460
 <p>Fetch an existing position by passing its id to the request: </p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position/s6pGQ4nyS4Z7jHRvJ"</span> <span class="se">\</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span>
 </code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"s6pwQ4nyS4Z7jHRvJ"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"47n2728b3"</span><span class="p">,</span><span class="w">
@@ -1115,7 +1115,7 @@ X-RateLimit-Reset: 1488230460
 <p>Set stop-loss and take-profit on an existing position:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position/update/22bCNkWhiwxF7qAMs"</span> <span class="se">\</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span> <span class="se">\</span>
   -X PUT <span class="se">\</span>
   -d <span class="s1">'stop_loss=1.07576'</span> <span class="se">\</span>
   -d <span class="s1">'take_profit=1.08726'</span>
@@ -1174,7 +1174,7 @@ X-RateLimit-Reset: 1488230460
 <p>Close a 100BTC EUR/USD long position at market price:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position/close/22bCNkWhiwxF7qAMs"</span> <span class="se">\</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span> <span class="se">\</span>
   -X PUT
 </code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22bCNkWhiwxF7qAMs"</span><span class="p">,</span><span class="w">
@@ -1247,7 +1247,7 @@ X-RateLimit-Reset: 1488230460
 <p>Cancel a pending position:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position/cancel/d7gAxDSeLtdYtZsEd"</span> <span class="se">\</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span> <span class="se">\</span>
   -X PUT
 </code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"d7gAxDSeLtdYtZsEd"</span><span class="p">,</span><span class="w">
@@ -1270,7 +1270,7 @@ X-RateLimit-Reset: 1488230460
 <p>Split an active 100BTC EUR/USD position into 2 smaller positions of 60BTC and 40BTC:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position/split/22bCNkWhiwxF7qAMs"</span> <span class="se">\</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span> <span class="se">\</span>
   -X POST <span class="se">\</span>
   -d <span class="s1">'ratio=60'</span>
 </code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
@@ -1321,7 +1321,7 @@ X-RateLimit-Reset: 1488230460
 <p>List active positions:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/positions/active"</span> <span class="se">\</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span> <span class="se">\</span>
   -G <span class="se">\</span>
   --data-urlencode <span class="s2">"limit=10"</span>
 </code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
@@ -1400,7 +1400,7 @@ X-RateLimit-Reset: 1488230460
 <p>Sample Turbo Position Object:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position-turbo/uWchea2SocXZHEiHS"</span> <span class="se">\</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span>
 </code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uWchea2SocXZHEiHS"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"contract_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"QvgMMkF35kSKowAtf"</span><span class="p">,</span><span class="w">
@@ -1480,7 +1480,7 @@ X-RateLimit-Reset: 1488230460
 <p>List active turbo contracts:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/contracts"</span> <span class="se">\</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span>
 </code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pXuuzf2xZSZePXzvH"</span><span class="p">,</span><span class="w">
@@ -1548,7 +1548,7 @@ X-RateLimit-Reset: 1488230460
 <p>Open a 0.1BTC EUR/USD long turbo position:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position-turbo/new"</span> <span class="se">\</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span> <span class="se">\</span>
   -X POST <span class="se">\</span>
   -d <span class="s1">'direction=long'</span> <span class="se">\</span>
   -d <span class="s1">'market=EUR-USD'</span> <span class="se">\</span>
@@ -1665,7 +1665,7 @@ X-RateLimit-Reset: 1488230460
 <p>Fetch an existing turbo position:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/position-turbo/uWchea2SocXZHEiHS"</span> <span class="se">\</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span>
 </code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uWchea2SocXZHEiHS"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="p">,</span><span class="w">
@@ -1699,7 +1699,7 @@ X-RateLimit-Reset: 1488230460
 <p>List active turbo positions:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.whaleclub.co/v1/positions-turbo"</span> <span class="se">\</span>
-  -H <span class="s2">"Authorization: Bearer {API_TOKEN}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer API_TOKEN"</span> <span class="se">\</span>
   -G <span class="se">\</span>
   --data-urlencode <span class="s2">"limit=10"</span>
 </code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
