@@ -124,3 +124,9 @@ Header | Description
 <code>X-RateLimit-Limit</code> | The maximum number of requests allowed per minute.
 <code>X-RateLimit-Remaining</code> | The number of requests left in the current rate limit window.
 <code>X-RateLimit-Reset</code> | The time at which the current rate limit window resets, in UTC epoch seconds.
+
+## Client Libraries
+
+### Unofficial
+
+* [Node.js](https://github.com/askmike/whaleclub) by askmike
