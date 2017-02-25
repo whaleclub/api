@@ -50,6 +50,7 @@ size | **integer** Position's size, in satoshis.
 margin_size | **integer** Position's margin size, in satoshis.
 entry_price | **number** Price at which the position was executed (if at market) or will execute (if limit or stop).
 stop_loss | **number** Price at which the position will auto-close in case of loss. Appears only if the position's stop-loss is set.
+stop_loss_trailing | **object** Returns `{set: true}` if the stop loss is a trailing stop loss.
 take_profit | **number** Price at which the position will auto-close in profit. Appears only if the position's take-profit is set.
 close_reason | **string** How the position was closed. Can be `at_market`, `at_stop`, `at_target`, or `liquidation`. Appears only if the position is `closed`.
 close_price | **number** Price at which the position was closed. Appears only if the position is `closed`.

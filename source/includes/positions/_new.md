@@ -117,6 +117,7 @@ leverage | **number** Required.
 size | **integer** Required. Your position's size, in satoshis. This is the total size including leverage, not the margin size.
 entry_price | **number** Optional. Set this to submit a limit/stop order. If omitted, your position will execute at the best available market price.
 stop_loss | **number** Optional. Price at which your position will auto-close in case of loss.
+stop_loss_trailing | **boolean** Optional. Set to `true` to enable the stop loss to trail. Works only if `stop_loss` is set.
 take_profit | **number** Optional. Price at which your position will auto-close in profit.
 
 ### Response

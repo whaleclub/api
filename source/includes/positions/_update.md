@@ -43,6 +43,7 @@ If the request is successful, the API will return a `200` (Ok) status code.
 Param | Description
 ---------- | -------
 stop_loss | **number** Optional. Price at which the position will auto-close in case of loss. Must be set if `take_profit` is not. Set to `0` to remove an existing stop-loss.
+stop_loss_trailing | **boolean or number** Optional. Set to `true` to enable the stop loss to trail. Works only if `stop_loss` is set. Set to `0` to disable trailing.
 take_profit | **number** Optional. Price at which the position will auto-close in profit. Must be set if `stop_loss` is not. Set to `0` to remove an existing take-profit.
 
 ### Response
