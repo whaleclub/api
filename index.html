@@ -837,6 +837,10 @@ X-RateLimit-Reset: 1488230460
 <td><strong>number</strong> Price at which the position will auto-close in case of loss. Appears only if the position&rsquo;s stop-loss is set.</td>
 </tr>
 <tr>
+<td>stop_loss_trailing</td>
+<td><strong>object</strong> Returns <code class="prettyprint">{set: true}</code> if the stop loss is a trailing stop loss.</td>
+</tr>
+<tr>
 <td>take_profit</td>
 <td><strong>number</strong> Price at which the position will auto-close in profit. Appears only if the position&rsquo;s take-profit is set.</td>
 </tr>
@@ -1011,6 +1015,10 @@ X-RateLimit-Reset: 1488230460
 <td><strong>number</strong> Optional. Price at which your position will auto-close in case of loss.</td>
 </tr>
 <tr>
+<td>stop_loss_trailing</td>
+<td><strong>boolean</strong> Optional. Set to <code class="prettyprint">true</code> to enable the stop loss to trail. Works only if <code class="prettyprint">stop_loss</code> is set.</td>
+</tr>
+<tr>
 <td>take_profit</td>
 <td><strong>number</strong> Optional. Price at which your position will auto-close in profit.</td>
 </tr>
@@ -1165,6 +1173,10 @@ X-RateLimit-Reset: 1488230460
 <tr>
 <td>stop_loss</td>
 <td><strong>number</strong> Optional. Price at which the position will auto-close in case of loss. Must be set if <code class="prettyprint">take_profit</code> is not. Set to <code class="prettyprint">0</code> to remove an existing stop-loss.</td>
+</tr>
+<tr>
+<td>stop_loss_trailing</td>
+<td><strong>boolean or number</strong> Optional. Set to <code class="prettyprint">true</code> to enable the stop loss to trail. Works only if <code class="prettyprint">stop_loss</code> is set. Set to <code class="prettyprint">0</code> to disable trailing.</td>
 </tr>
 <tr>
 <td>take_profit</td>
