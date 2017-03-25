@@ -153,7 +153,7 @@
 
 <p>The API is organized around <a href='https://en.wikipedia.org/wiki/Representational_State_Transfer' target='_blank'>REST</a>. All request and response bodies, including errors, are encoded in JSON (<code class="prettyprint">application/json</code> content type). All requests must be made over SSL.</p>
 
-<p>Code samples are displayed in the right-side column. All epoch dates are in UTC seconds and amounts in satoshis, unless otherwise indicated.</p>
+<p>Code samples are displayed in the right-side column. All epoch dates are in UTC seconds and amounts in the lowest unit (for BTC, it&rsquo;s satoshis), unless otherwise indicated.</p>
 
 <h3 id="base-endpoint-url">BASE ENDPOINT URL</h3>
 
@@ -333,7 +333,9 @@ X-RateLimit-Reset: 1488230460
   </span><span class="s2">"XAU-USD"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gold"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"leverages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mf">3.3</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">],</span><span class="w">
-    </span><span class="s2">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">5000000000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"limits"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"BTC"</span><span class="p">:</span><span class="w"> </span><span class="mi">5000000000</span><span class="w">
+    </span><span class="p">},</span><span class="w">
     </span><span class="s2">"hours"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sun 5PM - Fri 5PM"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"financing_rate"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0005</span><span class="p">,</span><span class="w">
     </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"commodities"</span><span class="p">,</span><span class="w">
@@ -341,13 +343,17 @@ X-RateLimit-Reset: 1488230460
       </span><span class="s2">"payoff"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="s2">"5"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="w">
       </span><span class="p">},</span><span class="w">
-      </span><span class="s2">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000000</span><span class="w">
+      </span><span class="s2">"limits"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"BTC"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000000</span><span class="w">
+      </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="s2">"AAPL"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Apple"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"leverages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">3.3</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">],</span><span class="w">
-    </span><span class="s2">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">3000000000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"limits"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"BTC"</span><span class="p">:</span><span class="w"> </span><span class="mi">3000000000</span><span class="w">
+    </span><span class="p">},</span><span class="w">
     </span><span class="s2">"hours"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mon-Fri 8AM-5PM"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"financing_rate"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.001</span><span class="p">,</span><span class="w">
     </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stocks"</span><span class="p">,</span><span class="w">
@@ -355,7 +361,9 @@ X-RateLimit-Reset: 1488230460
       </span><span class="s2">"payoff"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="s2">"5"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="w">
       </span><span class="p">},</span><span class="w">
-      </span><span class="s2">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000000</span><span class="w">
+      </span><span class="s2">"limits"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"BTC"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000000</span><span class="w">
+      </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -428,8 +436,8 @@ X-RateLimit-Reset: 1488230460
 <td><strong>array</strong> Leverage levels available.</td>
 </tr>
 <tr>
-<td>limit</td>
-<td><strong>integer</strong> Maximum active position size, in satoshis</td>
+<td>limits</td>
+<td><strong>integer</strong> Maximum active position size for each base currency</td>
 </tr>
 <tr>
 <td>hours</td>
@@ -607,7 +615,8 @@ X-RateLimit-Reset: 1488230460
     </span><span class="s2">"EUR-JPY"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000000</span><span class="p">,</span><span class="w">
     </span><span class="s2">"XAU-USD"</span><span class="p">:</span><span class="w"> </span><span class="mi">5000000</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"last_updated"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485645703</span><span class="w">
+  </span><span class="s2">"last_updated"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485645703</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>Returns information about your balance.</p>
@@ -658,6 +667,10 @@ X-RateLimit-Reset: 1488230460
 <td>last_updated</td>
 <td><strong>integer</strong> When your balance was last updated.</td>
 </tr>
+<tr>
+<td>currency</td>
+<td><strong>string</strong> Base currency.</td>
+</tr>
 </tbody></table>
 
           <h1 id="transactions">Transactions</h1>
@@ -675,14 +688,16 @@ X-RateLimit-Reset: 1488230460
     </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">236427766</span><span class="p">,</span><span class="w">
     </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"complete"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a6a5fd411cac34d35f562e8dd65d03173e55d35c58423464400b478b9f408172"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465526999</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465526999</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"25RDQwc7LpPEFRQPC"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">100000000</span><span class="p">,</span><span class="w">
     </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"complete"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b92841dc4ef1ec589fe717589b14424d792b93d13b56a78cc898cf2fd90005bf"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1459560146</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1459560146</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="err">...</span><span class="w">
 </span><span class="p">]</span><span class="w">
@@ -745,6 +760,10 @@ X-RateLimit-Reset: 1488230460
 <td>created_at</td>
 <td><strong>integer</strong> When the transaction was made.</td>
 </tr>
+<tr>
+<td>currency</td>
+<td><strong>string</strong> Base currency.</td>
+</tr>
 </tbody></table>
 
           <h1 id="positions">Positions</h1>
@@ -777,7 +796,8 @@ X-RateLimit-Reset: 1488230460
   </span><span class="s2">"closed_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465799498</span><span class="p">,</span><span class="w">
   </span><span class="s2">"last_updated"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465797498</span><span class="p">,</span><span class="w">
   </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">91.08</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"financing"</span><span class="p">:</span><span class="w"> </span><span class="mi">120000</span><span class="w">
+  </span><span class="s2">"financing"</span><span class="p">:</span><span class="w"> </span><span class="mi">120000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This section provides a reference for the <strong>Position</strong> object which is returned by position-related endpoints below.</p>
@@ -880,6 +900,10 @@ X-RateLimit-Reset: 1488230460
 <td>financing</td>
 <td><strong>integer</strong> Leverage financing charged on the position, in satoshis. Appears only if the position is <code class="prettyprint">active</code> or <code class="prettyprint">closed</code>.</td>
 </tr>
+<tr>
+<td>currency</td>
+<td><strong>string</strong> Base currency.</td>
+</tr>
 </tbody></table>
 
           <h2 id="new-position">New Position</h2>
@@ -911,7 +935,8 @@ X-RateLimit-Reset: 1488230460
   </span><span class="s2">"take_profit"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.08316</span><span class="p">,</span><span class="w">
   </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
   </span><span class="s2">"entered_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07013</span><span class="w">
+  </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07013</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <blockquote>
@@ -937,7 +962,8 @@ X-RateLimit-Reset: 1488230460
   </span><span class="s2">"margin_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">500000000</span><span class="p">,</span><span class="w">
   </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">1050</span><span class="p">,</span><span class="w">
   </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486307187</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">1150</span><span class="w">
+  </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">1150</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <blockquote>
@@ -967,7 +993,8 @@ X-RateLimit-Reset: 1488230460
   </span><span class="s2">"stop_loss"</span><span class="p">:</span><span class="w"> </span><span class="mf">96.5</span><span class="p">,</span><span class="w">
   </span><span class="s2">"take_profit"</span><span class="p">:</span><span class="w"> </span><span class="mi">126</span><span class="p">,</span><span class="w">
   </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465795498</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">91.08</span><span class="w">
+  </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">91.08</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>Submit a new position.</p>
@@ -1110,7 +1137,8 @@ X-RateLimit-Reset: 1488230460
   </span><span class="s2">"closed_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465799498</span><span class="p">,</span><span class="w">
   </span><span class="s2">"last_updated"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465797498</span><span class="p">,</span><span class="w">
   </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">91.08</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"financing"</span><span class="p">:</span><span class="w"> </span><span class="mi">120000</span><span class="w">
+  </span><span class="s2">"financing"</span><span class="p">:</span><span class="w"> </span><span class="mi">120000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>Fetch information about an existing position.</p>
@@ -1151,7 +1179,8 @@ X-RateLimit-Reset: 1488230460
   </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
   </span><span class="s2">"entered_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
   </span><span class="s2">"last_updated"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486367152</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07013</span><span class="w">
+  </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07013</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>Update an existing position.</p>
@@ -1216,7 +1245,8 @@ X-RateLimit-Reset: 1488230460
   </span><span class="s2">"entered_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
   </span><span class="s2">"closed_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486328121</span><span class="p">,</span><span class="w">
   </span><span class="s2">"last_updated"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327452</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07013</span><span class="w">
+  </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07013</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>Close an existing position at market price.</p>
@@ -1299,14 +1329,16 @@ X-RateLimit-Reset: 1488230460
     </span><span class="s2">"parent_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22bCNkWhiwxF7qAMs"</span><span class="w">
     </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jYFs6Lpno"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">6000000000</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vM7i73QipKc6F7SFs"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"parent_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22bCNkWhiwxF7qAMs"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fDVhecYF"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">4000000000</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>Split an existing pending or active position.</p>
@@ -1360,7 +1392,8 @@ X-RateLimit-Reset: 1488230460
     </span><span class="s2">"take_profit"</span><span class="p">:</span><span class="w"> </span><span class="mi">126</span><span class="p">,</span><span class="w">
     </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465795498</span><span class="p">,</span><span class="w">
     </span><span class="s2">"entered_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465795498</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">91.08</span><span class="w">
+    </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">91.08</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22bCNkWhiwxF7qAMs"</span><span class="p">,</span><span class="w">
@@ -1377,7 +1410,8 @@ X-RateLimit-Reset: 1488230460
     </span><span class="s2">"take_profit"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.08316</span><span class="p">,</span><span class="w">
     </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
     </span><span class="s2">"entered_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1486327152</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07013</span><span class="w">
+    </span><span class="s2">"liquidation_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.07013</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="err">...</span><span class="w">
 </span><span class="p">]</span><span class="w">
@@ -1433,7 +1467,8 @@ X-RateLimit-Reset: 1488230460
   </span><span class="s2">"close_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.118293</span><span class="p">,</span><span class="w">
   </span><span class="s2">"profit"</span><span class="p">:</span><span class="w"> </span><span class="mi">3300000</span><span class="p">,</span><span class="w">
   </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873229</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"closed_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873270</span><span class="w">
+  </span><span class="s2">"closed_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873270</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This section provides a reference for the <strong>Turbo Position</strong> object which is returned by turbo position-related endpoints below.</p>
@@ -1491,6 +1526,10 @@ X-RateLimit-Reset: 1488230460
 <tr>
 <td>closed_at</td>
 <td><strong>integer</strong> When the position was closed. Appears only if the position is <code class="prettyprint">closed</code>.</td>
+</tr>
+<tr>
+<td>currency</td>
+<td><strong>string</strong> Base currency.</td>
 </tr>
 </tbody></table>
 
@@ -1584,7 +1623,8 @@ X-RateLimit-Reset: 1488230460
   </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.11825</span><span class="p">,</span><span class="w">
   </span><span class="s2">"payoff"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.55</span><span class="p">,</span><span class="w">
   </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873229</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"expires_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873429</span><span class="w">
+  </span><span class="s2">"expires_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873429</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>Open a new turbo position.</p>
@@ -1698,7 +1738,8 @@ X-RateLimit-Reset: 1488230460
   </span><span class="s2">"close_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.118293</span><span class="p">,</span><span class="w">
   </span><span class="s2">"profit"</span><span class="p">:</span><span class="w"> </span><span class="mi">3300000</span><span class="p">,</span><span class="w">
   </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873229</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"closed_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873270</span><span class="w">
+  </span><span class="s2">"closed_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873270</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>Fetch information about an existing turbo position.</p>
@@ -1733,7 +1774,8 @@ X-RateLimit-Reset: 1488230460
     </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.11825</span><span class="p">,</span><span class="w">
     </span><span class="s2">"payoff"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.55</span><span class="p">,</span><span class="w">
     </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873229</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"expires_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873429</span><span class="w">
+    </span><span class="s2">"expires_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873429</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"26fTLb7byb8fi48Qf"</span><span class="p">,</span><span class="w">
@@ -1745,7 +1787,8 @@ X-RateLimit-Reset: 1488230460
     </span><span class="s2">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.76661</span><span class="p">,</span><span class="w">
     </span><span class="s2">"payoff"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.65</span><span class="p">,</span><span class="w">
     </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873219</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"expires_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873409</span><span class="w">
+    </span><span class="s2">"expires_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1464873409</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="err">...</span><span class="w">
 </span><span class="p">]</span><span class="w">
