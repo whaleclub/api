@@ -11,7 +11,9 @@ curl "https://api.whaleclub.co/v1/markets/XAU-USD,AAPL"
   "XAU-USD": {
     "display_name": "Gold",
     "leverages": [2, 3.3, 5, 10],
-    "limit": 5000000000,
+    "limits": {
+      "BTC": 5000000000
+    },
     "hours": "Sun 5PM - Fri 5PM",
     "financing_rate": 0.0005,
     "category": "commodities",
@@ -19,13 +21,17 @@ curl "https://api.whaleclub.co/v1/markets/XAU-USD,AAPL"
       "payoff": {
         "5": 0.5
       },
-      "limit": 10000000
+      "limits": {
+        "BTC": 10000000
+      }
     }
   },
   "AAPL": {
     "display_name": "Apple",
     "leverages": [3.3, 5, 10, 15],
-    "limit": 3000000000,
+    "limits": {
+      "BTC": 3000000000
+    },
     "hours": "Mon-Fri 8AM-5PM",
     "financing_rate": 0.001,
     "category": "stocks",
@@ -33,7 +39,9 @@ curl "https://api.whaleclub.co/v1/markets/XAU-USD,AAPL"
       "payoff": {
         "5": 0.5
       },
-      "limit": 10000000
+      "limits": {
+        "BTC": 10000000
+      }
     }
   }
 }
@@ -91,7 +99,7 @@ Attribute | Description
 ---------- | -------
 display_name | **string** The market's conventional name.
 leverages | **array** Leverage levels available.
-limit | **integer** Maximum active position size, in satoshis
+limits | **integer** Maximum active position size for each base currency
 hours | **string** Market operating hours. Market is closed at all other times.
 financing_rate | **number** Daily financing rate. Multiply by 100 to get the amount in percent.
 category | **string** Asset class.

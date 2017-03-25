@@ -28,7 +28,8 @@ curl "https://api.whaleclub.co/v1/position/s6pGQ4nyS4Z7jHRvJ" \
   "closed_at": 1465799498,
   "last_updated": 1465797498,
   "liquidation_price": 91.08,
-  "financing": 120000
+  "financing": 120000,
+  "currency": "BTC"
 }
 ```
 

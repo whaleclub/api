@@ -19,7 +19,8 @@ curl "https://api.whaleclub.co/v1/position-turbo/uWchea2SocXZHEiHS" \
   "close_price": 1.118293,
   "profit": 3300000,
   "created_at": 1464873229,
-  "closed_at": 1464873270
+  "closed_at": 1464873270,
+  "currency": "BTC"
 }
 ```
 

@@ -25,7 +25,8 @@ curl "https://api.whaleclub.co/v1/positions/active" \
     "take_profit": 126,
     "created_at": 1465795498,
     "entered_at": 1465795498,
-    "liquidation_price": 91.08
+    "liquidation_price": 91.08,
+    "currency": "BTC"
   },
   {
     "id": "22bCNkWhiwxF7qAMs",
@@ -42,7 +43,8 @@ curl "https://api.whaleclub.co/v1/positions/active" \
     "take_profit": 1.08316,
     "created_at": 1486327152,
     "entered_at": 1486327152,
-    "liquidation_price": 1.07013
+    "liquidation_price": 1.07013,
+    "currency": "BTC"
   },
   ...
 ]

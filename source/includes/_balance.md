@@ -24,7 +24,8 @@ curl "https://api.whaleclub.co/v1/balance"
     "EUR-JPY": 10000000,
     "XAU-USD": 5000000
   },
-  "last_updated": 1485645703
+  "last_updated": 1485645703,
+  "currency": "BTC"
 }
 ```
 
@@ -48,3 +49,4 @@ active_amount | **object** Balance used in active positions across markets, in s
 pending_amount | **object** Balance used in pending positions across markets, in satoshis.
 active_amount_turbo | **object** Balance used in active turbo positions across markets, in satoshis.
 last_updated | **integer** When your balance was last updated.
+currency | **string** Base currency.

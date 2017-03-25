@@ -30,7 +30,8 @@ curl "https://api.whaleclub.co/v1/position/s6pGQ4nyS4Z7jHRvJ" \
   "closed_at": 1465799498,
   "last_updated": 1465797498,
   "liquidation_price": 91.08,
-  "financing": 120000
+  "financing": 120000,
+  "currency": "BTC"
 }
 ```
 
@@ -61,3 +62,4 @@ closed_at | **integer** When the position was closed. Appears only if the positi
 last_updated | **integer** When the position's stop-loss and/or take-profit was last updated. Appears only if the position is manually updated after it's been submitted.
 liquidation_price | **number** Price at which the position will auto-close to cover your margin in case of loss.
 financing | **integer** Leverage financing charged on the position, in satoshis. Appears only if the position is `active` or `closed`.
+currency | **string** Base currency.

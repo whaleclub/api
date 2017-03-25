@@ -15,14 +15,16 @@ curl "https://api.whaleclub.co/v1/position/split/22bCNkWhiwxF7qAMs" \
     "parent_id": "22bCNkWhiwxF7qAMs"
     "slug": "jYFs6Lpno",
     "size": 6000000000,
-    "created_at": 1486327152
+    "created_at": 1486327152,
+    "currency": "BTC"
   },
   {
     "id": "vM7i73QipKc6F7SFs",
     "parent_id": "22bCNkWhiwxF7qAMs",
     "slug": "fDVhecYF",
     "size": 4000000000,
-    "created_at": 1486327152
+    "created_at": 1486327152,
+    "currency": "BTC"
   }
 ```
 

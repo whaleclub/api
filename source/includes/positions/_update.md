@@ -26,7 +26,8 @@ curl "https://api.whaleclub.co/v1/position/update/22bCNkWhiwxF7qAMs" \
   "created_at": 1486327152,
   "entered_at": 1486327152,
   "last_updated": 1486367152,
-  "liquidation_price": 1.07013
+  "liquidation_price": 1.07013,
+  "currency": "BTC"
 }
 ```
 

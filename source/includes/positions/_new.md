@@ -29,7 +29,8 @@ curl "https://api.whaleclub.co/v1/position/new" \
   "take_profit": 1.08316,
   "created_at": 1486327152,
   "entered_at": 1486327152,
-  "liquidation_price": 1.07013
+  "liquidation_price": 1.07013,
+  "currency": "BTC"
 }
 ```
 
@@ -58,7 +59,8 @@ curl "https://api.whaleclub.co/v1/position/new" \
   "margin_size": 500000000,
   "entry_price": 1050,
   "created_at": 1486307187,
-  "liquidation_price": 1150
+  "liquidation_price": 1150,
+  "currency": "BTC"
 }
 ```
 
@@ -91,7 +93,8 @@ curl "https://api.whaleclub.co/v1/position/new" \
   "stop_loss": 96.5,
   "take_profit": 126,
   "created_at": 1465795498,
-  "liquidation_price": 91.08
+  "liquidation_price": 91.08,
+  "currency": "BTC"
 }
 ```
 

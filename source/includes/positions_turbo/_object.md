@@ -21,7 +21,8 @@ curl "https://api.whaleclub.co/v1/position-turbo/uWchea2SocXZHEiHS" \
   "close_price": 1.118293,
   "profit": 3300000,
   "created_at": 1464873229,
-  "closed_at": 1464873270
+  "closed_at": 1464873270,
+  "currency": "BTC"
 }
 ```
 
@@ -41,3 +42,4 @@ close_price | **number** Price at which the position was closed. Appears only if
 profit | **number** Profit made on the trade, in satoshis. Is negative in case of loss. Appears only if the position is `closed`.
 created_at | **integer** When the position was created.
 closed_at | **integer** When the position was closed. Appears only if the position is `closed`.
+currency | **string** Base currency.

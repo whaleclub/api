@@ -20,7 +20,8 @@ curl "https://api.whaleclub.co/v1/positions-turbo" \
     "entry_price": 1.11825,
     "payoff": 0.55,
     "created_at": 1464873229,
-    "expires_at": 1464873429
+    "expires_at": 1464873429,
+    "currency": "BTC"
   },
   {
     "id": "26fTLb7byb8fi48Qf",
@@ -32,7 +33,8 @@ curl "https://api.whaleclub.co/v1/positions-turbo" \
     "entry_price": 0.76661,
     "payoff": 0.65,
     "created_at": 1464873219,
-    "expires_at": 1464873409
+    "expires_at": 1464873409,
+    "currency": "BTC"
   },
   ...
 ]

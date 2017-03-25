@@ -15,14 +15,16 @@ curl "https://api.whaleclub.co/v1/transactions/deposits" \
     "amount": 236427766,
     "state": "complete",
     "hash": "a6a5fd411cac34d35f562e8dd65d03173e55d35c58423464400b478b9f408172",
-    "created_at": 1465526999
+    "created_at": 1465526999,
+    "currency": "BTC"
   },
   {
     "id": "25RDQwc7LpPEFRQPC",
     "amount": 100000000,
     "state": "complete",
     "hash": "b92841dc4ef1ec589fe717589b14424d792b93d13b56a78cc898cf2fd90005bf",
-    "created_at": 1459560146
+    "created_at": 1459560146,
+    "currency": "BTC"
   },
   ...
 ]
@@ -56,3 +58,4 @@ state | **string** Can be `pending` or `complete`. Appears only for deposits and
 hash | **string** Bitcoin transaction hash. Appears only for deposits.
 address | **string** Destination Bitcoin address. Appears only for withdrawals.
 created_at | **integer** When the transaction was made.
+currency | **string** Base currency.

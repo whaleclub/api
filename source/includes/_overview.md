@@ -6,7 +6,7 @@ You can use the API to programmatically submit new trades, check your balance, f
 
 The API is organized around <a href='https://en.wikipedia.org/wiki/Representational_State_Transfer' target='_blank'>REST</a>. All request and response bodies, including errors, are encoded in JSON (`application/json` content type). All requests must be made over SSL.
 
-Code samples are displayed in the right-side column. All epoch dates are in UTC seconds and amounts in satoshis, unless otherwise indicated.
+Code samples are displayed in the right-side column. All epoch dates are in UTC seconds and amounts in the lowest unit (for BTC, it's satoshis), unless otherwise indicated.
 
 ### BASE ENDPOINT URL
 
