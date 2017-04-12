@@ -14,12 +14,14 @@ curl "https://api.whaleclub.co/v1/position/cancel/d7gAxDSeLtdYtZsEd" \
 }
 ```
 
-Cancel an existing pending position.
+Cancel one or multiple pending positions.
 
 ### Request
 
-`PUT https://api.whaleclub.co/v1/position/cancel/:id`
+`PUT https://api.whaleclub.co/v1/position/cancel/:id(s)`
 
-This endpoint allows you to cancel a limit or stop order that hasn't yet executed. Once cancelled, your position will be deleted and no longer accessible.
+`:id(s)` is a list of one or more comma-separated position IDs.
+
+This endpoint allows you to cancel limit or stop orders that haven't yet executed. Once cancelled, your positions will be deleted and will no longer be accessible.
 
 If the request is successful, the API will return a `200` (Ok) status code.

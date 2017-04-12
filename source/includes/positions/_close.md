@@ -33,13 +33,17 @@ curl "https://api.whaleclub.co/v1/position/close/22bCNkWhiwxF7qAMs" \
 }
 ```
 
-Close an existing position at market price.
+Close one or multiple active positions at market price.
 
 ### Request
 
-`PUT https://api.whaleclub.co/v1/position/close/:id`
+`PUT https://api.whaleclub.co/v1/position/close/:id(s)`
 
-Use this endpoint to close an existing active position at the best available market price.
+`:id(s)` is a list of one or more comma-separated position IDs.
+
+Use this endpoint to close existing active positions at the best available market price.
+
+Positions are closed sequentially as they hit our system (not in parallel). If you're closing a large number of positions at once, the market price may move in the time it takes to close them all. If you're looking to close at a specific market price, close your positions individually or use a take-profit or stop-loss.
 
 If the request is successful, the API will return a `200` (Ok) status code.
 
