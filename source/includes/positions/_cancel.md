@@ -20,8 +20,6 @@ Cancel one or multiple pending positions.
 
 `PUT https://api.whaleclub.co/v1/position/cancel/:id(s)`
 
-`:id(s)` is a list of one or more comma-separated position IDs.
-
 This endpoint allows you to cancel limit or stop orders that haven't yet executed. Once cancelled, your positions will be deleted and will no longer be accessible.
 
 If the request is successful, the API will return a `200` (Ok) status code.
