@@ -35,7 +35,7 @@ Authentication is straightforward. Pass your API token as a bearer token in an `
 
 `Authorization: Bearer API_TOKEN`
 
-You can get your API token from your [API Settings](https://trade.whaleclub.co/settings/api) page. You get one token for live trading and another for demo trading.
+You can get your API token from your API Settings panel which is available from the top right menu in your [trading dashboard](https://trade.whaleclub.co/trade). You get one token for live trading and another for demo trading.
 
 <aside class="notice">
 Replace <code>API_TOKEN</code> with your Whaleclub API token.
@@ -49,7 +49,7 @@ Pass your Whaleclub Partner ID as a `Partner-ID` header in all the requests you 
 
 `Partner-ID: YOUR_PARTNER_ID`
 
-You can get your Partner ID from your [API Settings](https://trade.whaleclub.co/settings/api) page, too. Only trades with real funds will result in referral commissions.
+You can get your Partner ID from your API Settings panel which is available from the top right menu in your [trading dashboard](https://trade.whaleclub.co/trade). Only trades with real funds will result in referral commissions.
 
 <aside class="warning">
 Self-referring and using multiple trading accounts will result in account closure without notice.
