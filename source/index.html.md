@@ -8,7 +8,6 @@ includes:
   - overview
   - markets
   - price
-  - price_turbo
   - balance
   - transactions
   - positions/object
