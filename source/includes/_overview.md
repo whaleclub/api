@@ -115,7 +115,7 @@ The Whaleclub API is rate limited to prevent abuse that would degrade our abilit
 
 By default, each API token is rate limited at **60 requests per minute**. If your requests are being rate limited, you'll receive a Rate Limit Exceeded error with status code `429`.
 
-Additionally, requests are throttled up to a maximum of **3 requests per second**.
+Additionally, requests are throttled up to a maximum of **20 requests per second**.
 
 You can check the HTTP headers of any response you get from the Whaleclub API to see your current rate limit status.
 
@@ -129,4 +129,5 @@ Header | Description
 
 ### Unofficial
 
-* [Node.js](https://github.com/askmike/whaleclub) by askmike
+* [PyWhale](https://github.com/logan169/PyWhale) by logan169 (Python)
+* [Whaleclub](https://github.com/askmike/whaleclub) by askmike (Node.js)
